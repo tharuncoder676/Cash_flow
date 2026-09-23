@@ -1,0 +1,1186 @@
+<title>Cash Flow Mastery Launch Requirements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+  /* ------------------------------------------------------------------
+     Flarenet Company — client requirements document
+     Palette and type taken from flarenetcompany.in
+     ------------------------------------------------------------------ */
+  :root {
+    --ground:    #0c0a09;
+    --surface:   #17130f;
+    --surface-2: #1f1a15;
+    --line:      #2a231c;
+    --line-soft: #201a15;
+
+    --ink:   #fafaf9;
+    --muted: #a8a29e;
+    --dim:   #78716c;
+
+    --orange: #f97316;
+    --red:    #ef4444;
+    --amber:  #f59e0b;
+    --brand:  linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+
+    --display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    --body: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+
+    --measure: 68ch;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0;
+    /* Warm wash behind the header, as on flarenetcompany.in */
+    background-image:
+      radial-gradient(120% 55% at 8% -8%, rgba(239, 68, 68, 0.14) 0%, transparent 62%),
+      radial-gradient(90% 45% at 92% -4%, rgba(249, 115, 22, 0.10) 0%, transparent 58%);
+    background-repeat: no-repeat;
+  }
+
+  .page {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 28px 80px;
+  }
+
+  /* --- Letterhead --------------------------------------------------- */
+
+  .letterhead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 26px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    flex: none;
+    display: block;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .brand-role {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-top: 2px;
+  }
+
+  .docmeta {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 3px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.75;
+  }
+  .docmeta dt { color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .docmeta dd { margin: 0; color: var(--muted); text-align: right; }
+
+  /* --- Title -------------------------------------------------------- */
+
+  .title-block { padding: 48px 0 8px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.1rem, 5.5vw, 3.1rem);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h1 .accent {
+    background: var(--brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .standfirst {
+    max-width: var(--measure);
+    color: var(--muted);
+    font-size: 1.06rem;
+    margin: 22px 0 0;
+  }
+
+  /* --- Letter ------------------------------------------------------- */
+
+  .letter {
+    max-width: var(--measure);
+    margin: 44px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .letter p { margin: 0; }
+  .salutation {
+    font-family: var(--display);
+    font-size: 1.12rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* --- Blocking callout --------------------------------------------- */
+
+  .callout {
+    margin-top: 44px;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--red);
+    border-radius: 4px;
+    background: linear-gradient(180deg, rgba(239, 68, 68, 0.07), rgba(239, 68, 68, 0.02));
+    padding: 26px 28px;
+  }
+
+  .callout h2 {
+    font-family: var(--display);
+    font-size: 1.22rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 0 0 6px;
+  }
+
+  .callout-note {
+    color: var(--muted);
+    font-size: 0.94rem;
+    margin: 0 0 20px;
+    max-width: 60ch;
+  }
+
+  .blockers {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .blockers li {
+    background: var(--surface);
+    padding: 13px 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 0.94rem;
+  }
+
+  .blockers .id {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 700;
+    flex: none;
+    min-width: 26px;
+  }
+
+  /* --- Sections ------------------------------------------------------ */
+
+  section { margin-top: 64px; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    flex: none;
+  }
+
+  .section-head h2 {
+    font-family: var(--display);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0;
+    flex: 1;
+  }
+
+  .section-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .section-intro {
+    color: var(--muted);
+    max-width: var(--measure);
+    margin: 18px 0 0;
+    font-size: 0.97rem;
+  }
+
+  /* --- Requirement items --------------------------------------------- */
+
+  .items {
+    margin: 26px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .item {
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-radius: 5px;
+    padding: 20px 22px;
+  }
+
+  .item-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .item-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 0.06em;
+    flex: none;
+  }
+
+  .item-head h3 {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    margin: 0;
+    flex: 1 1 320px;
+    line-height: 1.35;
+  }
+
+  /* Priority reads by chip weight, not by a competing hue. */
+  .chip {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex: none;
+  }
+  .chip.blocking { background: var(--red); color: #2b0707; }
+  .chip.launch   { background: transparent; color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.5); }
+  .chip.cohort   { background: transparent; color: var(--dim);   border: 1px solid var(--line); }
+
+  .item p { margin: 0; color: var(--muted); font-size: 0.95rem; max-width: var(--measure); }
+  .item p + p { margin-top: 10px; }
+
+  .need {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .need li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.93rem;
+    color: var(--ink);
+  }
+  .need li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.68em;
+    width: 7px; height: 1px;
+    background: var(--orange);
+  }
+
+  .why {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 0.88rem;
+    color: var(--dim);
+  }
+  .why strong {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  /* --- Security note -------------------------------------------------- */
+
+  .secure {
+    margin-top: 18px;
+    border: 1px dashed rgba(249, 115, 22, 0.45);
+    border-radius: 5px;
+    background: rgba(249, 115, 22, 0.05);
+    padding: 18px 20px;
+  }
+  .secure h4 {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: var(--orange);
+  }
+  .secure p { margin: 0; font-size: 0.92rem; color: var(--muted); max-width: var(--measure); }
+
+  /* --- Table ---------------------------------------------------------- */
+
+  .table-wrap { overflow-x: auto; margin-top: 26px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 560px;
+  }
+  caption {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding-bottom: 12px;
+  }
+  th, td {
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    font-weight: 700;
+    border-bottom-color: var(--line);
+  }
+  tbody td:first-child {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--orange);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { font-variant-numeric: tabular-nums; }
+
+  /* --- Done list ------------------------------------------------------ */
+
+  .done {
+    list-style: none;
+    margin: 22px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .done li {
+    background: var(--surface);
+    padding: 15px 17px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .done strong {
+    display: block;
+    color: var(--ink);
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.97rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+  .tick { color: var(--orange); font-weight: 700; }
+
+  /* --- Sign-off -------------------------------------------------------- */
+
+  .signoff {
+    margin-top: 64px;
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    max-width: var(--measure);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .signoff p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+  .sig-name {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .sig-co { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+
+  a { color: var(--orange); text-underline-offset: 3px; }
+  a:focus-visible, li:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  @media (max-width: 620px) {
+    .page { padding: 28px 18px 60px; }
+    .docmeta { grid-template-columns: auto auto; font-size: 10px; }
+    .letterhead { gap: 18px; }
+  }
+
+  /* --- Print: a client document has to survive being printed ----------- */
+  @media print {
+    :root {
+      --ground: #ffffff; --surface: #ffffff; --surface-2: #ffffff;
+      --ink: #12100e; --muted: #3f3a35; --dim: #6b625a;
+      --line: #d9d2ca; --line-soft: #e7e1da;
+    }
+    body { background-image: none; background: #fff; font-size: 11pt; }
+    .page { max-width: none; padding: 0; }
+    .mark { color: #fff; }
+    .chip.blocking { background: #ef4444; color: #fff; }
+    section, .item, .callout { break-inside: avoid; }
+    .callout { background: #fff7f7; }
+    .secure { background: #fffaf5; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="letterhead">
+    <div class="brand">
+      <img class="mark" src="data:image/png;base64,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" alt="Flarenet Company logo">
+      <div>
+        <div class="brand-name">Flarenet Company</div>
+        <div class="brand-role">Web &amp; Software Development</div>
+      </div>
+    </div>
+
+    <dl class="docmeta">
+      <dt>Reference</dt><dd>FN&#8209;CFM&#8209;001</dd>
+      <dt>Prepared for</dt><dd>Mr Carl Lewis</dd>
+      <dt>Project</dt><dd>Cash Flow Mastery</dd>
+      <dt>Date</dt><dd>12 September 2026</dd>
+    </dl>
+  </header>
+
+  <div class="title-block">
+    <p class="eyebrow">Information request &middot; Pre&#8209;launch</p>
+    <h1>What we need from you to <span class="accent">go live</span></h1>
+    <p class="standfirst">
+      The Cash Flow Mastery website and checkout are built and tested. This
+      document lists everything still outstanding on your side, grouped by what
+      blocks launch and what can follow.
+    </p>
+  </div>
+
+  <div class="letter">
+    <p class="salutation">Dear Sir,</p>
+
+    <p>
+      Thank you for the detailed developer brief. We have now completed the
+      public website and the payment flow for the founding cohort, built to the
+      structure you set out — the home page, sales page, About page, the free
+      Cash Visibility Diagnostic, FAQs, the waitlist, and a secure checkout.
+    </p>
+
+    <p>
+      Everything that could be built without your input is finished. What
+      remains is information only you and your advisers can provide: your
+      payment account details, the tax position, the legal wording, the cohort
+      dates, and the course materials themselves.
+    </p>
+
+    <p>
+      We have set the site up so that nothing has been invented in your name.
+      Where a figure or a policy was unknown to us, the page either omits it or
+      shows a neutral placeholder rather than a guess — most importantly, the
+      five legal pages exist only as section outlines, carry a visible
+      &ldquo;not in force&rdquo; notice, and are hidden from search engines
+      until your adviser supplies the approved wording.
+    </p>
+
+    <p>
+      Please work through the items below at your convenience. Each one carries
+      a short reference such as <span style="font-family:var(--mono);font-size:0.85em;color:var(--orange)">P1</span>
+      or <span style="font-family:var(--mono);font-size:0.85em;color:var(--orange)">L3</span>,
+      so you can reply against them directly without quoting the whole document.
+    </p>
+  </div>
+
+  <div class="callout">
+    <h2>The five items that block launch</h2>
+    <p class="callout-note">
+      Everything else can follow after the site is live. These five cannot — the
+      site either cannot take a payment, or would be showing something to a
+      buyer that has not been approved.
+    </p>
+    <ol class="blockers">
+      <li><span class="id">P1</span><span>A Stripe account on the UAE entity that will sell the course, activated for AED.</span></li>
+      <li><span class="id">P4</span><span>Your VAT position — whether AED&nbsp;2,000 is inclusive or exclusive of 5% VAT.</span></li>
+      <li><span class="id">P5</span><span>The refund terms, as they will actually apply.</span></li>
+      <li><span class="id">L1</span><span>Approved wording for the five legal documents.</span></li>
+      <li><span class="id">C1</span><span>The cohort start date and the four live-session dates.</span></li>
+    </ol>
+  </div>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Payment integration</h2>
+      <span class="section-count">6 items</span>
+    </div>
+    <p class="section-intro">
+      The checkout is built on Stripe, which handles the card entry inside its
+      own secure frame. This means card details never reach your website, and
+      you carry no card-data liability. We need the account itself and the tax
+      treatment to switch it on.
+    </p>
+
+    <div class="items">
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">P1</span>
+          <h3>A Stripe account on the selling entity</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <p>
+          Stripe must be opened in the name of the UAE entity that will
+          actually receive the course fees, and activated to charge in AED.
+        </p>
+        <ul class="need">
+          <li>Legal entity name, trade licence number and registered address</li>
+          <li>The UAE bank account that will receive payouts</li>
+          <li>Confirmation the account is activated for AED, not USD only</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          Without a live account we cannot take a single payment. Please note
+          Stripe does not onboard every UAE entity type — if your application is
+          declined, tell us early and we will switch the checkout to a local
+          gateway such as Telr, PayTabs or Network International. That change is
+          roughly a day of work, but only if we know before launch.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">P2</span>
+          <h3>API keys and webhook access</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <p>
+          Once the account exists we need technical access to connect it. The
+          safest way to give us this is to invite us to your Stripe dashboard as
+          a developer, so you keep ownership and can revoke access at any time.
+        </p>
+        <ul class="need">
+          <li>A developer invitation to the Stripe dashboard, or the publishable and secret keys</li>
+          <li>Permission to create a webhook endpoint on your domain</li>
+        </ul>
+        <div class="secure">
+          <h4>Please do not email the secret key</h4>
+          <p>
+            Sir, a Stripe secret key can move money and issue refunds. Please do
+            not send it by email or WhatsApp. A dashboard invitation is safer and
+            takes a minute; if you would rather send keys directly, we will set up
+            a secure one-time link for you.
+          </p>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">P3</span>
+          <h3>Pricing confirmation</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <p>
+          We have built the pricing exactly as your brief describes it. Please
+          confirm it is still correct, as the price is set by the website and
+          cannot be altered by the buyer.
+        </p>
+        <ul class="need">
+          <li>AED&nbsp;2,000 for the first five places</li>
+          <li>AED&nbsp;2,500 for the remaining places</li>
+          <li>A maximum of 15 participants in the cohort</li>
+          <li>Payment in full to secure a place, with no instalment option</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">P4</span>
+          <h3>VAT treatment</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <p>
+          This needs to come from your accountant rather than from us. Your own
+          brief requires the tax position to be shown to the buyer before they
+          pay, and we cannot state it without your confirmation.
+        </p>
+        <ul class="need">
+          <li>Is the selling entity registered for VAT?</li>
+          <li>Is AED&nbsp;2,000 inclusive or exclusive of 5% VAT?</li>
+          <li>Does the treatment differ for participants outside the UAE?</li>
+          <li>What should appear on the buyer&rsquo;s invoice — TRN, entity name, address?</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          The checkout currently reads &ldquo;VAT treatment confirmed at
+          checkout&rdquo;, which is a holding line. If VAT must be added on top
+          rather than included, we enable Stripe Tax and adjust the displayed
+          price — a small change, but the wording has to match the reality.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">P5</span>
+          <h3>Refund and cancellation terms</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <p>
+          The site presently shows a placeholder: a full refund if a participant
+          withdraws more than seven days before the start date. This is our
+          assumption, not your policy.
+        </p>
+        <ul class="need">
+          <li>The notice period and the amount refunded</li>
+          <li>The position once the course has started and materials have been accessed</li>
+          <li>What participants receive if you cancel or reschedule the cohort</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          This figure appears in three places — the checkout, the FAQs and the
+          refund policy — and all three must agree. It is shown to the buyer
+          before payment, so it has to be your real policy.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">P6</span>
+          <h3>Statement descriptor and support contact</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <ul class="need">
+          <li>The short name to appear on the buyer&rsquo;s card statement, up to 22 characters — for example <span style="font-family:var(--mono);font-size:0.88em">CASHFLOWMASTERY</span></li>
+          <li>The email address that should handle payment queries and disputes</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          An unrecognisable name on a card statement is the most common cause of
+          a chargeback. It is a small setting that prevents a real problem.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Legal policies</h2>
+      <span class="section-count">3 items</span>
+    </div>
+    <p class="section-intro">
+      Your brief instructed us to build the page structure but not to invent the
+      policies, and we have followed that precisely. Five pages exist with the
+      correct section headings, each carrying a visible notice that it is not in
+      force, and each hidden from search engines. They will remain that way
+      until you supply approved wording.
+    </p>
+
+    <div class="items">
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">L1</span>
+          <h3>Five documents, reviewed and approved</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <p>
+          We have prepared an outline for each, listing the sections it needs to
+          cover. Your adviser can write directly against those headings.
+        </p>
+        <ul class="need">
+          <li><strong>Privacy policy</strong> — what is collected, lawful basis, the processors used (Stripe, email platform, video host, analytics), international transfers, retention, and individual rights</li>
+          <li><strong>Cookie notice</strong> — every cookie set, its purpose and duration, and how consent is managed</li>
+          <li><strong>Course terms of sale</strong> — what is supplied, price and tax, scope of the service, rescheduling rights, intellectual property, recording and confidentiality, liability, governing law</li>
+          <li><strong>Refund and cancellation policy</strong> — matching item P5 above</li>
+          <li><strong>Training disclaimer</strong> — education rather than regulated financial advice, no guaranteed outcomes, and how this relates to Independent Advisors</li>
+        </ul>
+        <p class="why"><strong>This may be quicker than it looks</strong>
+          independentadvisors.ai already carries a privacy policy, cookie
+          policy, terms and conditions, copyright policy and disclaimer. If the
+          same adviser drafted those, adapting them for Cash Flow Mastery will
+          be considerably faster than starting again — the privacy and cookie
+          notices in particular need little more than the new processors added
+          (Stripe, the email platform, the video host and analytics). The terms
+          of sale is the one genuinely new document, because Independent
+          Advisors sells advisory services rather than a fixed-price course
+          with a refund window.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">L2</span>
+          <h3>Governing law and jurisdiction</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <ul class="need">
+          <li>Which emirate or jurisdiction governs the terms of sale</li>
+          <li>How disputes are to be resolved</li>
+          <li>Whether participants outside the UAE are treated differently</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          You are selling across the GCC and possibly further. If any
+          participant is an EU resident, GDPR applies alongside the UAE PDPL,
+          and the privacy policy has to address both.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">L3</span>
+          <h3>Recording and confidentiality policy</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <p>
+          The live sessions involve owners discussing their actual financial
+          position in front of one another. The rules for that need to be
+          written down and agreed before the first session.
+        </p>
+        <ul class="need">
+          <li>Are the live sessions recorded?</li>
+          <li>If so, how long are replays available, and to whom?</li>
+          <li>What do participants agree regarding each other&rsquo;s information?</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          Two FAQ answers currently refer to a &ldquo;recording policy&rdquo;
+          that does not yet exist. It also affects your confidentiality
+          commitment in the terms of sale.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Cohort details</h2>
+      <span class="section-count">4 items</span>
+    </div>
+    <p class="section-intro">
+      The website is built to display these automatically once you provide
+      them. Every date field currently reads &ldquo;dates announced to the
+      waitlist first&rdquo;, which is honest but will not sell places
+      indefinitely.
+    </p>
+
+    <div class="items">
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">C1</span>
+          <h3>Dates and times</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <ul class="need">
+          <li>The cohort start date</li>
+          <li>The four live-session dates</li>
+          <li>The time of day, which we will publish in Gulf Standard Time</li>
+          <li>Expected session length — we have assumed 60 to 75 minutes</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          Your brief requires the cohort start date to be visible at checkout
+          before payment. This is the single most common reason a considered
+          buyer does not complete a purchase — they cannot tell whether they are
+          free on the dates.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">C2</span>
+          <h3>Live session platform</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <ul class="need">
+          <li>Zoom, Google Meet, or Microsoft Teams</li>
+          <li>Whether you want calendar invitations sent automatically on enrolment</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">C3</span>
+          <h3>Access period after the cohort ends</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <p>
+          The FAQ currently says access &ldquo;continues&rdquo; after the cohort
+          finishes, which we left deliberately vague pending your decision.
+          Buyers do ask this before paying.
+        </p>
+        <ul class="need">
+          <li>How long do participants keep access to lessons and templates?</li>
+          <li>Is it lifetime, twelve months, or tied to the cohort?</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">C4</span>
+          <h3>Minimum cohort size and future pricing</h3>
+          <span class="chip cohort">When convenient</span>
+        </div>
+        <ul class="need">
+          <li>Is there a minimum number below which the cohort will not run?</li>
+          <li>Does founding pricing apply to a second cohort? The waitlist page currently says it does not.</li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Course content and assets</h2>
+      <span class="section-count">4 items</span>
+    </div>
+    <p class="section-intro">
+      These are needed for the cohort to run rather than for the site to go
+      live, with one exception — your photograph, which the About page needs.
+    </p>
+
+    <div class="items">
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">A1</span>
+          <h3>A photograph of yourself</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <p>
+          Your brief rules out institutional finance imagery and generic stock
+          visuals, and we have followed that — there is no photography anywhere
+          on the site. That was the right instruction, but it means the one
+          portrait we do use has to be a genuine one of you.
+        </p>
+        <ul class="need">
+          <li>A professional portrait, landscape or square, at least 1200px wide</li>
+          <li>Permission to use it as the social sharing image when the site is shared</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">A2</span>
+          <h3>The templates and worksheets</h3>
+          <span class="chip cohort">Before the cohort</span>
+        </div>
+        <p>
+          Final versions of the six documents listed in your brief, so we can
+          prepare them for controlled download.
+        </p>
+        <ul class="need">
+          <li>The 13-week cash-flow forecast workbook — the approved Excel file</li>
+          <li>Cash Visibility Diagnostic worksheet</li>
+          <li>Cash-Cycle Map</li>
+          <li>Assumptions checklist</li>
+          <li>Weekly cash meeting agenda</li>
+          <li>30-day implementation plan</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">A3</span>
+          <h3>Video content</h3>
+          <span class="chip cohort">Before the cohort</span>
+        </div>
+        <ul class="need">
+          <li>The new welcome and closing videos</li>
+          <li>The existing module footage you intend to reuse</li>
+          <li>Confirmation that captions are required on every lesson, as your brief specifies</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          Your brief correctly rules out serving large video files from ordinary
+          web hosting. We recommend Vimeo Pro or Mux, both of which provide
+          captions, adjustable playback speed and private links. We need your
+          decision before uploading anything, as moving hosts later means
+          re-uploading everything.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">A4</span>
+          <h3>Brand assets</h3>
+          <span class="chip cohort">When convenient</span>
+        </div>
+        <p>
+          We have built Cash Flow Mastery to sit visually alongside
+          independentadvisors.ai — the same navy, cream and gold, the same
+          typefaces — so the two read as one family while keeping distinct page
+          structures.
+        </p>
+        <ul class="need">
+          <li>Any existing Cash Flow Mastery logo files, if they exist</li>
+          <li>Confirmation you are happy with the visual direction, or any changes you would like</li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>Accounts and access</h2>
+      <span class="section-count">4 items</span>
+    </div>
+    <p class="section-intro">
+      Services that need to be opened in your name, so that you own them rather
+      than us. We will configure each one and hand over the credentials.
+    </p>
+
+    <div class="items">
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">S1</span>
+          <h3>Domain access for cashflowmastery.co</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <ul class="need">
+          <li>Registrar login, or the ability to add DNS records on request</li>
+          <li>Confirmation that cashflowmastery.co is the final domain</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">S2</span>
+          <h3>Email platform</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <p>
+          Two separate needs, which can use one provider or two.
+        </p>
+        <ul class="need">
+          <li><strong>Transactional</strong> — receipts, welcome emails, password resets. We suggest Resend or Postmark.</li>
+          <li><strong>Marketing</strong> — the nurturing sequence and cohort announcements. We suggest MailerLite or ConvertKit.</li>
+          <li>A dedicated support inbox, or confirmation to keep using carl@independentadvisors.ai</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          The site already captures consent properly and stores the exact
+          wording each person agreed to, with a timestamp. Your list will be
+          compliant from the first subscriber, but only if it is connected before
+          the first one arrives.
+        </p>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">S3</span>
+          <h3>Analytics</h3>
+          <span class="chip launch">Before launch</span>
+        </div>
+        <p>
+          Your brief asks us to track leads, checkout starts, purchases and
+          course completion. We have deliberately installed nothing yet, because
+          analytics must load only after cookie consent, and the consent banner
+          depends on your approved cookie notice.
+        </p>
+        <ul class="need">
+          <li><strong>Plausible</strong> — no cookie banner required, simplest compliance, around $9 per month</li>
+          <li><strong>Google Analytics 4</strong> — free, but requires full cookie consent handling. Choose this if you intend to run Google Ads.</li>
+        </ul>
+      </article>
+
+      <article class="item">
+        <div class="item-head">
+          <span class="item-id">S4</span>
+          <h3>Hosting decision</h3>
+          <span class="chip blocking">Blocking</span>
+        </div>
+        <p>
+          One technical decision that needs your approval because it carries a
+          small monthly cost.
+        </p>
+        <ul class="need">
+          <li><strong>Option A</strong> — host with a persistent disk, around $5 to $20 per month. No further development needed.</li>
+          <li><strong>Option B</strong> — add a managed database (Supabase, free to start). Around a day of work, and it is the foundation for the learner area later.</li>
+        </ul>
+        <p class="why"><strong>Why we need it</strong>
+          The site counts enrolments to control the 15 places and to switch from
+          the founding price to the standard one. On some hosting types that
+          count would reset, which would let more than fifteen people buy, and at
+          the wrong price. We recommend Option B, since it is needed anyway when
+          the learner area is built.
+        </p>
+      </article>
+
+
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2>Summary</h2>
+      <span class="section-count">21 items</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>All outstanding items by priority</caption>
+        <thead>
+          <tr>
+            <th scope="col">Ref</th>
+            <th scope="col">Item</th>
+            <th scope="col">From</th>
+            <th scope="col">Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>P1</td><td>Stripe account on the UAE entity</td><td>You</td><td>Blocking</td></tr>
+          <tr><td>P2</td><td>Dashboard access or API keys</td><td>You</td><td>Blocking</td></tr>
+          <tr><td>P3</td><td>Pricing confirmation</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>P4</td><td>VAT treatment</td><td>Accountant</td><td>Blocking</td></tr>
+          <tr><td>P5</td><td>Refund terms</td><td>Legal adviser</td><td>Blocking</td></tr>
+          <tr><td>P6</td><td>Statement descriptor, support contact</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>L1</td><td>Five legal documents, approved</td><td>Legal adviser</td><td>Blocking</td></tr>
+          <tr><td>L2</td><td>Governing law and jurisdiction</td><td>Legal adviser</td><td>Blocking</td></tr>
+          <tr><td>L3</td><td>Recording and confidentiality policy</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>C1</td><td>Cohort and live-session dates</td><td>You</td><td>Blocking</td></tr>
+          <tr><td>C2</td><td>Live session platform</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>C3</td><td>Access period after the cohort</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>C4</td><td>Minimum cohort size, future pricing</td><td>You</td><td>When convenient</td></tr>
+          <tr><td>A1</td><td>Your photograph</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>A2</td><td>Templates and worksheets</td><td>You</td><td>Before the cohort</td></tr>
+          <tr><td>A3</td><td>Video content and hosting choice</td><td>You</td><td>Before the cohort</td></tr>
+          <tr><td>A4</td><td>Brand assets, design sign-off</td><td>You</td><td>When convenient</td></tr>
+          <tr><td>S1</td><td>Domain and DNS access</td><td>You</td><td>Blocking</td></tr>
+          <tr><td>S2</td><td>Email platform choice</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>S3</td><td>Analytics choice</td><td>You</td><td>Before launch</td></tr>
+          <tr><td>S4</td><td>Hosting decision</td><td>You</td><td>Blocking</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2>Already complete</h2>
+      <span class="section-count">For your reference</span>
+    </div>
+    <p class="section-intro">
+      So that you can see what your list above unlocks, this is what is built,
+      tested and waiting.
+    </p>
+
+    <ul class="done">
+      <li><strong><span class="tick">&#10003;</span> Public website</strong>Home, sales page, About, FAQs, waitlist — built to your brief, with no fabricated testimonials, countdown timers or scarcity devices.</li>
+      <li><strong><span class="tick">&#10003;</span> Secure checkout</strong>Stripe integration complete. Price, currency, inclusions, refund terms and cohort dates all shown before payment.</li>
+      <li><strong><span class="tick">&#10003;</span> Failed payments blocked</strong>Access is granted only on a verified payment. An abandoned or failed checkout creates no enrolment — tested.</li>
+      <li><strong><span class="tick">&#10003;</span> Capacity control</strong>The 15 places and the founding-five price are enforced by the system, not managed by hand.</li>
+      <li><strong><span class="tick">&#10003;</span> Free diagnostic</strong>A ten-question Cash Visibility Diagnostic that scores the visitor and points them at the week that matters most for them.</li>
+      <li><strong><span class="tick">&#10003;</span> Consent capture</strong>Every subscriber&rsquo;s consent is stored with the exact wording and a timestamp.</li>
+      <li><strong><span class="tick">&#10003;</span> Accessibility</strong>Contrast verified across 788 items of text on every page, with full keyboard navigation.</li>
+      <li><strong><span class="tick">&#10003;</span> Mobile and search</strong>Tested down to 375px, with page titles, descriptions and a sitemap in place.</li>
+    </ul>
+  </section>
+
+  <div class="signoff">
+    <p>
+      Sir, if it is easier, we are happy to walk through this on a call and
+      complete it together — particularly items P4 and L1, where it may help for
+      us to speak directly with your accountant and your legal adviser.
+    </p>
+    <p>
+      Once the five blocking items are settled, we can have the site live and
+      taking payments quickly. Everything else can follow while the founding
+      cohort fills.
+    </p>
+    <p>
+      Thank you for your time, Sir. We look forward to launching this with you.
+    </p>
+    <p style="margin-top:12px">
+      <span class="sig-name">Flarenet Company</span><br>
+      <span class="sig-co">Web &amp; Software Development</span>
+    </p>
+  </div>
+
+</div>

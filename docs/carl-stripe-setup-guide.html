@@ -1,0 +1,761 @@
+<title>Cash Flow Mastery Stripe Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+  /* ------------------------------------------------------------------
+     Flarenet Company — website security report
+     Same palette and type as FN-CFM-001 and FN-CFM-002.
+     ------------------------------------------------------------------ */
+  :root {
+    --ground:    #0c0a09;
+    --surface:   #17130f;
+    --surface-2: #1f1a15;
+    --line:      #2a231c;
+    --line-soft: #201a15;
+
+    --ink:   #fafaf9;
+    --muted: #a8a29e;
+    --dim:   #78716c;
+
+    --orange: #f97316;
+    --red:    #ef4444;
+    --amber:  #f59e0b;
+    --green:  #4ade80;
+    --brand:  linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+
+    --display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    --body: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+
+    --measure: 68ch;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0;
+    background-image:
+      radial-gradient(120% 55% at 8% -8%, rgba(249, 115, 22, 0.13) 0%, transparent 62%),
+      radial-gradient(90% 45% at 92% -4%, rgba(239, 68, 68, 0.09) 0%, transparent 58%);
+    background-repeat: no-repeat;
+  }
+
+  .page { max-width: 920px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  .letterhead {
+    display: flex; flex-wrap: wrap; align-items: flex-start;
+    justify-content: space-between; gap: 24px;
+    padding-bottom: 26px; border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .mark {
+    width: 38px; height: 38px; border-radius: 9px;
+    flex: none; display: block; object-fit: contain;
+  }
+  .brand-name {
+    font-family: var(--display); font-weight: 700; font-size: 19px;
+    letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .brand-role {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim); margin-top: 2px;
+  }
+  .docmeta {
+    display: grid; grid-template-columns: auto auto; gap: 3px 18px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.75; margin: 0;
+  }
+  .docmeta dt { color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .docmeta dd { margin: 0; color: var(--muted); text-align: right; }
+
+  .title-block { padding: 46px 0 8px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--orange); margin: 0 0 18px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.1rem, 5.5vw, 3rem); line-height: 1.06;
+    letter-spacing: -0.035em; text-wrap: balance; margin: 0;
+  }
+  h1 .accent {
+    background: var(--brand); -webkit-background-clip: text;
+    background-clip: text; color: transparent;
+  }
+  .standfirst {
+    max-width: var(--measure); color: var(--muted);
+    font-size: 1.06rem; margin: 22px 0 0;
+  }
+
+  .letter {
+    max-width: var(--measure); margin: 42px 0 0;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .letter p { margin: 0; }
+  .salutation {
+    font-family: var(--display); font-size: 1.12rem;
+    font-weight: 600; letter-spacing: -0.01em;
+  }
+
+  .summary {
+    margin-top: 42px; border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+  }
+  .summary-head {
+    padding: 22px 26px 20px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(249,115,22,0.07), transparent);
+  }
+  .summary-head h2 {
+    font-family: var(--display); font-size: 1.2rem; font-weight: 600;
+    letter-spacing: -0.015em; margin: 0 0 4px;
+  }
+  .summary-head p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+
+  .bar {
+    display: flex; height: 10px; margin-top: 18px;
+    border-radius: 2px; overflow: hidden; background: var(--surface-2);
+  }
+  .bar span { display: block; height: 100%; }
+  .bar .done    { background: var(--green); }
+  .bar .added   { background: var(--orange); }
+  .bar .waiting { background: var(--amber); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .dot.done { background: var(--green); }
+  .dot.added { background: var(--orange); }
+  .dot.waiting { background: var(--amber); }
+
+  .tally {
+    display: grid; gap: 1px; background: var(--line);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .tally div { background: var(--surface); padding: 18px 20px; }
+  .tally .n {
+    font-family: var(--display); font-size: 2rem; font-weight: 700;
+    line-height: 1; letter-spacing: -0.03em; display: block;
+  }
+  .tally .n.done { color: var(--green); }
+  .tally .n.added { color: var(--orange); }
+  .tally .n.waiting { color: var(--amber); }
+  .tally p {
+    margin: 8px 0 0; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
+  }
+
+  section { margin-top: 58px; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 16px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .section-num {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    color: var(--orange); letter-spacing: 0.08em; flex: none;
+  }
+  .section-head h2 {
+    font-family: var(--display); font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 600; letter-spacing: -0.025em; margin: 0; flex: 1;
+  }
+  .section-count {
+    font-family: var(--mono); font-size: 11px; color: var(--dim);
+    letter-spacing: 0.08em; white-space: nowrap;
+  }
+  .section-intro {
+    color: var(--muted); max-width: var(--measure);
+    margin: 18px 0 0; font-size: 0.96rem;
+  }
+
+  .rows { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .row {
+    background: var(--surface); border: 1px solid var(--line-soft);
+    border-radius: 5px; padding: 17px 20px;
+    display: grid; grid-template-columns: 1fr auto; gap: 6px 16px;
+    align-items: start;
+  }
+  .row h3 {
+    font-family: var(--display); font-size: 1.02rem; font-weight: 600;
+    letter-spacing: -0.012em; margin: 0; line-height: 1.35;
+  }
+  .row .ref {
+    font-family: var(--mono); font-size: 10px; color: var(--dim);
+    letter-spacing: 0.08em; display: block; margin-bottom: 5px;
+  }
+  .row p {
+    grid-column: 1 / -1; margin: 4px 0 0; color: var(--muted);
+    font-size: 0.92rem; max-width: var(--measure);
+  }
+  .row p strong { color: var(--ink); font-weight: 600; }
+
+  .chip {
+    font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 3px; white-space: nowrap;
+    align-self: start;
+  }
+  .chip.done    { background: var(--green); color: #06240f; }
+  .chip.added   { background: var(--orange); color: #2a1203; }
+  .chip.waiting { background: transparent; color: var(--amber); border: 1px solid rgba(245,158,11,0.5); }
+
+  .table-wrap { overflow-x: auto; margin-top: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.89rem; min-width: 540px; }
+  caption {
+    text-align: left; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    padding-bottom: 12px;
+  }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim); font-weight: 700;
+  }
+  tbody td:first-child {
+    font-family: var(--mono); font-size: 11px; color: var(--orange);
+    font-weight: 700; white-space: nowrap;
+  }
+  tbody td:nth-child(2) strong { color: var(--ink); font-weight: 600; display: block; }
+  tbody td:nth-child(2) span { color: var(--muted); }
+  tbody tr:last-child td { border-bottom: none; }
+  .ok { color: var(--green); }
+  .wait { color: var(--amber); }
+
+  .callout {
+    margin-top: 30px; border: 1px solid var(--line);
+    border-left: 3px solid var(--orange); border-radius: 4px;
+    background: linear-gradient(180deg, rgba(249,115,22,0.07), rgba(249,115,22,0.02));
+    padding: 22px 24px;
+  }
+  .callout h3 {
+    font-family: var(--display); font-size: 1.08rem; font-weight: 600;
+    margin: 0 0 8px; color: var(--orange);
+  }
+  .callout p { margin: 0; color: var(--muted); font-size: 0.93rem; max-width: var(--measure); }
+  .callout p + p { margin-top: 10px; }
+  .callout strong { color: var(--ink); font-weight: 600; }
+
+  .signoff {
+    margin-top: 58px; padding-top: 28px; border-top: 1px solid var(--line);
+    max-width: var(--measure); display: flex; flex-direction: column; gap: 14px;
+  }
+  .signoff p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+  .sig-name {
+    font-family: var(--display); font-weight: 600; font-size: 1.05rem;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .sig-co {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim);
+  }
+
+  code {
+    font-family: var(--mono); font-size: 0.86em; color: var(--ink);
+    background: var(--surface-2); padding: 1px 5px; border-radius: 3px;
+  }
+
+  @media (max-width: 620px) {
+    .page { padding: 28px 18px 60px; }
+    .row { grid-template-columns: 1fr; }
+  }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    html, body { background: var(--ground) !important; background-image: none !important; }
+    .page { max-width: none; padding: 15mm 13mm; }
+    h1 .accent {
+      background: none !important; -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      -webkit-text-fill-color: var(--orange) !important; color: var(--orange) !important;
+    }
+    .row, .callout, .summary, .tally div { break-inside: avoid; }
+    section { break-inside: auto; }
+    .section-head, .letterhead, h1 { break-after: avoid; }
+    tr, thead { break-inside: avoid; }
+    thead { display: table-header-group; }
+    .table-wrap { overflow: visible; }
+    table { min-width: 0; }
+  }
+</style>
+<style>
+  .steps { counter-reset: step; margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .step {
+    background: var(--surface); border: 1px solid var(--line-soft); border-radius: 5px;
+    padding: 18px 20px 18px 64px; position: relative;
+  }
+  .step::before {
+    counter-increment: step; content: counter(step, decimal-leading-zero);
+    position: absolute; left: 20px; top: 18px;
+    font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--orange);
+  }
+  .step h3 {
+    font-family: var(--display); font-size: 1.04rem; font-weight: 600;
+    letter-spacing: -0.012em; margin: 0; line-height: 1.35;
+  }
+  .step .who {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--dim); margin: 0 0 6px;
+  }
+  .step p { margin: 6px 0 0; color: var(--muted); font-size: 0.92rem; max-width: var(--measure); }
+  .step p strong { color: var(--ink); font-weight: 600; }
+  .step ol, .step ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 0.92rem; }
+  .step li { margin: 3px 0; }
+  .step li strong { color: var(--ink); font-weight: 600; }
+  .path {
+    font-family: var(--mono); font-size: 0.8em; color: var(--ink);
+    background: var(--surface-2); padding: 1px 6px; border-radius: 3px; white-space: nowrap;
+  }
+  .check { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 8px; }
+  .check li {
+    background: var(--surface); border: 1px solid var(--line-soft); border-radius: 5px;
+    padding: 13px 16px 13px 46px; position: relative; color: var(--muted); font-size: 0.92rem;
+  }
+  .check li::before {
+    content: ""; position: absolute; left: 17px; top: 16px; width: 13px; height: 13px;
+    border: 1.5px solid var(--orange); border-radius: 3px;
+  }
+  .check li strong { color: var(--ink); font-weight: 600; display: block; }
+  .dont {
+    margin-top: 16px; border: 1px solid rgba(239,68,68,0.35); border-left: 3px solid var(--red);
+    border-radius: 4px; background: rgba(239,68,68,0.06); padding: 16px 20px;
+  }
+  .dont h3 { font-family: var(--display); font-size: 1.02rem; font-weight: 600; color: var(--red); margin: 0 0 6px; }
+  .dont p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+  @media print {
+    .step, .check li, .dont { break-inside: avoid; }
+    /* Chrome splits a paragraph rather than honour break-after on it, so
+       the steps section simply starts a fresh page. Page 2 is already
+       filled by the checklist, so no space is wasted. */
+    section.page-start { break-before: page; margin-top: 0; }
+    /* Tighter opening so the 'At a glance' panel sits on page 1 instead of
+       leaving a third of the first page empty. */
+    .title-block { padding-top: 30px; }
+    .standfirst { margin-top: 16px; }
+    .letter { margin-top: 26px; gap: 11px; }
+    .summary { margin-top: 22px; }
+    .summary-head { padding: 16px 22px 14px; }
+    .tally div { padding: 12px 18px; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="letterhead">
+    <div class="brand">
+      <img class="mark" src="data:image/png;base64,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" alt="Flarenet Company logo">
+      <div>
+        <div class="brand-name">Flarenet Company</div>
+        <div class="brand-role">Web &amp; Software Development</div>
+      </div>
+    </div>
+    <dl class="docmeta">
+      <dt>Reference</dt><dd><span style="white-space:nowrap">FN-CFM-004</span></dd>
+      <dt>Prepared for</dt><dd>Mr Carl Lewis</dd>
+      <dt>Project</dt><dd>Cash Flow Mastery</dd>
+      <dt>Date</dt><dd>15 September 2026</dd>
+    </dl>
+  </header>
+
+  <div class="title-block">
+    <p class="eyebrow">Payments &middot; Stripe setup guide</p>
+    <h1>Connecting payments: <span class="accent">your Stripe setup, step by step</span></h1>
+    <p class="standfirst">
+      Everything needed to start taking course payments in UAE Dirhams: what to
+      have ready, the steps in your Stripe account, what we handle for you, and
+      the decisions we need from you.
+    </p>
+  </div>
+
+  <div class="letter">
+    <p class="salutation">Dear Sir,</p>
+    <p>
+      The payment flow on the Cash Flow Mastery website is built and tested. It
+      takes payment in AED, confirms each place automatically, stops the cohort
+      at its capacity, and withdraws a place if a payment is fully refunded.
+      What it is waiting for is a Stripe account in your business&rsquo;s name.
+    </p>
+    <p>
+      Stripe has to open that account for you directly, because it verifies the
+      business and pays the money into your bank account. This guide keeps your
+      part as short as possible: you set up and verify the account, then invite
+      us in. We do all of the technical connection and testing from there.
+    </p>
+    <p>
+      One principle runs through this guide: <strong>please never send us
+      Stripe keys or passwords by email or WhatsApp.</strong> Inviting us as a
+      team member (step 6) means no secret ever needs to be copied or shared.
+    </p>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="summary">
+    <div class="summary-head">
+      <h2>At a glance</h2>
+      <p>Seven short steps for you, nine decisions to confirm, and the rest is on us.</p>
+      <div class="bar" role="img" aria-label="7 steps for you, 9 decisions, 8 tasks for Flarenet">
+        <span class="waiting" style="width:29%"></span>
+        <span class="added" style="width:38%"></span>
+        <span class="done" style="width:33%"></span>
+      </div>
+      <div class="legend">
+        <span><i class="dot waiting"></i> Your steps in Stripe</span>
+        <span><i class="dot added"></i> Decisions from you</span>
+        <span><i class="dot done"></i> Handled by Flarenet</span>
+      </div>
+    </div>
+    <div class="tally">
+      <div><span class="n waiting">7</span><p>Steps for you</p></div>
+      <div><span class="n added">9</span><p>Decisions to confirm</p></div>
+      <div><span class="n done">8</span><p>Tasks we handle</p></div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Have these ready first</h2>
+      <span class="section-count">Before you sign up</span>
+    </div>
+    <p class="section-intro">
+      Stripe asks for these during activation. Having them to hand means the
+      whole sign-up can be done in one sitting. Stripe only accepts
+      <strong>colour copies</strong> in PDF, JPEG or PNG format &mdash;
+      <strong>screenshots are rejected</strong>.
+    </p>
+
+    <ul class="check">
+      <li>
+        <strong>UAE trade licence or freelancer permit</strong>
+        Stripe requires a licence or permit issued within the UAE to open an
+        account.
+      </li>
+      <li>
+        <strong>If the business is an LLC: memorandum of association</strong>
+        The document (or equivalent) showing the business owners and their
+        share split. If a holding company owns 25% or more, its memorandum is
+        needed too.
+      </li>
+      <li>
+        <strong>If the business is an LLC: a recent bank statement</strong>
+        Proof of an active business bank account, dated within the last six
+        months.
+      </li>
+      <li>
+        <strong>Identity documents for you and every owner of 25% or more</strong>
+        UAE and GCC nationals: passport and Emirates ID. Other nationalities:
+        passport, Emirates ID and residence visa.
+      </li>
+      <li>
+        <strong>A UAE bank account (IBAN) that accepts AED</strong>
+        This is where course payments are paid out.
+      </li>
+      <li>
+        <strong>Power of Attorney &mdash; only if needed</strong>
+        If the person setting up the account is not named as an owner or
+        manager on the licence documents, Stripe needs a Power of Attorney for
+        them, dated within the last three months.
+      </li>
+      <li>
+        <strong>Business details</strong>
+        Registered business name and address, a business phone number, and the
+        website address for the course.
+      </li>
+    </ul>
+  </section>
+
+  <!-- ================================================================= -->
+  <section class="page-start">
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Your steps in Stripe</h2>
+      <span class="section-count">7 steps</span>
+    </div>
+    <p class="section-intro">
+      Please follow these in order. Most take a few minutes; the activation
+      form in step 3 is the longest.
+    </p>
+
+    <div class="steps">
+      <article class="step">
+        <p class="who">You &middot; stripe.com</p>
+        <h3>Create the Stripe account</h3>
+        <ol>
+          <li>Go to <span class="path">dashboard.stripe.com/register</span>.</li>
+          <li>Sign up with a <strong>business email address</strong> you will keep long term.</li>
+          <li>Choose <strong>United Arab Emirates</strong> as the country. This cannot be changed later.</li>
+        </ol>
+      </article>
+
+      <article class="step">
+        <p class="who">You &middot; 2 minutes</p>
+        <h3>Turn on two-step sign-in</h3>
+        <p>
+          In your Stripe profile settings, switch on <strong>two-step
+          authentication</strong>, using an authenticator app or text message.
+          This account will receive real money, so a password alone is not
+          enough.
+        </p>
+      </article>
+
+      <article class="step">
+        <p class="who">You &middot; the longest step</p>
+        <h3>Activate payments</h3>
+        <p>In the Dashboard, select <strong>Activate payments</strong> and complete the form:</p>
+        <ol>
+          <li>Choose the <strong>business type</strong> that matches your trade licence.</li>
+          <li>Enter the business details and upload the documents from section 01.</li>
+          <li>Add yourself as representative, and <strong>every owner of 25% or more</strong>.</li>
+          <li>For the business description, you can use: <em>&ldquo;Online four-week cash-flow training programme for small business owners, sold through our website.&rdquo;</em></li>
+        </ol>
+        <p>Stripe then reviews the account. Once you have invited us (step 6), we can build and test while the review runs.</p>
+      </article>
+
+      <article class="step">
+        <p class="who">You &middot; during activation</p>
+        <h3>Add the bank account for payouts</h3>
+        <p>
+          Add your UAE business bank account (IBAN) in AED. Stripe pays out
+          course payments <strong>five business days after each payment</strong>,
+          and payouts can be delayed by UAE public holidays.
+        </p>
+      </article>
+
+      <article class="step">
+        <p class="who">You &middot; required for checkout to work</p>
+        <h3>Complete your public business details</h3>
+        <p>Open <span class="path">dashboard.stripe.com/settings/public</span> and fill in:</p>
+        <ul>
+          <li><strong>Terms of service URL</strong> &mdash; this is essential. Our checkout asks buyers to accept your terms, and Stripe will not allow that until this link is set.</li>
+          <li><strong>Privacy policy URL</strong>.</li>
+          <li><strong>Support email and phone number</strong> that buyers will see.</li>
+          <li><strong>Statement descriptor</strong> &mdash; the name shown on a buyer&rsquo;s card statement, for example <em>CASHFLOWMASTERY</em>. A recognisable name here prevents disputes from buyers who do not recognise the charge.</li>
+        </ul>
+        <p>We will give you the final page addresses for the terms and privacy links once the policy wording is approved (see decision D5).</p>
+      </article>
+
+      <article class="step">
+        <p class="who">You &middot; 2 minutes</p>
+        <h3>Invite Flarenet as a Developer</h3>
+        <ol>
+          <li>Open <strong>Settings</strong>, then <strong>Team and security</strong>.</li>
+          <li>Invite the <strong>Flarenet email address we send you</strong>.</li>
+          <li>Select the <strong>Developer</strong> role only &mdash; not Administrator.</li>
+        </ol>
+        <p>
+          The Developer role lets us create the connection keys, set up payment
+          notifications and test everything. It <strong>cannot</strong> change
+          your bank account or payout schedule, and cannot invite anyone else.
+          It can view payments and issue refunds, which we will only do for test
+          payments or on your written instruction. You can remove our access at
+          any time.
+        </p>
+      </article>
+
+      <article class="step">
+        <p class="who">You &middot; one message</p>
+        <h3>Tell us it is done</h3>
+        <p>
+          Send us a short message once the invitation is sent. No keys, no
+          passwords, no screenshots of settings &mdash; we will have what we
+          need through the invitation.
+        </p>
+      </article>
+    </div>
+
+    <div class="dont">
+      <h3>Please do not</h3>
+      <p>
+        Send Stripe secret keys, passwords or verification codes by email,
+        WhatsApp or any chat. Anyone with a secret key can create charges and
+        refunds on your account. The invitation in step 6 makes sharing them
+        unnecessary.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>What we handle once invited</h2>
+      <span class="section-count">8 tasks</span>
+    </div>
+    <p class="section-intro">
+      None of this needs your time, except the single real payment at the end.
+    </p>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">F1</span><h3>Create restricted connection keys</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>Keys limited to only what the checkout needs, stored solely in the website&rsquo;s secure hosting settings &mdash; never in email, chat or the code itself.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F2</span><h3>Connect payment notifications</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>Stripe tells the website instantly when a payment succeeds, fails, expires or is refunded, so places are confirmed and withdrawn automatically. Each notification is verified with a signature so it cannot be faked.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F3</span><h3>Test the full flow in Stripe&rsquo;s test mode</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>Using Stripe&rsquo;s test cards: a successful payment, a declined card, a card needing extra bank authentication, a full refund, and a sold-out cohort. No real money moves.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F4</span><h3>Configure checkout and receipts</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>Show your terms, privacy policy and support details at checkout, and turn on emailed receipts for buyers.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F5</span><h3>Set up fraud protection</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>Review Stripe Radar, Stripe&rsquo;s built-in fraud screening, and apply sensible rules for a course priced at AED 2,000&ndash;2,500.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F6</span><h3>Switch to live payments</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>Once Stripe approves your account, replace the test keys with live keys and repeat the key checks.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F7</span><h3>One real payment, then a refund</h3></div>
+        <span class="chip waiting">With you</span>
+        <p>You make one genuine purchase on the live site; we confirm the place was recorded, then refund it in full and confirm the place was released.</p>
+      </article>
+      <article class="row">
+        <div><span class="ref">F8</span><h3>Handover</h3></div>
+        <span class="chip done">Flarenet</span>
+        <p>A short guide to finding payments, issuing refunds and reading payouts in your Dashboard &mdash; and removal of our Developer access afterwards, unless you prefer us to keep it for support.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Decisions and information we need</h2>
+      <span class="section-count">9 items</span>
+    </div>
+    <p class="section-intro">
+      These shape what buyers see and pay at checkout. Items marked
+      &ldquo;adviser&rdquo; should be confirmed by your accountant or legal adviser.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Please confirm or supply</caption>
+        <thead>
+          <tr><th scope="col">Ref</th><th scope="col">What we need</th><th scope="col">Currently</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>D1</td>
+            <td><strong>The final website address</strong><span>Stripe returns buyers to it after paying and sends payment notifications to it.</span></td>
+            <td class="wait">Assumed cashflowmastery.co</td>
+          </tr>
+          <tr>
+            <td>D2</td>
+            <td><strong>Prices and places</strong><span>Please confirm the amounts and the number of places.</span></td>
+            <td class="wait">AED 2,000 for the first 5, AED 2,500 after; 15 places</td>
+          </tr>
+          <tr>
+            <td>D3</td>
+            <td><strong>VAT treatment &mdash; adviser</strong><span>Whether the business is VAT-registered, its TRN if so, and whether the prices include or exclude 5% VAT.</span></td>
+            <td class="wait">Not yet confirmed</td>
+          </tr>
+          <tr>
+            <td>D4</td>
+            <td><strong>Refund policy &mdash; adviser</strong><span>The exact refund terms shown to buyers before they pay.</span></td>
+            <td class="wait">Placeholder: full refund up to 7 days before start</td>
+          </tr>
+          <tr>
+            <td>D5</td>
+            <td><strong>Terms of sale and privacy policy &mdash; adviser</strong><span>Approved wording, so the links in step 5 can go live.</span></td>
+            <td class="wait">Page structure ready, wording pending</td>
+          </tr>
+          <tr>
+            <td>D6</td>
+            <td><strong>Statement descriptor</strong><span>The name on buyers&rsquo; card statements (step 5).</span></td>
+            <td class="wait">Suggested: CASHFLOWMASTERY</td>
+          </tr>
+          <tr>
+            <td>D7</td>
+            <td><strong>Support email for buyers</strong><span>Shown at checkout and on receipts.</span></td>
+            <td class="wait">Assumed carl@independentadvisors.ai</td>
+          </tr>
+          <tr>
+            <td>D8</td>
+            <td><strong>Cohort start date</strong><span>Shown to buyers at checkout.</span></td>
+            <td class="wait">Not yet set</td>
+          </tr>
+          <tr>
+            <td>D9</td>
+            <td><strong>Who handles refunds and payment emails</strong><span>The person who receives Stripe&rsquo;s notifications and approves refunds.</span></td>
+            <td class="wait">Not yet set</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>The order of events</h2>
+      <span class="section-count">From sign-up to first sale</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>What happens, and who does it</caption>
+        <thead>
+          <tr><th scope="col">Stage</th><th scope="col">What happens</th><th scope="col">Who</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Gather documents (section 01)</strong><span>So activation can be completed in one sitting.</span></td><td>You</td></tr>
+          <tr><td>2</td><td><strong>Steps 1&ndash;7 in Stripe</strong><span>Account, two-step sign-in, activation, bank, public details, invitation.</span></td><td>You</td></tr>
+          <tr><td>3</td><td><strong>Confirm decisions D1&ndash;D9</strong><span>Can run alongside stage 2; advisers for D3&ndash;D5.</span></td><td>You and advisers</td></tr>
+          <tr><td>4</td><td><strong>Stripe reviews the account</strong><span>Stripe sets the timing; we build and test in test mode meanwhile.</span></td><td>Stripe, then Flarenet</td></tr>
+          <tr><td>5</td><td><strong>Switch to live, one real payment and refund</strong><span>Tasks F6 and F7.</span></td><td>Flarenet, with you</td></tr>
+          <tr><td>6</td><td><strong>Open for enrolment</strong><span>Handover guide delivered, and access reviewed.</span></td><td>Flarenet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>Where your money and data sit</h3>
+      <p>
+        Card details are entered directly into Stripe&rsquo;s secure form on the
+        checkout page and <strong>never touch the website or our systems</strong>.
+        Payments settle into your Stripe balance and are paid out to your own
+        bank account. Flarenet never has access to the funds, and cannot change
+        where they are paid.
+      </p>
+    </div>
+  </section>
+
+  <div class="signoff">
+    <p>
+      Sir, if it is easier, we would be glad to go through the Stripe sign-up
+      with you on a short screen-share call. You keep control of the account
+      throughout, and we can answer any of Stripe&rsquo;s questions as they come
+      up.
+    </p>
+    <p style="margin-top:10px">
+      <span class="sig-name">Flarenet Company</span><br>
+      <span class="sig-co">Web &amp; Software Development</span>
+    </p>
+  </div>
+
+</div>

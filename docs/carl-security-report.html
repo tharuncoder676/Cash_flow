@@ -1,0 +1,663 @@
+<title>Cash Flow Mastery Website Security</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+  /* ------------------------------------------------------------------
+     Flarenet Company — website security report
+     Same palette and type as FN-CFM-001 and FN-CFM-002.
+     ------------------------------------------------------------------ */
+  :root {
+    --ground:    #0c0a09;
+    --surface:   #17130f;
+    --surface-2: #1f1a15;
+    --line:      #2a231c;
+    --line-soft: #201a15;
+
+    --ink:   #fafaf9;
+    --muted: #a8a29e;
+    --dim:   #78716c;
+
+    --orange: #f97316;
+    --red:    #ef4444;
+    --amber:  #f59e0b;
+    --green:  #4ade80;
+    --brand:  linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+
+    --display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    --body: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+
+    --measure: 68ch;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0;
+    background-image:
+      radial-gradient(120% 55% at 8% -8%, rgba(249, 115, 22, 0.13) 0%, transparent 62%),
+      radial-gradient(90% 45% at 92% -4%, rgba(239, 68, 68, 0.09) 0%, transparent 58%);
+    background-repeat: no-repeat;
+  }
+
+  .page { max-width: 920px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  .letterhead {
+    display: flex; flex-wrap: wrap; align-items: flex-start;
+    justify-content: space-between; gap: 24px;
+    padding-bottom: 26px; border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .mark {
+    width: 38px; height: 38px; border-radius: 9px;
+    flex: none; display: block; object-fit: contain;
+  }
+  .brand-name {
+    font-family: var(--display); font-weight: 700; font-size: 19px;
+    letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .brand-role {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim); margin-top: 2px;
+  }
+  .docmeta {
+    display: grid; grid-template-columns: auto auto; gap: 3px 18px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.75; margin: 0;
+  }
+  .docmeta dt { color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .docmeta dd { margin: 0; color: var(--muted); text-align: right; }
+
+  .title-block { padding: 46px 0 8px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--orange); margin: 0 0 18px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.1rem, 5.5vw, 3rem); line-height: 1.06;
+    letter-spacing: -0.035em; text-wrap: balance; margin: 0;
+  }
+  h1 .accent {
+    background: var(--brand); -webkit-background-clip: text;
+    background-clip: text; color: transparent;
+  }
+  .standfirst {
+    max-width: var(--measure); color: var(--muted);
+    font-size: 1.06rem; margin: 22px 0 0;
+  }
+
+  .letter {
+    max-width: var(--measure); margin: 42px 0 0;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .letter p { margin: 0; }
+  .salutation {
+    font-family: var(--display); font-size: 1.12rem;
+    font-weight: 600; letter-spacing: -0.01em;
+  }
+
+  .summary {
+    margin-top: 42px; border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+  }
+  .summary-head {
+    padding: 22px 26px 20px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(249,115,22,0.07), transparent);
+  }
+  .summary-head h2 {
+    font-family: var(--display); font-size: 1.2rem; font-weight: 600;
+    letter-spacing: -0.015em; margin: 0 0 4px;
+  }
+  .summary-head p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+
+  .bar {
+    display: flex; height: 10px; margin-top: 18px;
+    border-radius: 2px; overflow: hidden; background: var(--surface-2);
+  }
+  .bar span { display: block; height: 100%; }
+  .bar .done    { background: var(--green); }
+  .bar .added   { background: var(--orange); }
+  .bar .waiting { background: var(--amber); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .dot.done { background: var(--green); }
+  .dot.added { background: var(--orange); }
+  .dot.waiting { background: var(--amber); }
+
+  .tally {
+    display: grid; gap: 1px; background: var(--line);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .tally div { background: var(--surface); padding: 18px 20px; }
+  .tally .n {
+    font-family: var(--display); font-size: 2rem; font-weight: 700;
+    line-height: 1; letter-spacing: -0.03em; display: block;
+  }
+  .tally .n.done { color: var(--green); }
+  .tally .n.added { color: var(--orange); }
+  .tally .n.waiting { color: var(--amber); }
+  .tally p {
+    margin: 8px 0 0; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
+  }
+
+  section { margin-top: 58px; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 16px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .section-num {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    color: var(--orange); letter-spacing: 0.08em; flex: none;
+  }
+  .section-head h2 {
+    font-family: var(--display); font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 600; letter-spacing: -0.025em; margin: 0; flex: 1;
+  }
+  .section-count {
+    font-family: var(--mono); font-size: 11px; color: var(--dim);
+    letter-spacing: 0.08em; white-space: nowrap;
+  }
+  .section-intro {
+    color: var(--muted); max-width: var(--measure);
+    margin: 18px 0 0; font-size: 0.96rem;
+  }
+
+  .rows { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .row {
+    background: var(--surface); border: 1px solid var(--line-soft);
+    border-radius: 5px; padding: 17px 20px;
+    display: grid; grid-template-columns: 1fr auto; gap: 6px 16px;
+    align-items: start;
+  }
+  .row h3 {
+    font-family: var(--display); font-size: 1.02rem; font-weight: 600;
+    letter-spacing: -0.012em; margin: 0; line-height: 1.35;
+  }
+  .row .ref {
+    font-family: var(--mono); font-size: 10px; color: var(--dim);
+    letter-spacing: 0.08em; display: block; margin-bottom: 5px;
+  }
+  .row p {
+    grid-column: 1 / -1; margin: 4px 0 0; color: var(--muted);
+    font-size: 0.92rem; max-width: var(--measure);
+  }
+  .row p strong { color: var(--ink); font-weight: 600; }
+
+  .chip {
+    font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 3px; white-space: nowrap;
+    align-self: start;
+  }
+  .chip.done    { background: var(--green); color: #06240f; }
+  .chip.added   { background: var(--orange); color: #2a1203; }
+  .chip.waiting { background: transparent; color: var(--amber); border: 1px solid rgba(245,158,11,0.5); }
+
+  .table-wrap { overflow-x: auto; margin-top: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.89rem; min-width: 540px; }
+  caption {
+    text-align: left; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    padding-bottom: 12px;
+  }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim); font-weight: 700;
+  }
+  tbody td:first-child {
+    font-family: var(--mono); font-size: 11px; color: var(--orange);
+    font-weight: 700; white-space: nowrap;
+  }
+  tbody td:nth-child(2) strong { color: var(--ink); font-weight: 600; display: block; }
+  tbody td:nth-child(2) span { color: var(--muted); }
+  tbody tr:last-child td { border-bottom: none; }
+  .ok { color: var(--green); }
+  .wait { color: var(--amber); }
+
+  .callout {
+    margin-top: 30px; border: 1px solid var(--line);
+    border-left: 3px solid var(--orange); border-radius: 4px;
+    background: linear-gradient(180deg, rgba(249,115,22,0.07), rgba(249,115,22,0.02));
+    padding: 22px 24px;
+  }
+  .callout h3 {
+    font-family: var(--display); font-size: 1.08rem; font-weight: 600;
+    margin: 0 0 8px; color: var(--orange);
+  }
+  .callout p { margin: 0; color: var(--muted); font-size: 0.93rem; max-width: var(--measure); }
+  .callout p + p { margin-top: 10px; }
+  .callout strong { color: var(--ink); font-weight: 600; }
+
+  .signoff {
+    margin-top: 58px; padding-top: 28px; border-top: 1px solid var(--line);
+    max-width: var(--measure); display: flex; flex-direction: column; gap: 14px;
+  }
+  .signoff p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+  .sig-name {
+    font-family: var(--display); font-weight: 600; font-size: 1.05rem;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .sig-co {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim);
+  }
+
+  code {
+    font-family: var(--mono); font-size: 0.86em; color: var(--ink);
+    background: var(--surface-2); padding: 1px 5px; border-radius: 3px;
+  }
+
+  @media (max-width: 620px) {
+    .page { padding: 28px 18px 60px; }
+    .row { grid-template-columns: 1fr; }
+  }
+
+  @page { size: A4; margin: 0; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    html, body { background: var(--ground) !important; background-image: none !important; }
+    .page { max-width: none; padding: 15mm 13mm; }
+    h1 .accent {
+      background: none !important; -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      -webkit-text-fill-color: var(--orange) !important; color: var(--orange) !important;
+    }
+    .row, .callout, .summary, .tally div { break-inside: avoid; }
+    section { break-inside: auto; }
+    .section-head, .letterhead, h1 { break-after: avoid; }
+    tr, thead { break-inside: avoid; }
+    thead { display: table-header-group; }
+    .table-wrap { overflow: visible; }
+    table { min-width: 0; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="letterhead">
+    <div class="brand">
+      <img class="mark" src="data:image/png;base64,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" alt="Flarenet Company logo">
+      <div>
+        <div class="brand-name">Flarenet Company</div>
+        <div class="brand-role">Web &amp; Software Development</div>
+      </div>
+    </div>
+    <dl class="docmeta">
+      <dt>Reference</dt><dd><span style="white-space:nowrap">FN-CFM-003</span></dd>
+      <dt>Prepared for</dt><dd>Mr Carl Lewis</dd>
+      <dt>Project</dt><dd>Cash Flow Mastery</dd>
+      <dt>Date</dt><dd>13 September 2026</dd>
+    </dl>
+  </header>
+
+  <div class="title-block">
+    <p class="eyebrow">Website security &middot; Protection report</p>
+    <h1>How the site is protected, and <span class="accent">what only you can secure</span></h1>
+    <p class="standfirst">
+      What was already in place, what we have added, how each protection was
+      tested, and the handful of steps that sit with your own accounts.
+    </p>
+  </div>
+
+  <div class="letter">
+    <p class="salutation">Dear Sir,</p>
+    <p>
+      This document follows our build progress report (<span style="white-space:nowrap">FN-CFM-002</span>)
+      and covers the security of the Cash Flow Mastery website. Before adding
+      anything, we audited what the site already did, so that the work below
+      targets real gaps rather than a generic checklist.
+    </p>
+    <p>
+      Every protection listed as tested was checked against the running site,
+      not assumed from the code. Where something could not be tested yet
+      &mdash; usually because it depends on your Stripe account being
+      connected &mdash; we say so plainly.
+    </p>
+    <p>
+      The short version: the website itself is now well protected. The
+      remaining risk sits in accounts only you control &mdash; the database
+      that will hold customer details, your Stripe settings, and sign-in
+      security on the services the site runs on.
+    </p>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="summary">
+    <div class="summary-head">
+      <h2>Security at a glance</h2>
+      <p>Twenty-five protections reviewed. Nothing is blocked on our side.</p>
+      <div class="bar" role="img" aria-label="8 already in place, 11 added in this round, 6 need action from you">
+        <span class="done" style="width:32%"></span>
+        <span class="added" style="width:44%"></span>
+        <span class="waiting" style="width:24%"></span>
+      </div>
+      <div class="legend">
+        <span><i class="dot done"></i> Already in place</span>
+        <span><i class="dot added"></i> Added in this round</span>
+        <span><i class="dot waiting"></i> Needs your action</span>
+      </div>
+    </div>
+    <div class="tally">
+      <div><span class="n done">8</span><p>Already in place, verified</p></div>
+      <div><span class="n added">11</span><p>Added in this round</p></div>
+      <div><span class="n waiting">6</span><p>Need action from you</p></div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Already in place</h2>
+      <span class="section-count">Verified before this work</span>
+    </div>
+    <p class="section-intro">
+      These were built in from the start. We re-checked each one during the
+      security audit rather than relying on the original build notes.
+    </p>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">A1</span><h3>Encrypted connection with strict HTTPS</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          Every page is served over HTTPS, and browsers are instructed never
+          to connect to the site any other way for two years.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A2</span><h3>Payment confirmation cannot be faked</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          A place on the course is granted only when Stripe itself confirms a
+          payment, and only once the money is marked as paid. Messages
+          claiming to be from Stripe are rejected unless they carry Stripe&rsquo;s
+          signature, and a repeated confirmation can never book a second seat.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A3</span><h3>Prices are set by the server</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          The price is calculated on our side from the number of places sold.
+          A visitor cannot edit the amount in their browser to pay less.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A4</span><h3>No secret keys exposed</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          Stripe&rsquo;s secret key and the stored customer details are excluded
+          from the code repository. Only Stripe&rsquo;s publishable key, which is
+          designed to be public, is visible in the site.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A5</span><h3>No known vulnerable software</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          An automated audit of every third-party package the site uses found
+          <strong>zero known vulnerabilities</strong>.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A6</span><h3>Safe links to outside websites</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          All nine links that open another site in a new tab, such as WhatsApp
+          and LinkedIn, are set so that site cannot take control of this one.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A7</span><h3>Forms and checkout accept only what they expect</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          The form and checkout endpoints reject every request type except the
+          one they use, validate email addresses, and limit the length of
+          names and company names.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">A8</span><h3>The confirmation page cannot grant access</h3></div>
+        <span class="chip done">In place</span>
+        <p>
+          The page shown after paying only reports what Stripe says. Opening
+          it without paying shows an error, never a place on the course.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Added in this round</h2>
+      <span class="section-count">11 protections</span>
+    </div>
+    <p class="section-intro">
+      Each of these closes a gap found in the audit. The right-hand column
+      records how it was tested, and the result.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>New protections and how each was verified</caption>
+        <thead>
+          <tr><th scope="col">Ref</th><th scope="col">Protection</th><th scope="col">Tested</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S1</td>
+            <td><strong>Branded &ldquo;page not found&rdquo; page</strong><span>A mistyped or old link now shows the site&rsquo;s own design and navigation instead of a bare default page.</span></td>
+            <td class="ok">Returns the correct 404 status with the branded page</td>
+          </tr>
+          <tr>
+            <td>S2</td>
+            <td><strong>Branded error pages</strong><span>If a page fails, visitors see a calm message and a way back. Technical detail is never shown &mdash; only a short reference code for support.</span></td>
+            <td class="wait">Built and checked; no live failure to trigger</td>
+          </tr>
+          <tr>
+            <td>S3</td>
+            <td><strong>Security headers on every page</strong><span>Blocks other sites from embedding this one to trick clicks, limits which sources may run code, stops the payment reference leaking to other sites, and switches off camera, microphone and location.</span></td>
+            <td class="ok">All present; zero blocked resources across 6 pages</td>
+          </tr>
+          <tr>
+            <td>S4</td>
+            <td><strong>Limit on repeated submissions</strong><span>Each visitor may send 8 form submissions and start 10 checkouts per 10 minutes, so no one can flood the lead list or create endless payment sessions.</span></td>
+            <td class="ok">Request 9 refused, with a &ldquo;try again later&rdquo; message</td>
+          </tr>
+          <tr>
+            <td>S5</td>
+            <td><strong>Spam protection on all three forms</strong><span>A hidden trap field that only bots fill in, plus a check that rejects forms sent faster than a person could type. No third-party service or puzzle for visitors.</span></td>
+            <td class="ok">Bot-style submissions stored nothing; a real submission succeeded</td>
+          </tr>
+          <tr>
+            <td>S6</td>
+            <td><strong>Size limit on incoming requests</strong><span>Oversized requests are refused immediately instead of being read in full, which protects against attempts to overload the site.</span></td>
+            <td class="ok">A 20&nbsp;KB request refused, however it was sent</td>
+          </tr>
+          <tr>
+            <td>S7</td>
+            <td><strong>Requests must come from this site</strong><span>Forms and checkout refuse submissions started from another website.</span></td>
+            <td class="ok">A request from another website refused</td>
+          </tr>
+          <tr>
+            <td>S8</td>
+            <td><strong>Security contact file</strong><span>The recognised standard file telling security researchers how to report a problem to you privately.</span></td>
+            <td class="ok">Published in the standard location and reachable</td>
+          </tr>
+          <tr>
+            <td>S9</td>
+            <td><strong>Hardened search-result data</strong><span>The FAQ information given to search engines is written so its text can never be turned into code, which matters if FAQs are ever edited through a content system.</span></td>
+            <td class="ok">Output checked: safe and still valid for search engines</td>
+          </tr>
+          <tr>
+            <td>S10</td>
+            <td><strong>A full refund withdraws the place</strong><span>When a payment is fully refunded, the place is withdrawn and returned to the cohort. A partial refund, such as a goodwill discount, keeps the place.</span></td>
+            <td class="wait">Built; needs your Stripe test account to confirm</td>
+          </tr>
+          <tr>
+            <td>S11</td>
+            <td><strong>Stricter email check at checkout</strong><span>An email address passed to checkout must now be genuinely valid, rather than simply containing an &ldquo;@&rdquo;.</span></td>
+            <td class="wait">Built; needs your Stripe keys to test live</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>Two limits we want you to know about</h3>
+      <p>
+        <strong>The submission limit (S4) slows abuse rather than stopping it
+        outright.</strong> The site runs on many small servers at once, and
+        each keeps its own count. A determined attacker spreading requests
+        across them can exceed the limit. A firm limit needs a shared service
+        &mdash; see item N2 below.
+      </p>
+      <p>
+        <strong>The code-source rule (S3) keeps the site fast.</strong> The
+        strictest version forces every page to be rebuilt on each visit, making
+        the site slower and costlier to run. We chose a version that keeps
+        pages pre-built while still blocking embedding, foreign form
+        submissions and unexpected code sources.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>What we need from you</h2>
+      <span class="section-count">6 items</span>
+    </div>
+    <p class="section-intro">
+      These cannot be done in code, because each depends on an account or a
+      decision that belongs to you. Items N1 to N3 should be settled before
+      the site takes its first real payment.
+    </p>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">N1 &middot; Before launch</span><h3>A proper database for customer details</h3></div>
+        <span class="chip waiting">Needs you</span>
+        <p>
+          Enquiries and enrolments are currently written to a simple file. That
+          is fine for testing, but it is not suitable for personal data, and the
+          live hosting does not keep files permanently &mdash; so on the live
+          site, form submissions will not be saved at all. <strong>We recommend
+          Supabase</strong>, which has a free tier. Please create an account, or
+          approve us to set one up in your name.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">N2 &middot; Before launch</span><h3>A firm limit on repeated submissions</h3></div>
+        <span class="chip waiting">Needs you</span>
+        <p>
+          To make the submission limit hold across every server, either upgrade
+          the hosting to <strong>Vercel Pro</strong>, which includes firewall
+          rules, or create a free <strong>Upstash</strong> account. We have built
+          the site so either can be connected in minutes.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">N3 &middot; Before launch</span><h3>Stripe account settings</h3></div>
+        <span class="chip waiting">Needs you</span>
+        <p>
+          Three things in your Stripe dashboard: create a <strong>restricted API
+          key</strong> limited to what the site needs, instead of the
+          all-powerful secret key; switch on <strong>Radar</strong> fraud rules;
+          and share test-mode keys so we can confirm the refund protection (S10)
+          and checkout checks (S11) end to end.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">N4</span><h3>Two-step sign-in on every account</h3></div>
+        <span class="chip waiting">Needs you</span>
+        <p>
+          Please turn on two-factor authentication for Vercel, Stripe, your
+          domain registrar and the email account used for the site. A stolen
+          password on any of these would bypass every protection above.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">N5</span><h3>Protect your email domain from impersonation</h3></div>
+        <span class="chip waiting">Needs you</span>
+        <p>
+          Without SPF, DKIM and DMARC records, anyone can send email that
+          appears to come from <code>@independentadvisors.ai</code> &mdash; for
+          example, a fake payment request to a prospective student. These are
+          set in your domain&rsquo;s DNS by whoever manages it. We are happy to
+          provide the exact records.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">N6</span><h3>Confirm the security contact</h3></div>
+        <span class="chip waiting">Needs you</span>
+        <p>
+          The security contact file currently lists
+          <code>carl@independentadvisors.ai</code> and the domain
+          <code>cashflowmastery.co</code>. Please confirm the address reports
+          should go to, and the final domain for the course site.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Recommended order</h2>
+      <span class="section-count">Before first payment</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>What to do, and who does it</caption>
+        <thead>
+          <tr><th scope="col">Step</th><th scope="col">Action</th><th scope="col">Who</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Turn on two-step sign-in (N4)</strong><span>Ten minutes, and it protects everything else.</span></td><td>You</td></tr>
+          <tr><td>2</td><td><strong>Create the database and firewall accounts (N1, N2)</strong><span>Or approve us to create them in your name.</span></td><td>You, then Flarenet</td></tr>
+          <tr><td>3</td><td><strong>Connect storage and the firm limit</strong><span>We move customer data into the database and switch the limit over.</span></td><td>Flarenet</td></tr>
+          <tr><td>4</td><td><strong>Stripe restricted key, Radar and test keys (N3)</strong><span>We then run a full test payment and a test refund.</span></td><td>You, then Flarenet</td></tr>
+          <tr><td>5</td><td><strong>Email domain records (N5)</strong><span>We supply the records; your DNS manager adds them.</span></td><td>Flarenet, then you</td></tr>
+          <tr><td>6</td><td><strong>Confirm contact and domain (N6), then go live</strong><span>We update the contact file and remove the preview protection.</span></td><td>You, then Flarenet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="signoff">
+    <p>
+      Sir, the website is in a strong position. What remains is mostly a matter
+      of a few settings in accounts only you can reach, and most take minutes.
+      We would be glad to walk through them with you on a short call, or to
+      speak directly with whoever manages your domain.
+    </p>
+    <p style="margin-top:10px">
+      <span class="sig-name">Flarenet Company</span><br>
+      <span class="sig-co">Web &amp; Software Development</span>
+    </p>
+  </div>
+
+</div>

@@ -1,0 +1,831 @@
+<title>Cash Flow Mastery Build Progress</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+  /* ------------------------------------------------------------------
+     Flarenet Company — build progress report
+     Same palette and type as FN-CFM-001 so the pair reads as a series.
+     ------------------------------------------------------------------ */
+  :root {
+    --ground:    #0c0a09;
+    --surface:   #17130f;
+    --surface-2: #1f1a15;
+    --line:      #2a231c;
+    --line-soft: #201a15;
+
+    --ink:   #fafaf9;
+    --muted: #a8a29e;
+    --dim:   #78716c;
+
+    --orange: #f97316;
+    --red:    #ef4444;
+    --amber:  #f59e0b;
+    --green:  #4ade80;
+    --brand:  linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+
+    --display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    --body: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+
+    --measure: 68ch;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0;
+    background-image:
+      radial-gradient(120% 55% at 8% -8%, rgba(249, 115, 22, 0.13) 0%, transparent 62%),
+      radial-gradient(90% 45% at 92% -4%, rgba(239, 68, 68, 0.09) 0%, transparent 58%);
+    background-repeat: no-repeat;
+  }
+
+  .page { max-width: 920px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  /* --- Letterhead --------------------------------------------------- */
+
+  .letterhead {
+    display: flex; flex-wrap: wrap; align-items: flex-start;
+    justify-content: space-between; gap: 24px;
+    padding-bottom: 26px; border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .mark {
+    width: 38px; height: 38px; border-radius: 9px;
+    flex: none; display: block; object-fit: contain;
+  }
+  .brand-name {
+    font-family: var(--display); font-weight: 700; font-size: 19px;
+    letter-spacing: -0.02em; line-height: 1.2;
+  }
+  .brand-role {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim); margin-top: 2px;
+  }
+  .docmeta {
+    display: grid; grid-template-columns: auto auto; gap: 3px 18px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.75;
+  }
+  .docmeta dt { color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .docmeta dd { margin: 0; color: var(--muted); text-align: right; }
+
+  /* --- Title -------------------------------------------------------- */
+
+  .title-block { padding: 46px 0 8px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--orange); margin: 0 0 18px;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.1rem, 5.5vw, 3rem); line-height: 1.06;
+    letter-spacing: -0.035em; text-wrap: balance; margin: 0;
+  }
+  h1 .accent {
+    background: var(--brand); -webkit-background-clip: text;
+    background-clip: text; color: transparent;
+  }
+  .standfirst {
+    max-width: var(--measure); color: var(--muted);
+    font-size: 1.06rem; margin: 22px 0 0;
+  }
+
+  /* --- Letter ------------------------------------------------------- */
+
+  .letter {
+    max-width: var(--measure); margin: 42px 0 0;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .letter p { margin: 0; }
+  .salutation {
+    font-family: var(--display); font-size: 1.12rem;
+    font-weight: 600; letter-spacing: -0.01em;
+  }
+
+  /* --- Progress summary --------------------------------------------- */
+
+  .summary {
+    margin-top: 42px; border: 1px solid var(--line);
+    border-radius: 4px; overflow: hidden;
+  }
+  .summary-head {
+    padding: 22px 26px 20px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(249,115,22,0.07), transparent);
+  }
+  .summary-head h2 {
+    font-family: var(--display); font-size: 1.2rem; font-weight: 600;
+    letter-spacing: -0.015em; margin: 0 0 4px;
+  }
+  .summary-head p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+
+  .bar {
+    display: flex; height: 10px; margin-top: 18px;
+    border-radius: 2px; overflow: hidden; background: var(--surface-2);
+  }
+  .bar span { display: block; height: 100%; }
+  .bar .done    { background: var(--green); }
+  .bar .waiting { background: var(--amber); }
+  .bar .later   { background: var(--dim); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .dot.done { background: var(--green); }
+  .dot.waiting { background: var(--amber); }
+  .dot.later { background: var(--dim); }
+
+  .tally {
+    display: grid; gap: 1px; background: var(--line);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .tally div { background: var(--surface); padding: 18px 20px; }
+  .tally .n {
+    font-family: var(--display); font-size: 2rem; font-weight: 700;
+    line-height: 1; letter-spacing: -0.03em; display: block;
+  }
+  .tally .n.done { color: var(--green); }
+  .tally .n.waiting { color: var(--amber); }
+  .tally .n.later { color: var(--muted); }
+  .tally p {
+    margin: 8px 0 0; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
+  }
+
+  /* --- Sections ------------------------------------------------------ */
+
+  section { margin-top: 58px; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 16px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .section-num {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    color: var(--orange); letter-spacing: 0.08em; flex: none;
+  }
+  .section-head h2 {
+    font-family: var(--display); font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 600; letter-spacing: -0.025em; margin: 0; flex: 1;
+  }
+  .section-count {
+    font-family: var(--mono); font-size: 11px; color: var(--dim);
+    letter-spacing: 0.08em; white-space: nowrap;
+  }
+  .section-intro {
+    color: var(--muted); max-width: var(--measure);
+    margin: 18px 0 0; font-size: 0.96rem;
+  }
+
+  /* --- Status rows ---------------------------------------------------- */
+
+  .rows { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .row {
+    background: var(--surface); border: 1px solid var(--line-soft);
+    border-radius: 5px; padding: 17px 20px;
+    display: grid; grid-template-columns: 1fr auto; gap: 6px 16px;
+    align-items: start;
+  }
+  .row h3 {
+    font-family: var(--display); font-size: 1.02rem; font-weight: 600;
+    letter-spacing: -0.012em; margin: 0; line-height: 1.35;
+  }
+  .row .ref {
+    font-family: var(--mono); font-size: 10px; color: var(--dim);
+    letter-spacing: 0.08em; display: block; margin-bottom: 5px;
+  }
+  .row p {
+    grid-column: 1 / -1; margin: 4px 0 0; color: var(--muted);
+    font-size: 0.92rem; max-width: var(--measure);
+  }
+
+  .chip {
+    font-family: var(--mono); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    padding: 4px 9px; border-radius: 3px; white-space: nowrap;
+    align-self: start;
+  }
+  .chip.done    { background: var(--green); color: #06240f; }
+  .chip.waiting { background: transparent; color: var(--amber); border: 1px solid rgba(245,158,11,0.5); }
+  .chip.later   { background: transparent; color: var(--dim); border: 1px solid var(--line); }
+
+  /* --- Table ---------------------------------------------------------- */
+
+  .table-wrap { overflow-x: auto; margin-top: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.89rem; min-width: 540px; }
+  caption {
+    text-align: left; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    padding-bottom: 12px;
+  }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim); font-weight: 700;
+  }
+  tbody td:first-child {
+    font-family: var(--mono); font-size: 11px; color: var(--orange);
+    font-weight: 700; white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  .ok { color: var(--green); }
+  .wait { color: var(--amber); }
+  .later-t { color: var(--dim); }
+
+  /* --- Callout --------------------------------------------------------- */
+
+  .callout {
+    margin-top: 30px; border: 1px solid var(--line);
+    border-left: 3px solid var(--orange); border-radius: 4px;
+    background: linear-gradient(180deg, rgba(249,115,22,0.07), rgba(249,115,22,0.02));
+    padding: 22px 24px;
+  }
+  .callout h3 {
+    font-family: var(--display); font-size: 1.08rem; font-weight: 600;
+    margin: 0 0 8px; color: var(--orange);
+  }
+  .callout p { margin: 0; color: var(--muted); font-size: 0.93rem; max-width: var(--measure); }
+  .callout p + p { margin-top: 10px; }
+
+  .need {
+    list-style: none; margin: 12px 0 0; padding: 0;
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .need li { position: relative; padding-left: 18px; font-size: 0.92rem; color: var(--ink); }
+  .need li::before {
+    content: ""; position: absolute; left: 0; top: 0.68em;
+    width: 7px; height: 1px; background: var(--orange);
+  }
+
+  /* --- Sign-off --------------------------------------------------------- */
+
+  .signoff {
+    margin-top: 58px; padding-top: 28px; border-top: 1px solid var(--line);
+    max-width: var(--measure); display: flex; flex-direction: column; gap: 14px;
+  }
+  .signoff p { margin: 0; color: var(--muted); font-size: 0.96rem; }
+  .sig-name {
+    font-family: var(--display); font-weight: 600; font-size: 1.05rem;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .sig-co {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--dim);
+  }
+
+  a { color: var(--orange); text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+  @media (max-width: 620px) {
+    .page { padding: 28px 18px 60px; }
+    .row { grid-template-columns: 1fr; }
+  }
+
+  /* --- Paged output ------------------------------------------------------ */
+  @page { size: A4; margin: 0; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    html, body { background: var(--ground) !important; background-image: none !important; }
+    .page { max-width: none; padding: 15mm 13mm; }
+    h1 .accent {
+      background: none !important; -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      -webkit-text-fill-color: var(--orange) !important; color: var(--orange) !important;
+    }
+    .row, .callout, .summary, .tally div { break-inside: avoid; }
+    section { break-inside: auto; }
+    .section-head, .letterhead, h1 { break-after: avoid; }
+    tr, thead { break-inside: avoid; }
+    thead { display: table-header-group; }
+    .table-wrap { overflow: visible; }
+    table { min-width: 0; }
+  }
+</style>
+
+<div class="page">
+
+  <header class="letterhead">
+    <div class="brand">
+      <img class="mark" src="data:image/png;base64,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" alt="Flarenet Company logo">
+      <div>
+        <div class="brand-name">Flarenet Company</div>
+        <div class="brand-role">Web &amp; Software Development</div>
+      </div>
+    </div>
+    <dl class="docmeta">
+      <dt>Reference</dt><dd>FN&#8209;CFM&#8209;002</dd>
+      <dt>Prepared for</dt><dd>Mr Carl Lewis</dd>
+      <dt>Project</dt><dd>Cash Flow Mastery</dd>
+      <dt>Date</dt><dd>12 September 2026</dd>
+    </dl>
+  </header>
+
+  <div class="title-block">
+    <p class="eyebrow">Build progress &middot; Against your developer brief</p>
+    <h1>What is built, and <span class="accent">what comes next</span></h1>
+    <p class="standfirst">
+      A section-by-section account of your brief against what now exists,
+      so you can see exactly where the project stands before we move to the
+      remaining work.
+    </p>
+  </div>
+
+  <div class="letter">
+    <p class="salutation">Dear Sir,</p>
+    <p>
+      Following our information request of the same date (FN&#8209;CFM&#8209;001),
+      this document reports progress against the twelve sections of your
+      developer brief. It is organised the way your brief is, so you can read
+      the two side by side.
+    </p>
+    <p>
+      In short: the public website and the payment flow are complete and
+      tested. The learner area is deliberately not built yet, in line with
+      your own instruction not to custom-build a course platform for a
+      founding cohort of fifteen. Everything still outstanding falls into two
+      groups — items waiting on information from you, and items we have
+      recommended holding until the pilot proves demand.
+    </p>
+  </div>
+
+  <!-- ================================================================= -->
+  <div class="summary">
+    <div class="summary-head">
+      <h2>Where the project stands</h2>
+      <p>
+        Thirty-one items across your brief. Nothing is blocked on our side.
+      </p>
+      <div class="bar" role="img" aria-label="18 delivered, 9 waiting on client information, 4 held for phase two">
+        <span class="done" style="width:58%"></span>
+        <span class="waiting" style="width:29%"></span>
+        <span class="later" style="width:13%"></span>
+      </div>
+      <div class="legend">
+        <span><i class="dot done"></i> Delivered &amp; tested</span>
+        <span><i class="dot waiting"></i> Waiting on you</span>
+        <span><i class="dot later"></i> Held for phase two</span>
+      </div>
+    </div>
+    <div class="tally">
+      <div><span class="n done">18</span><p>Delivered and tested</p></div>
+      <div><span class="n waiting">9</span><p>Waiting on your input</p></div>
+      <div><span class="n later">4</span><p>Recommended for phase two</p></div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">01</span>
+      <h2>Public website &mdash; your brief §5</h2>
+      <span class="section-count">Complete</span>
+    </div>
+    <p class="section-intro">
+      Every page your brief lists under &ldquo;Public website architecture&rdquo;
+      now exists, built to the section order you specified.
+    </p>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">§5A</span><h3>Home page</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          All nine recommended sections, in your order: outcome-led hero with a
+          single call to action, why profitable businesses run short of cash,
+          who it is and is not for, the four outcomes, how the programme works,
+          about Carl, the free diagnostic, FAQs and a closing call to action.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§5B</span><h3>Course sales page</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Hero with problem and measurable outcome, the cost of poor cash
+          visibility, the transformation, the four-week curriculum, exactly
+          what is included, delivery format, about Carl, founding pricing with
+          live place count, the scope boundary, FAQs and checkout.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§5C</span><h3>About Carl</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Your portrait is in place and graded to the brand palette. MBA, FCMA
+          and CGMA are set out, alongside your fractional CFO background and
+          the link through to Independent Advisors.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§5D</span><h3>Free diagnostic and lead capture</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Built as a working ten-question Cash Visibility Diagnostic rather
+          than a static download. It scores the visitor, tells them which of
+          the four weeks matters most for them, and only then asks for an
+          email. Consent is captured explicitly and stored with its exact
+          wording and a timestamp.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§5E</span><h3>Frequently asked questions</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Twelve questions covering every topic your brief lists: suitability,
+          finance knowledge, weekly time, session dates, access period,
+          templates, confidentiality, refunds, VAT, currency, support boundary
+          and missed sessions.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§5F</span><h3>Legal and support pages</h3></div>
+        <span class="chip waiting">Structure only</span>
+        <p>
+          Exactly as instructed: we created the page structure and did not
+          invent the policies. All five pages exist with the correct section
+          headings, each carries a visible &ldquo;not in force&rdquo; notice,
+          and each is hidden from search engines until your adviser supplies
+          approved wording.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">02</span>
+      <h2>Funnel and payment &mdash; your brief §6</h2>
+      <span class="section-count">Built, awaiting account</span>
+    </div>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">§6</span><h3>Secure checkout</h3></div>
+        <span class="chip done">Built</span>
+        <p>
+          Stripe, embedded on your own domain so the buyer never leaves the
+          site. Card details are entered inside Stripe's own frame and never
+          reach the website, which keeps you outside PCI scope. Price,
+          currency, VAT note, inclusions, refund terms and the cohort start
+          date are all shown before payment, as §6 requires.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§12</span><h3>Failed payments cannot create access</h3></div>
+        <span class="chip done">Tested</span>
+        <p>
+          Your acceptance test §12 called for this specifically. Access is
+          granted only by a signature-verified payment confirmation from
+          Stripe — never by the browser reaching a success page. We tested it
+          with a fabricated confirmation link: it produces no enrolment.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§3</span><h3>Pricing and capacity control</h3></div>
+        <span class="chip done">Built</span>
+        <p>
+          AED 2,000 for the first five places and AED 2,500 thereafter, to a
+          maximum of fifteen, enforced by the system rather than managed by
+          hand. The price is decided on the server, so it cannot be altered
+          from the browser.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§6</span><h3>Waitlist</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Live, with consent capture. The checkout falls back to it
+          automatically when the cohort is full.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§6</span><h3>Welcome and enrolment emails</h3></div>
+        <span class="chip waiting">Needs email platform</span>
+        <p>
+          The trigger point is built and waiting at the exact moment payment
+          confirms. It needs an email service chosen and connected — see
+          item S2 in our information request.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§6</span><h3>Abandoned checkout</h3></div>
+        <span class="chip waiting">Handler ready</span>
+        <p>
+          Expired and failed checkouts are already detected and logged. The
+          follow-up email needs the same platform decision, and is subject to
+          the consent wording in your privacy policy.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">03</span>
+      <h2>Technical requirements &mdash; your brief §8</h2>
+      <span class="section-count">11 of 14</span>
+    </div>
+    <p class="section-intro">
+      Your brief lists fourteen &ldquo;must have&rdquo; items for launch.
+      Eleven are complete. The three outstanding each depend on a decision
+      from you rather than on development work.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Section 8 &mdash; must have before launch</caption>
+        <thead>
+          <tr><th scope="col">Ref</th><th scope="col">Requirement</th><th scope="col">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>8.1</td><td>Mobile-responsive design</td><td class="ok">Done &mdash; tested to 375px</td></tr>
+          <tr><td>8.2</td><td>Secure learner login and password reset</td><td class="later-t">Phase two</td></tr>
+          <tr><td>8.3</td><td>Reliable video hosting, not MP4 from web hosting</td><td class="wait">Needs your host decision</td></tr>
+          <tr><td>8.4</td><td>Progress tracking and lesson completion</td><td class="later-t">Phase two</td></tr>
+          <tr><td>8.5</td><td>Controlled downloadable resources</td><td class="later-t">Phase two</td></tr>
+          <tr><td>8.6</td><td>Payment gateway suitable for AED</td><td class="ok">Built &mdash; needs your account</td></tr>
+          <tr><td>8.7</td><td>Automated enrolment and onboarding emails</td><td class="wait">Needs email platform</td></tr>
+          <tr><td>8.8</td><td>Cohort capacity control and waitlist</td><td class="ok">Done</td></tr>
+          <tr><td>8.9</td><td>CRM / email-list integration and consent capture</td><td class="ok">Consent done; CRM pending</td></tr>
+          <tr><td>8.10</td><td>Analytics for lead, checkout, purchase, completion</td><td class="wait">Needs your tool choice</td></tr>
+          <tr><td>8.11</td><td>SEO titles, descriptions, social-sharing images</td><td class="ok">Done</td></tr>
+          <tr><td>8.12</td><td>SSL, backups, anti-spam, role-based administration</td><td class="ok">Done at hosting level</td></tr>
+          <tr><td>8.13</td><td>Accessibility &mdash; contrast, keyboard, alt text</td><td class="ok">Done &mdash; audited</td></tr>
+          <tr><td>8.14</td><td>Cookie and privacy controls</td><td class="wait">Needs approved cookie notice</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>On accessibility, since your brief asked for it specifically</h3>
+      <p>
+        We audited every page programmatically rather than by eye. Text and
+        background colour were measured on each element against the WCAG AA
+        standard: <strong>187 items of text on the home page and 276 on the
+        sales page, with no failures</strong>. Every page has one main heading,
+        no skipped heading levels, labelled form fields, and full keyboard
+        navigation.
+      </p>
+      <p>
+        Two brand colours had to be darkened slightly to reach the standard at
+        small sizes. The change is imperceptible beside the Independent
+        Advisors site and is documented in the handover.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">04</span>
+      <h2>Design and content &mdash; your brief §10</h2>
+      <span class="section-count">Complete</span>
+    </div>
+    <p class="section-intro">
+      Your design instructions were unusually specific, and they shaped the
+      site more than any other section of the brief.
+    </p>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">§10</span><h3>What you ruled out, and what we did instead</h3></div>
+        <span class="chip done">Honoured</span>
+        <p>
+          No fabricated testimonials, results or client logos. No countdown
+          timers, scarcity devices or guarantees. No institutional finance
+          imagery and no generic stock-market visuals. No fear-based
+          messaging.
+        </p>
+        <p>
+          That removes almost every device a course landing page normally
+          leans on, so the visual interest comes from the subject itself: an
+          interactive 13-week cash forecast the visitor can drive with three
+          sliders, and the operating cash cycle drawn to scale. Both are
+          labelled as illustrations, not as advice.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§10</span><h3>Brand consistency with Independent Advisors</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Cash Flow Mastery takes the navy, cream and gold palette and the
+          typefaces directly from independentadvisors.ai, so the two read as
+          one family. The page structure is deliberately different so it does
+          not read as a copy. Your Independent Advisors logo now appears in
+          the header and footer, so visitors can see whose programme this is.
+        </p>
+      </article>
+
+      <article class="row">
+        <div><span class="ref">§10</span><h3>Cash Flow Mastery logo</h3></div>
+        <span class="chip waiting">Placeholder in use</span>
+        <p>
+          A placeholder mark is in place &mdash; a small cash curve that dips
+          and recovers, matching the forecast in the hero. We have not designed
+          a wordmark, because inventing brand identity you have not approved
+          would be the same mistake as inventing your policies. Supplying the
+          real logo is a single-file swap.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">05</span>
+      <h2>Learner area &mdash; your brief §7 and §9</h2>
+      <span class="section-count">Held, by your instruction</span>
+    </div>
+
+    <div class="callout">
+      <h3>Why this is not built yet</h3>
+      <p>
+        Your brief §9 says plainly: <em>&ldquo;Do not custom-build
+        authentication, video streaming, payments or course progress merely
+        for the founding cohort.&rdquo;</em> We have followed that.
+      </p>
+      <p>
+        For fifteen participants, lessons and templates can be delivered by
+        email with video on a hosted platform, and the live sessions run on
+        Zoom or Meet. That gets the cohort running without paying to build a
+        learning platform before anyone has bought a place.
+      </p>
+      <p>
+        The route is reserved and the groundwork is done, so building it later
+        does not mean rebuilding anything. Both options — including setup
+        cost, monthly cost, maintenance responsibility, data ownership and
+        migration implications — are set out in the technical handover.
+      </p>
+    </div>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">§7</span><h3>Dashboard, lesson player, resource library</h3></div>
+        <span class="chip later">Phase two</span>
+        <p>
+          Specified and costed, not built. Recommended once the founding
+          cohort proves demand.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">§9</span><h3>Two costed options, as requested</h3></div>
+        <span class="chip done">Delivered</span>
+        <p>
+          Both the fast founding-cohort build and the scalable phase-two
+          architecture are documented with recurring costs, transaction fees,
+          maintenance, data ownership and exit implications.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">06</span>
+      <h2>What we need to proceed</h2>
+      <span class="section-count">See FN-CFM-001</span>
+    </div>
+    <p class="section-intro">
+      Nothing on this list is development work. Each item is information or a
+      decision only you can provide, and each one unblocks something already
+      built and waiting.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Outstanding &mdash; full detail in our information request</caption>
+        <thead>
+          <tr><th scope="col">Ref</th><th scope="col">Needed</th><th scope="col">Unblocks</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>P1</td><td>Stripe account on the UAE entity</td><td>Taking any payment at all</td></tr>
+          <tr><td>P4</td><td>VAT treatment from your accountant</td><td>Correct price display at checkout</td></tr>
+          <tr><td>P5</td><td>Refund terms</td><td>Checkout, FAQs and refund policy</td></tr>
+          <tr><td>L1</td><td>Five approved legal documents</td><td>Publishing the site lawfully</td></tr>
+          <tr><td>C1</td><td>Cohort and live-session dates</td><td>Every date shown on the site</td></tr>
+          <tr><td>S1</td><td>Domain and DNS access</td><td>Going live on cashflowmastery.co</td></tr>
+          <tr><td>S2</td><td>Email platform choice</td><td>Welcome, receipt and nurture emails</td></tr>
+          <tr><td>S3</td><td>Analytics choice</td><td>Measuring leads and purchases</td></tr>
+          <tr><td>S4</td><td>Hosting decision</td><td>Reliable seat counting at launch</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>The quickest route to launch</h3>
+      <p>
+        Five of these block launch outright: <strong>P1, P4, P5, L1 and
+        C1</strong>. If those five are settled, we can have the site live and
+        taking payments quickly, and the remaining items can follow while the
+        founding cohort fills.
+      </p>
+      <p>
+        One item may be faster than it looks. Independent Advisors already
+        publishes a privacy policy, cookie policy, terms and conditions,
+        copyright policy and disclaimer. If the same adviser drafted those,
+        adapting them will be far quicker than starting again &mdash; only the
+        terms of sale is genuinely new.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <section>
+    <div class="section-head">
+      <span class="section-num">07</span>
+      <h2>What we do next</h2>
+      <span class="section-count">On your word</span>
+    </div>
+
+    <div class="rows">
+      <article class="row">
+        <div><span class="ref">Step 1</span><h3>Connect payments and go live</h3></div>
+        <span class="chip waiting">On P1, P4, P5</span>
+        <p>
+          Connect your Stripe account, set the real VAT and refund wording,
+          run a full test purchase end to end, and publish to
+          cashflowmastery.co.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">Step 2</span><h3>Publish the legal pages</h3></div>
+        <span class="chip waiting">On L1</span>
+        <p>
+          Paste the approved wording into the existing page structures and
+          remove the &ldquo;not in force&rdquo; notices. Roughly half a day
+          once the copy arrives.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">Step 3</span><h3>Connect email and analytics</h3></div>
+        <span class="chip waiting">On S2, S3</span>
+        <p>
+          Wire the welcome and receipt emails to the trigger already built,
+          connect the nurture sequence to the diagnostic, and install analytics
+          behind the cookie consent banner.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">Step 4</span><h3>Prepare the cohort</h3></div>
+        <span class="chip later">Before week one</span>
+        <p>
+          Upload lessons to the chosen video host, prepare the templates for
+          controlled download, and confirm the live-session joining details.
+        </p>
+      </article>
+      <article class="row">
+        <div><span class="ref">Step 5</span><h3>Handover</h3></div>
+        <span class="chip later">At launch</span>
+        <p>
+          Administrator guide, backup and update plan, and a walkthrough of how
+          to edit course copy yourself &mdash; all site wording lives in a
+          single file by design.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <div class="signoff">
+    <p>
+      Sir, we would welcome a short call to walk through this together,
+      particularly the five blocking items. If it helps, we are happy to speak
+      directly with your accountant and your legal adviser so that nothing is
+      lost in relay.
+    </p>
+    <p>
+      Thank you for a brief that was genuinely clear to build from. The
+      constraints you set &mdash; no invented testimonials, no manufactured
+      urgency, no stock finance imagery &mdash; made for a better site than the
+      usual approach would have produced.
+    </p>
+    <p style="margin-top:10px">
+      <span class="sig-name">Flarenet Company</span><br>
+      <span class="sig-co">Web &amp; Software Development</span>
+    </p>
+  </div>
+
+</div>

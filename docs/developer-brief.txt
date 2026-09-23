@@ -1,0 +1,240 @@
+
+Cash Flow Mastery — Website and Mini-Course Developer Brief
+Website: www.cashflowmastery.co
+Product: Cash Flow Mastery founding mini-course
+
+1. Objective
+Configure the website to sell and deliver a four-week blended Cash Flow Mastery programme for SME owners and managing directors. The learner should be able to discover the offer, understand the outcome, pay, receive onboarding, access short lessons and resources, join weekly live sessions, track progress and complete a practical 13-week cash-flow forecast.
+The initial site must support a paid founding cohort without becoming a costly custom-learning platform. Prefer reliable existing components and integrations over bespoke development.
+2. Core audience and promise
+Audience
+Owner-led SMEs, initially in the UAE and GCC, whose owners are profitable or growing but lack reliable cash visibility. They may feel that money is constantly tight, despite apparently healthy sales or profits.
+Core promise
+Understand where your cash is going, see cash problems 13 weeks ahead, and leave with a practical cash action plan.
+Brand belief
+Finance is the language of business. Owners do not need to become accountants, but they should understand what their business is telling them.
+3. Product structure
+Format
+Four-week blended founding cohort.
+Short self-paced lessons released by week or available from the start, depending on platform practicality.
+One live group application session with Carl each week.
+Downloadable diagnostic, worksheets, 13-week forecast template and implementation plan.
+10–15 founding participants.
+AED 2,000 for the first five places and AED 2,500 for the remaining places.
+Payment in full to secure a place.
+Live sessions provide education and group application, not unlimited company-specific CFO advice.
+Course navigation
+Start Here
+Week 1 — Profit Is Not Cash
+Week 2 — Find the Cash Blockage
+Week 3 — Build Your 13-Week Forecast
+Week 4 — Run the Business from Cash
+Finish and Implement
+Resources and Templates
+4. Detailed learner curriculum
+Start Here
+Outcome: The learner understands the destination, how the course works and the boundary between training and bespoke advice.
+Welcome from Carl: what the learner will achieve.
+How to use the course, workbook and live sessions.
+Baseline Cash Visibility Diagnostic.
+Download the workbook and 13-week forecasting template.
+Website requirements: welcome video, short instructions, downloads, diagnostic form and completion button.
+Week 1 — Profit Is Not Cash
+Outcome: Explain why a profitable or rapidly growing business can still run out of cash and identify early warning signs.
+Lesson 1: The difference between profit and cash.
+Lesson 2: Can a profitable business still fail?
+Lesson 3: Why “Cash Is King” is more than a slogan.
+Lesson 4: The cash danger of growing too quickly.
+Exercise: identify the learner's three biggest cash warning signs.
+Live session: diagnose common profit-versus-cash situations.
+Primary existing source: Module 1 videos on profit versus cash, profitable businesses failing, Cash Is King and the perils of rapid growth.
+Week 2 — Find the Cash Blockage
+Outcome: Map the operating cash cycle and select immediate actions that release or protect cash.
+Lesson 1: The cash cycle in plain English.
+Lesson 2: Where cash becomes trapped—customers, stock/work in progress, suppliers and overhead.
+Lesson 3: Cash quick wins and cash-generating super tips.
+Exercise: complete the Cash-Cycle Map.
+Action: select the top five cash actions for the next 30 days.
+Live session: challenge and improve each learner's action priorities.
+Primary existing source: Module 1 Cash Cycle and Quick Wins; Module 5 Cash Generating Super Tips.
+Week 3 — Build Your 13-Week Forecast
+Outcome: Complete the first working version of a practical 13-week cash-flow forecast.
+Lesson 1: Cash budgeting versus cash forecasting.
+Lesson 2: Why 13 weeks and how to set the starting cash balance.
+Lesson 3: Forecast cash receipts from revenue.
+Lesson 4: Forecast materials, direct costs and supplier payments.
+Lesson 5: Forecast payroll, overhead and other cash outflows.
+Lesson 6: Bring the forecast together and identify the low point.
+Guided demonstration: build the forecast using the approved Excel file.
+Exercise: submit or self-check the first completed forecast.
+Live session: assumptions, timing errors and weak points.
+Primary existing source: Module 2; selected Module 3 revenue/material/labour/overhead and total-forecast lessons; Module 7 Building the Cash Budget; Excel toolkit.
+Week 4 — Run the Business from Cash
+Outcome: Use the forecast as a weekly management tool and establish an action and review rhythm.
+Lesson 1: Base, downside and upside scenarios.
+Lesson 2: The weekly cash meeting and forecast update routine.
+Lesson 3: Turning a forecast warning into a decision.
+Lesson 4: The 30-day implementation plan.
+Final Cash Visibility Diagnostic.
+Live session: implementation clinic and commitments.
+Primary existing source: Module 3 scenario and total-forecast videos; Module 4 tools; selected Module 7 demonstrations.
+Finish and Implement
+Carl's closing challenge.
+Final 30-day Cash Action Plan.
+Completion and feedback survey.
+Permission-based testimonial/case-study request.
+Next-step options: further education or a separate Independent Advisors conversation where appropriate.
+5. Public website architecture
+A. Home page
+Purpose: establish the problem, brand belief and route visitors toward the course or a free diagnostic.
+Recommended sections:
+Outcome-led hero and one primary call to action.
+“Why profitable businesses still run short of cash.”
+Who Cash Flow Mastery is for—and who it is not for.
+The four outcomes.
+How the founding programme works.
+About Carl and relevant credibility.
+Free diagnostic/lead magnet.
+Frequently asked questions.
+Final call to action.
+B. Course sales page
+Purpose: convert qualified visitors into paid founding participants.
+Recommended sections:
+Hero: problem, measurable outcome and enrolment status.
+The current situation and cost of poor cash visibility.
+The transformation: what learners will be able to do.
+Four-week curriculum.
+Exactly what is included.
+Delivery format, dates and expected weekly commitment.
+About Carl.
+Founding-cohort pricing and limited places.
+Scope boundary and suitability.
+FAQs.
+Checkout call to action.
+Do not add fabricated testimonials, results, client logos, countdown timers, scarcity or guarantees.
+C. About Carl
+Friendly professional biography.
+MBA, FCMA and CGMA credentials.
+Fractional CFO experience and practical SME focus.
+Philosophy: teaching owners the language of finance.
+Link to Independent Advisors where appropriate.
+D. Free resources / lead capture
+Initial asset: Cash Visibility Diagnostic or a concise cash warning-sign checklist.
+Flow:
+Landing page.
+Name and email capture with consent wording.
+Thank-you/download page.
+Short nurturing email sequence.
+Invitation to the founding mini-course.
+E. FAQs
+Cover suitability, finance knowledge required, weekly time, live-session dates, access period, included templates, confidentiality, refunds, VAT/tax display, currency, support boundary and missed sessions.
+F. Legal/support pages
+Privacy policy.
+Cookie notice and consent controls.
+Terms of sale/course terms.
+Refund/cancellation policy.
+Training disclaimer.
+Contact/support page.
+Legal and tax wording must be reviewed before publication; the developer should create the page structure but not invent the policies.
+6. Funnel and transaction pages
+Lead-magnet landing page.
+Lead thank-you/download page.
+Course sales page.
+Secure checkout.
+Payment-success and enrolment-confirmation page.
+Welcome email and account-activation flow.
+Abandoned-checkout capability if supported and compliant.
+Waitlist page for full or closed cohorts.
+The checkout must clearly display price, currency, tax/VAT treatment, what is included, refund terms and the cohort start date before payment.
+7. Learner area / LMS structure
+Dashboard
+Welcome and current-week status.
+Continue-learning button.
+Course progress.
+Next live-session date/link.
+Quick links to workbook, forecast template and support.
+Lesson template
+Lesson title and stated outcome.
+Embedded hosted video with captions and adjustable playback speed.
+Short written summary and key points.
+Action/exercise.
+Download links.
+Mark-complete button.
+Previous/next navigation.
+Resource library
+Cash Visibility Diagnostic.
+Cash-Cycle Map.
+13-week cash-flow forecast workbook.
+Assumptions checklist.
+Weekly cash-meeting agenda.
+30-day implementation plan.
+Live sessions
+Dates, time zones and joining links.
+Calendar-add links if supported.
+Replay area, subject to the approved recording and access policy.
+Questions/submission instructions.
+8. Essential technical requirements for launch
+Must have
+Mobile-responsive design.
+Secure learner login and password reset.
+Reliable video hosting/embedding; do not stream large MP4 files directly from ordinary web hosting.
+Progress tracking and lesson completion.
+Controlled downloadable resources.
+Payment gateway suitable for AED and the selected business entity.
+Automated enrolment, confirmation and onboarding emails.
+Cohort capacity control and waitlist.
+Basic CRM/email-list integration and consent capture.
+Analytics for landing-page conversion, checkout start, purchase and course completion.
+SEO fundamentals, page titles, descriptions and social-sharing images.
+SSL, backups, anti-spam and role-based administration.
+Accessibility basics: captions/transcripts, keyboard navigation, readable contrast and image alt text.
+Cookie/privacy controls appropriate to the markets targeted.
+Useful after the pilot—not required before launch
+Community forum.
+Gamification and badges.
+Certificates.
+Affiliate programme.
+Multiple course bundles.
+Complex membership tiers.
+Native mobile application.
+Fully custom LMS or video platform.
+Automated AI support bot.
+9. Platform principle
+Use the existing website stack where it can meet the requirements reliably. If an LMS is needed, integrate a proven hosted platform or established LMS/member component. Do not custom-build authentication, video streaming, payments or course progress merely for the founding cohort.
+The developer should provide two options:
+Fast founding-cohort build: minimum viable pages, checkout and learner area by the launch dates.
+Scalable phase-two architecture: the upgrades required after demand and learner outcomes are proven.
+For each option, state setup cost, recurring monthly cost, transaction fees, implementation time, maintenance responsibility, data ownership, integration limits and exit/migration implications.
+10. Content and design requirements
+Reuse the existing Cash Flow Mastery brand where appropriate, but improve clarity and consistency.
+Tone: friendly, practical, experienced, plain English and confidence-building.
+Avoid institutional finance imagery, fear-based messaging and generic stock-market visuals.
+Use clear cash-flow diagrams, screenshots of tools and practical SME situations.
+CapCut Pro is the approved video editing platform.
+Video production will favour edited existing footage; only a short new welcome and closing are planned unless technical corrections are necessary.
+11. Developer deliverables
+The developer should return:
+Sitemap and user-flow diagram.
+Recommended technology stack and rationale.
+Wireframes for home, sales, checkout, dashboard and lesson pages.
+Staging build.
+Payment, email and analytics integrations.
+Tested learner enrolment and access flow.
+Mobile, browser, performance and basic accessibility testing.
+Administrator handover guide.
+Backup, update and maintenance plan.
+Written quotation separating launch-critical work from phase-two enhancements.
+12. Acceptance tests
+Before release, confirm that a test user can:
+Find and understand the course offer.
+Register and pay the correct amount.
+Receive confirmation and login instructions.
+Access only the purchased course.
+Watch captioned video on desktop and mobile.
+Download the correct resources.
+Mark lessons complete and resume progress.
+Find the next live-session details.
+Reset a password and contact support.
+Complete the feedback/diagnostic forms.
+Confirm that analytics record the lead, checkout and purchase events and that failed payments do not create active course access.
+
