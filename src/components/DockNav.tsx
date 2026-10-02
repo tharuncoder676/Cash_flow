@@ -171,7 +171,9 @@ export default function DockNav({
       aria-label="Main navigation"
     >
       {items.map((item) => {
-        const active = pathname === item.href;
+        const active =
+          pathname === item.href ||
+          (item.href === "/legal" && pathname.startsWith("/legal"));
         return (
           <Link
             key={item.href}

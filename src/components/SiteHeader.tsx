@@ -15,7 +15,9 @@ const NAV = [
   { href: "/diagnostic", label: "Free diagnostic" },
   { href: "/about", label: "About Carl" },
   { href: "/faq", label: "FAQs" },
+  { href: "/legal", label: "Policies" },
 ];
+
 
 export default function SiteHeader() {
   const pathname = usePathname();
