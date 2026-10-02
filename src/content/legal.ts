@@ -14,6 +14,7 @@ export type LegalSection = {
 export type LegalDoc = {
   slug: string;
   title: string;
+  shortTitle?: string;
   description: string;
   status: "approved" | "awaiting-legal-review";
   version: string;
@@ -26,6 +27,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "terms",
     title: "Course Terms of Sale",
+    shortTitle: "Terms of Sale",
     description:
       "The terms and conditions on which a place in the Cash Flow Mastery cohort is purchased and delivered.",
     status: "approved",
@@ -137,6 +139,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "refunds",
     title: "Refund and Cancellation Policy",
+    shortTitle: "Refunds",
     description:
       "Clear rules on when cohort enrolments can be cancelled, transferred, or refunded.",
     status: "approved",
@@ -211,6 +214,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "privacy",
     title: "Privacy Policy",
+    shortTitle: "Privacy",
     description:
       "How Independent Advisors FZE collects, protects, processes, and retains personal data for Cash Flow Mastery.",
     status: "approved",
@@ -318,6 +322,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "cookies",
     title: "Cookie Notice",
+    shortTitle: "Cookies",
     description:
       "Information on the cookies and browser storage technologies used on the Cash Flow Mastery website.",
     status: "approved",
@@ -366,6 +371,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "disclaimer",
     title: "Training Disclaimer",
+    shortTitle: "Disclaimer",
     description:
       "Clarifying the boundary between cash-flow management education and regulated financial or CFO advice.",
     status: "approved",

@@ -42,9 +42,55 @@ export default async function LegalPage({
   const pending = doc.status !== "approved";
 
   return (
-    <div className="bg-paper-100">
-      <Container width="narrow" className="py-16 sm:py-20">
-        <Eyebrow className="mb-5">Legal</Eyebrow>
+    <div className="bg-paper-100 min-h-screen">
+      {/* Top Policy Switcher Header */}
+      <div className="border-b border-ink-700/10 bg-paper-200/90 backdrop-blur-md sticky top-[72px] z-40">
+        <Container width="narrow" className="py-3">
+          <div className="flex items-center justify-between gap-4 overflow-x-auto no-scrollbar py-1">
+            <Link
+              href="/legal"
+              className="flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-ink-700 hover:text-gold-700 transition-colors shrink-0 pr-3 border-r border-ink-700/15"
+            >
+              <span>←</span>
+              <span>All Policies</span>
+            </Link>
+
+            <nav className="flex items-center gap-2 sm:gap-4 shrink-0" aria-label="Policy tabs">
+              {legalDocs.map((d) => {
+                const isActive = d.slug === doc.slug;
+                return (
+                  <Link
+                    key={d.slug}
+                    href={`/legal/${d.slug}`}
+                    className={`rounded-xs px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] transition-all whitespace-nowrap ${
+                      isActive
+                        ? "bg-ink-900 text-gold-400 font-bold shadow-xs"
+                        : "text-ink-400 hover:text-ink-900 hover:bg-paper-100/80"
+                    }`}
+                  >
+                    {d.shortTitle || d.title}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </Container>
+      </div>
+
+      <Container width="narrow" className="py-14 sm:py-20">
+        <div className="flex items-center gap-3 mb-5">
+          <Link
+            href="/legal"
+            className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold-700 hover:underline"
+          >
+            Policies
+          </Link>
+          <span className="text-ink-300 font-mono">/</span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-400">
+            {doc.title}
+          </span>
+        </div>
+
         <h1 className="font-display text-[2.4rem] leading-[1.12] tracking-[-0.025em] text-ink-900 sm:text-[3rem]">
           {doc.title}
         </h1>
@@ -58,6 +104,7 @@ export default async function LegalPage({
           <span aria-hidden="true">·</span>
           <span className="text-gold-700">Independent Advisors FZE</span>
         </div>
+
 
         {pending && (
           <div

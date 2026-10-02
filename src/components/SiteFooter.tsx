@@ -25,6 +25,7 @@ const COLUMNS = [
   {
     title: "Legal",
     links: [
+      { href: "/legal", label: "All policies & overview" },
       { href: "/legal/terms", label: "Course terms of sale" },
       { href: "/legal/refunds", label: "Refunds and cancellation" },
       { href: "/legal/privacy", label: "Privacy policy" },
@@ -33,6 +34,7 @@ const COLUMNS = [
     ],
   },
 ];
+
 
 export default function SiteFooter() {
   return (
