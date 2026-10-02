@@ -118,7 +118,7 @@ export async function POST(request: Request) {
       consent_collection: { terms_of_service: "required" },
       custom_text: {
         terms_of_service_acceptance: {
-          message: `I accept the [course terms of sale](${siteUrl}/legal/terms) and the [refund policy](${siteUrl}/legal/refunds).`,
+          message: `I accept the [course terms of sale](${siteUrl}/legal/terms), [refund policy](${siteUrl}/legal/refunds), [privacy policy](${siteUrl}/legal/privacy), and [training disclaimer](${siteUrl}/legal/disclaimer).`,
         },
         submit: { message: pricing.paymentTerms },
       },

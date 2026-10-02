@@ -1,16 +1,21 @@
 import { pricing, cohort } from "@/content/course";
 
-export type Tier = "founding" | "standard";
+export type Tier = "founding" | "founding_five" | "founding_cohort" | "standard";
 
 export type SeatState = {
   /** Places already paid for. */
   taken: number;
-  /** Places left in the whole cohort. */
+  /** Places left in the whole cohort (out of 15). */
   remaining: number;
-  /** Which price the next buyer pays. */
-  tier: Tier;
+  /** Which price tier the next buyer pays. */
+  tier: "founding_five" | "founding_cohort";
+  /** The price amount in USD. */
   amount: number;
-  /** Founding-five places still available, 0 once they are gone. */
+  /** Label for the tier. */
+  tierLabel: string;
+  /** Anchor future price ($995). */
+  anchorPrice: number;
+  /** Founding-five places still available (out of 5), 0 once taken >= 5. */
   foundingRemaining: number;
   soldOut: boolean;
 };
@@ -18,40 +23,62 @@ export type SeatState = {
 /**
  * Resolve the price for the next place from the number already sold.
  *
- * Brief §3: AED 2,000 for the first five places, AED 2,500 for the rest,
- * 10–15 places in total.
- *
- * This is a statement of fact about the price list, not a scarcity device —
- * the brief explicitly forbids countdown timers and manufactured urgency, so
- * the UI reports the real number and nothing more.
+ * Requirements:
+ * - First Five Founder Places: First 5 participants -> USD 550
+ * - Founding Cohort (Remaining): Next 10 participants -> USD 695
+ * - The price automatically changes from USD 550 to USD 695 after the first 5 places are purchased.
+ * - Total founding cohort capacity: 15 places.
  */
 export function resolveSeats(taken: number): SeatState {
   const safeTaken = Math.max(0, Math.min(taken, pricing.cohortCapacity));
-  const foundingRemaining = Math.max(0, pricing.founding.seats - safeTaken);
-  const tier: Tier = foundingRemaining > 0 ? "founding" : "standard";
+  const foundingFiveRemaining = Math.max(0, pricing.foundingFive.seats - safeTaken);
+  const isFoundingFive = foundingFiveRemaining > 0;
+
+  const tier: "founding_five" | "founding_cohort" = isFoundingFive
+    ? "founding_five"
+    : "founding_cohort";
+
+  const amount = isFoundingFive
+    ? pricing.foundingFive.amount
+    : pricing.foundingCohort.amount;
+
+  const tierLabel = isFoundingFive
+    ? pricing.foundingFive.label
+    : pricing.foundingCohort.label;
 
   return {
     taken: safeTaken,
     remaining: pricing.cohortCapacity - safeTaken,
     tier,
-    amount: tier === "founding" ? pricing.founding.amount : pricing.standard.amount,
-    foundingRemaining,
+    amount,
+    tierLabel,
+    anchorPrice: 995,
+    foundingRemaining: foundingFiveRemaining,
     soldOut: safeTaken >= pricing.cohortCapacity,
   };
 }
 
-/** Stripe works in the smallest currency unit. AED has 2 decimal places. */
+/** Stripe works in the smallest currency unit. USD has 2 decimal places (cents). */
 export function toMinorUnits(amount: number): number {
   return Math.round(amount * 100);
 }
 
-export function formatAED(amount: number): string {
-  return new Intl.NumberFormat("en-AE", {
+/** Format currency in USD ($550, $1,795). */
+export function formatUSD(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: pricing.currency,
+    currency: "USD",
     maximumFractionDigits: 0,
   }).format(amount);
 }
+
+/** Alias for formatUSD */
+export function formatPrice(amount: number): string {
+  return formatUSD(amount);
+}
+
+/** Backwards-compatible alias */
+export const formatAED = formatUSD;
 
 /** Cohort start date for display. Null until the client confirms it. */
 export function cohortStartLabel(): string {
@@ -81,15 +108,6 @@ export type EnrolCta = {
 
 /**
  * One source for every "next step" button on the site.
- *
- * Buttons used to be labelled "Secure your place" unconditionally while the
- * enrolment page decided separately whether payment was actually available.
- * With no Stripe keys in the environment the two disagreed: the button
- * promised payment and the page it opened offered the waitlist instead.
- *
- * The label now comes from the same two facts the enrolment page gates on, so
- * a visitor is never invited to do something the next page will not let them
- * do. Until payment goes live, every primary button reads as the waitlist.
  */
 export function enrolCta(seats: SeatState, paymentsOpen: boolean): EnrolCta {
   if (seats.soldOut) {
@@ -115,7 +133,7 @@ export function enrolCta(seats: SeatState, paymentsOpen: boolean): EnrolCta {
   return {
     href: "/enrol",
     label: "Secure your place",
-    labelWithPrice: `Secure your place — ${formatAED(seats.amount)}`,
+    labelWithPrice: `Secure your place — ${formatUSD(seats.amount)}`,
     shortLabel: "Secure your place",
     payable: true,
   };

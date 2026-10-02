@@ -13,8 +13,9 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // Transactional, private and unreviewed pages stay out of the index.
-      disallow: ["/api/", "/enrol", "/enrol/success", "/learn", "/legal/"],
+      disallow: ["/api/", "/enrol", "/enrol/success", "/learn"],
     },
     sitemap: `${site.url}/sitemap.xml`,
   };
 }
+

@@ -29,8 +29,8 @@ create table if not exists public.enrolments (
   email                    text        not null,
   name                     text,
   company                  text,
-  tier                     text        not null check (tier in ('founding', 'standard')),
-  -- Amount actually captured, in the smallest currency unit (fils, cents).
+  tier                     text        not null check (tier in ('founding', 'founding_five', 'founding_cohort', 'standard')),
+  -- Amount actually captured, in the smallest currency unit (cents, fils).
   amount_minor             integer     not null check (amount_minor >= 0),
   currency                 text        not null,
   stripe_session_id        text        not null unique,

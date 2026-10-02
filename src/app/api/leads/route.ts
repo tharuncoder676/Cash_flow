@@ -6,6 +6,7 @@ import {
   isSameOrigin,
   rateLimit,
   readJsonBody,
+  sanitizeString,
 } from "@/lib/security";
 
 export const runtime = "nodejs";
@@ -22,9 +23,7 @@ const MAX_BODY_BYTES = 10_000;
 const MIN_FILL_MS = 1_200;
 
 function clean(value: unknown, max = 120): string | null {
-  if (typeof value !== "string") return null;
-  const trimmed = value.trim().slice(0, max);
-  return trimmed.length > 0 ? trimmed : null;
+  return sanitizeString(value, max);
 }
 
 export async function POST(request: Request) {

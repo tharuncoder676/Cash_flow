@@ -51,11 +51,13 @@ export default async function LegalPage({
         <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-400">
           {doc.description}
         </p>
-        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-300">
-          {doc.lastUpdated
-            ? `Last updated ${doc.lastUpdated}`
-            : "Not yet published"}
-        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-400">
+          <span>Version {doc.version}</span>
+          <span aria-hidden="true">·</span>
+          <span>Effective {doc.effectiveDate}</span>
+          <span aria-hidden="true">·</span>
+          <span className="text-gold-700">Independent Advisors FZE</span>
+        </div>
 
         {pending && (
           <div
@@ -66,12 +68,7 @@ export default async function LegalPage({
               Awaiting legal review — not in force
             </p>
             <p className="mt-3 text-[15px] leading-relaxed text-ink-400">
-              This page is a structural outline prepared during the build. It
-              is <strong className="text-ink-900">not a policy</strong>, nothing
-              on it is binding, and it is excluded from search engines. The
-              headings below set out what the approved document needs to cover;
-              the wording itself must come from {site.name}’s legal and tax
-              advisers before launch.
+              This page is a structural outline prepared during the build.
             </p>
           </div>
         )}
@@ -90,10 +87,18 @@ export default async function LegalPage({
                   </h2>
 
                   {section.body?.length ? (
-                    <div className="mt-4 space-y-4 text-[16px] leading-relaxed text-ink-400">
-                      {section.body.map((para) => (
-                        <p key={para.slice(0, 32)}>{para}</p>
-                      ))}
+                    <div className="mt-4 space-y-3.5 text-[16px] leading-relaxed text-ink-400">
+                      {section.body.map((para, pIdx) => {
+                        if (para.startsWith("• ")) {
+                          return (
+                            <p key={pIdx} className="flex gap-2.5 pl-2 text-ink-600">
+                              <span aria-hidden="true" className="text-gold-600 font-bold">•</span>
+                              <span>{para.slice(2)}</span>
+                            </p>
+                          );
+                        }
+                        return <p key={pIdx}>{para}</p>;
+                      })}
                     </div>
                   ) : (
                     <p className="mt-3 text-[15px] leading-relaxed text-ink-300 italic">

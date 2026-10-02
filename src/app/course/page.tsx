@@ -18,6 +18,7 @@ import {
   cohortStartLabel,
   enrolCta,
   formatAED,
+  formatUSD,
   resolveSeats,
   type EnrolCta,
 } from "@/lib/pricing";
@@ -350,35 +351,50 @@ export default async function CoursePage() {
       <Section tone="sand" id="enrol">
         <SectionHeading
           eyebrow="Founding-cohort pricing"
-          title="Two prices, one cohort."
-          lede="The first five places are priced lower because those participants shape the programme. That is the whole of the discount — there is no deadline attached to it."
+          title="Two pricing tiers, fifteen total places."
+          lede="The first five places are priced at USD 550. The price automatically shifts to USD 695 for the remaining ten founding places once the first five are taken."
           align="center"
         />
 
-        <div className="mx-auto mt-14 grid max-w-4xl gap-6 sm:grid-cols-2">
-          <TierCard
-            label={pricing.founding.label}
-            amount={pricing.founding.amount}
-            note={`First ${pricing.founding.seats} places`}
-            active={seats.tier === "founding"}
-            remaining={seats.foundingRemaining}
+        {/* Founding cohort tiers ------------------------------------ */}
+        <div className="mx-auto mt-14 grid max-w-5xl gap-6 sm:grid-cols-2">
+          <FoundingTierCard
+            name={pricing.foundingFive.name}
+            amount={pricing.foundingFive.amount}
+            anchorPrice={pricing.foundingFive.anchorPrice}
+            badge={
+              seats.tier === "founding_five"
+                ? `${seats.foundingRemaining} of ${pricing.foundingFive.seats} Available`
+                : "Tier Completed"
+            }
+            active={seats.tier === "founding_five"}
+            features={pricing.foundingFive.features}
+            note="Limited to the first 5 participants."
           />
-          <TierCard
-            label={pricing.standard.label}
-            amount={pricing.standard.amount}
-            note={`Remaining places`}
-            active={seats.tier === "standard"}
+
+          <FoundingTierCard
+            name={pricing.foundingCohort.name}
+            amount={pricing.foundingCohort.amount}
+            anchorPrice={pricing.foundingCohort.anchorPrice}
+            badge={
+              seats.tier === "founding_cohort"
+                ? `${seats.remaining} of ${pricing.cohortCapacity} Places Left`
+                : "Next Tier"
+            }
+            active={seats.tier === "founding_cohort"}
+            features={pricing.foundingCohort.features}
+            note="Limited to the next 10 participants."
           />
         </div>
 
-        <div className="mx-auto mt-10 max-w-2xl text-center">
+        <div className="mx-auto mt-8 max-w-2xl text-center">
           <p className="text-[15px] leading-relaxed text-ink-400">
             {pricing.taxNote} {pricing.paymentTerms}{" "}
             {seats.soldOut
-              ? "This cohort is now full."
-              : `${seats.remaining} of ${pricing.cohortCapacity} places remain.`}
+              ? "This founding cohort is now full."
+              : `${seats.remaining} of ${pricing.cohortCapacity} total founding places remain.`}
           </p>
-          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <ButtonLink
               href={cta.href}
               variant={cta.payable ? "primary" : "gold"}
@@ -388,6 +404,140 @@ export default async function CoursePage() {
             <ButtonLink href="/diagnostic" variant="ghost">
               Not sure yet? Take the diagnostic
             </ButtonLink>
+          </div>
+        </div>
+
+        {/* ========================================================== */}
+        {/* Future Products Showcase                                   */}
+        {/* ========================================================== */}
+        <div className="mx-auto mt-20 max-w-6xl border-t border-ink-700/12 pt-16">
+          <div className="text-center">
+            <Eyebrow className="mb-4">Course Portfolio</Eyebrow>
+            <h3 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+              Future products &amp; cohort formats
+            </h3>
+            <p className="mx-auto mt-4 max-w-2xl text-[16px] leading-relaxed text-ink-400">
+              Cash Flow Mastery is expanding into distinct learning tiers. Here is the upcoming product roadmap and future cohort pricing.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {/* Regular Live Cohort */}
+            <div className="flex flex-col justify-between rounded-xs border border-ink-700/15 bg-paper-50 p-7 transition-all duration-300 hover:border-ink-700/30">
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-xs bg-ink-700/10 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink-700">
+                    {pricing.futureProducts.regularLive.badge}
+                  </span>
+                </div>
+                <h4 className="mt-4 font-display text-2xl text-ink-900">
+                  {pricing.futureProducts.regularLive.name}
+                </h4>
+                <p className="mt-2 text-[14px] leading-relaxed text-ink-400">
+                  {pricing.futureProducts.regularLive.description}
+                </p>
+                <div className="mt-6 flex items-baseline gap-2">
+                  <span className="font-display text-4xl text-ink-900">
+                    ${pricing.futureProducts.regularLive.amount}
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">
+                    USD / participant
+                  </span>
+                </div>
+                <ul className="mt-6 space-y-3 border-t border-ink-700/10 pt-5 text-[14px] leading-snug text-ink-700">
+                  {pricing.futureProducts.regularLive.features.map((f) => (
+                    <li key={f} className="flex gap-2.5">
+                      <span aria-hidden="true" className="text-gold-600 font-bold">•</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-8 border-t border-ink-700/10 pt-4">
+                <span className="block text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
+                  Standard price after founding cohort
+                </span>
+              </div>
+            </div>
+
+            {/* Premium Cohort */}
+            <div className="relative flex flex-col justify-between rounded-xs border-2 border-gold-600/80 bg-paper-50 p-7 shadow-sm transition-all duration-300">
+              <div className="absolute -top-3.5 right-6 rounded-xs bg-gold-600 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-paper-100">
+                High-Touch Advisory
+              </div>
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-xs bg-gold-500/20 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold-800">
+                    {pricing.futureProducts.premiumCohort.badge}
+                  </span>
+                </div>
+                <h4 className="mt-4 font-display text-2xl text-ink-900">
+                  {pricing.futureProducts.premiumCohort.name}
+                </h4>
+                <p className="mt-2 text-[14px] leading-relaxed text-ink-400">
+                  {pricing.futureProducts.premiumCohort.description}
+                </p>
+                <div className="mt-6 flex items-baseline gap-2">
+                  <span className="font-display text-4xl text-ink-900">
+                    ${pricing.futureProducts.premiumCohort.amount.toLocaleString()}
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">
+                    USD / participant
+                  </span>
+                </div>
+                <ul className="mt-6 space-y-3 border-t border-ink-700/10 pt-5 text-[14px] leading-snug text-ink-800">
+                  {pricing.futureProducts.premiumCohort.features.map((f) => (
+                    <li key={f} className="flex gap-2.5">
+                      <span aria-hidden="true" className="text-gold-600 font-bold">•</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-8 border-t border-ink-700/10 pt-4">
+                <span className="block text-center font-mono text-[10px] uppercase tracking-[0.14em] text-gold-700 font-medium">
+                  Strictly limited to 5 per cohort
+                </span>
+              </div>
+            </div>
+
+            {/* Self-Paced Course */}
+            <div className="flex flex-col justify-between rounded-xs border border-ink-700/15 bg-paper-50 p-7 transition-all duration-300 hover:border-ink-700/30">
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-xs bg-ink-700/10 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink-600">
+                    {pricing.futureProducts.selfPaced.badge}
+                  </span>
+                </div>
+                <h4 className="mt-4 font-display text-2xl text-ink-900">
+                  {pricing.futureProducts.selfPaced.name}
+                </h4>
+                <p className="mt-2 text-[14px] leading-relaxed text-ink-400">
+                  {pricing.futureProducts.selfPaced.description}
+                </p>
+                <div className="mt-6 flex items-baseline gap-2">
+                  <span className="font-display text-4xl text-ink-900">
+                    ${pricing.futureProducts.selfPaced.amount}
+                  </span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">
+                    USD / self-paced
+                  </span>
+                </div>
+                <ul className="mt-6 space-y-3 border-t border-ink-700/10 pt-5 text-[14px] leading-snug text-ink-500">
+                  {pricing.futureProducts.selfPaced.features.map((f) => (
+                    <li key={f} className="flex gap-2.5">
+                      <span aria-hidden="true" className="text-ink-400 font-bold">•</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-8 border-t border-ink-700/10 pt-4">
+                <span className="block text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
+                  Self-directed · No live sessions
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -431,8 +581,6 @@ export default async function CoursePage() {
             </details>
           ))}
         </div>
-        {/* A question that goes unanswered before checkout is a lost place,
-            so give it the fastest route Carl actually answers on. */}
         <div className="mt-12 rounded-xs border border-ink-700/15 bg-paper-50 p-7 text-center sm:p-8">
           <h3 className="font-display text-xl text-ink-900">
             Still not sure it’s right for you?
@@ -481,7 +629,7 @@ export default async function CoursePage() {
       <ContactBand />
 
       <StickyEnrol
-        price={formatAED(seats.amount)}
+        price={formatUSD(seats.amount)}
         remaining={seats.remaining}
         capacity={pricing.cohortCapacity}
         soldOut={seats.soldOut}
@@ -499,7 +647,7 @@ export default async function CoursePage() {
           <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-paper-300/70">
             {seats.soldOut
               ? "This cohort is full. The waitlist gets first refusal on the next one."
-              : `${seats.remaining} of ${pricing.cohortCapacity} places remain at ${formatAED(seats.amount)}.`}
+              : `${seats.remaining} of ${pricing.cohortCapacity} places remain at ${formatUSD(seats.amount)}.`}
           </p>
           <div className="mt-10">
             <ButtonLink href={cta.href} variant="gold">
@@ -523,15 +671,23 @@ function PriceCard({
 }) {
   return (
     <div className="rounded-xs border border-paper-100/15 bg-ink-900/60 p-7 backdrop-blur-sm sm:p-8">
-      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-paper-300/65">
-        {seats.tier === "founding" ? pricing.founding.label : "Your price"}
-      </p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-paper-300/65">
+          {seats.tierLabel}
+        </p>
+        <span className="rounded-xs bg-gold-500/20 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-gold-400">
+          Regular: ${seats.anchorPrice}
+        </span>
+      </div>
       <div className="mt-4 flex items-baseline gap-3">
         <Odometer
-          value={seats.amount.toLocaleString("en-AE")}
-          prefix="AED "
+          value={seats.amount.toLocaleString("en-US")}
+          prefix="$"
           className="tabular font-display text-[3.2rem] leading-none text-paper-100"
         />
+        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-paper-300/60">
+          USD
+        </span>
       </div>
       <p className="mt-4 text-[14px] leading-relaxed text-paper-300/65">
         {pricing.taxNote} {pricing.paymentTerms}
@@ -540,20 +696,20 @@ function PriceCard({
       <div className="mt-6 border-t border-paper-100/12 pt-5">
         <div className="flex items-baseline justify-between gap-4">
           <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-paper-300/65">
-            Places remaining
+            Founding cohort places left
           </span>
           <span className="tabular font-display text-xl text-gold-500">
             {seats.remaining} / {pricing.cohortCapacity}
           </span>
         </div>
-        {/* An honest capacity bar — a fact, not a pressure device. */}
+        {/* An honest capacity bar */}
         <div
           className="mt-3 h-1 w-full overflow-hidden rounded-full bg-paper-100/12"
           role="img"
           aria-label={`${seats.taken} of ${pricing.cohortCapacity} places taken`}
         >
           <div
-            className="h-full bg-gold-500"
+            className="h-full bg-gold-500 transition-all duration-500"
             style={{
               width: `${(seats.taken / pricing.cohortCapacity) * 100}%`,
             }}
@@ -572,50 +728,75 @@ function PriceCard({
   );
 }
 
-function TierCard({
-  label,
+function FoundingTierCard({
+  name,
   amount,
-  note,
+  anchorPrice,
+  badge,
   active,
-  remaining,
+  features,
+  note,
 }: {
-  label: string;
+  name: string;
   amount: number;
-  note: string;
+  anchorPrice: number;
+  badge: string;
   active: boolean;
-  remaining?: number;
+  features: readonly string[];
+  note: string;
 }) {
   const card = (
     <div
-      className={`rounded-xs border p-8 ${
+      className={`flex flex-col justify-between rounded-xs border p-8 transition-colors ${
         active
           ? "border-gold-600/70 bg-paper-50"
-          : "border-ink-700/12 bg-paper-50/50"
+          : "border-ink-700/12 bg-paper-50/50 opacity-80"
       }`}
     >
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-400">
-          {label}
-        </p>
-        {active && (
-          <span className="rounded-xs bg-gold-500/20 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-gold-700">
-            Current
+      <div>
+        <div className="flex items-baseline justify-between gap-4">
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-400">
+            {name}
+          </p>
+          <span
+            className={`rounded-xs px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] ${
+              active
+                ? "bg-gold-500/20 text-gold-800 font-semibold"
+                : "bg-ink-700/8 text-ink-400"
+            }`}
+          >
+            {badge}
           </span>
-        )}
+        </div>
+        <div className="mt-5 flex items-baseline gap-3">
+          <p className="tabular font-display text-[2.8rem] leading-none text-ink-900">
+            ${amount}
+          </p>
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-ink-400">
+            USD
+          </span>
+          <span className="text-[13px] text-ink-400 line-through">
+            ${anchorPrice}
+          </span>
+        </div>
+        <p className="mt-3 text-[14px] font-medium text-ink-700">{note}</p>
+        <ul className="mt-6 space-y-2.5 border-t border-ink-700/10 pt-5 text-[14.5px] leading-relaxed text-ink-800">
+          {features.map((f) => (
+            <li key={f} className="flex gap-2.5">
+              <span aria-hidden="true" className="text-gold-600 font-bold">•</span>
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <p className="tabular mt-5 font-display text-[2.6rem] leading-none text-ink-900">
-        {formatAED(amount)}
-      </p>
-      <p className="mt-4 text-[14px] leading-relaxed text-ink-400">
-        {note}
-        {typeof remaining === "number" &&
-          remaining > 0 &&
-          ` · ${remaining} still available`}
-      </p>
+
+      <div className="mt-6 pt-4 border-t border-ink-700/8">
+        <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-400">
+          {active ? "Currently available for checkout" : "Auto-activates based on places"}
+        </p>
+      </div>
     </div>
   );
 
-  // Only the tier you would actually be charged gets the live frame. Putting
-  // it on both would make it decoration; on one, it points.
   return active ? <ElectricBorder>{card}</ElectricBorder> : card;
 }

@@ -33,12 +33,23 @@ const csp = [
 
 const securityHeaders = [
   { key: "Content-Security-Policy", value: csp },
+  // Force HTTPS in production browsers (HSTS)
+  ...(isDev
+    ? []
+    : [
+        {
+          key: "Strict-Transport-Security",
+          value: "max-age=63072000; includeSubDomains; preload",
+        },
+      ]),
   // Older browsers ignore frame-ancestors; this covers them for clickjacking.
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   // The payment confirmation URL carries a Stripe session id; only the
   // origin is ever passed on to another site.
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "X-DNS-Prefetch-Control", value: "on" },
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
   {
     key: "Permissions-Policy",
     value:

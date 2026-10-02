@@ -57,26 +57,34 @@ export default async function EnrolPage() {
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <div className="rounded-xs border border-ink-700/12 bg-paper-50">
               <div className="border-b border-ink-700/10 p-6 sm:p-7">
-                <h2 className="font-display text-xl text-ink-900">
-                  {site.name}
-                </h2>
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="font-display text-xl text-ink-900">
+                    {site.name}
+                  </h2>
+                  <span className="rounded-xs bg-gold-500/20 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-gold-800">
+                    Regular: ${seats.anchorPrice}
+                  </span>
+                </div>
                 <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-400">
-                  Founding cohort · {cohort.durationWeeks} weeks
+                  {seats.tierLabel} · {cohort.durationWeeks} weeks
                 </p>
 
                 <div className="mt-6 flex items-baseline gap-3">
                   <span className="tabular font-display text-4xl text-ink-900">
-                    {formatAED(seats.amount)}
+                    ${seats.amount}
                   </span>
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-400">
-                    one payment
+                    USD · one payment
                   </span>
                 </div>
 
-                {seats.tier === "founding" && (
-                  <p className="seat-live mt-3 inline-block rounded-xs bg-gold-500/18 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gold-700">
-                    {pricing.founding.label} price ·{" "}
-                    {seats.foundingRemaining} of {pricing.founding.seats} left
+                {seats.tier === "founding_five" ? (
+                  <p className="seat-live mt-3 inline-block rounded-xs bg-gold-500/18 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gold-800 font-medium">
+                    {pricing.foundingFive.label} · {seats.foundingRemaining} of {pricing.foundingFive.seats} left at $550
+                  </p>
+                ) : (
+                  <p className="seat-live mt-3 inline-block rounded-xs bg-gold-500/18 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gold-800 font-medium">
+                    {pricing.foundingCohort.label} · {seats.remaining} of {pricing.cohortCapacity} left at $695
                   </p>
                 )}
 
@@ -92,7 +100,8 @@ export default async function EnrolPage() {
                   ["Format", `${cohort.durationWeeks} weeks, blended`],
                   ["Live sessions", `${cohort.durationWeeks} with Carl`],
                   ["Weekly time", cohort.weeklyCommitment],
-                  ["Places left", `${seats.remaining} of ${pricing.cohortCapacity}`],
+                  ["Cohort capacity", `${seats.remaining} of ${pricing.cohortCapacity} places remaining`],
+                  ["Course access", `${cohort.accessPeriodMonths} months replays & reusable templates`],
                   ["Payment", pricing.paymentTerms],
                 ].map(([label, value]) => (
                   <div
@@ -132,22 +141,32 @@ export default async function EnrolPage() {
               {/* Refund terms ---------------------------------------- */}
               <div className="border-t border-ink-700/10 bg-paper-200/50 p-6 sm:p-7">
                 <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
-                  Refunds
+                  Policies &amp; Guarantee
                 </p>
                 <p className="mt-3 text-[14px] leading-relaxed text-ink-400">
-                  {pricing.refundPolicy} Full terms:{" "}
+                  {pricing.refundPolicy} Read the full{" "}
                   <Link
                     href="/legal/refunds"
+                    target="_blank"
                     className="text-gold-700 underline underline-offset-4"
                   >
                     refund policy
-                  </Link>{" "}
-                  and{" "}
+                  </Link>
+                  ,{" "}
                   <Link
                     href="/legal/terms"
+                    target="_blank"
                     className="text-gold-700 underline underline-offset-4"
                   >
-                    course terms
+                    terms of sale
+                  </Link>
+                  , and{" "}
+                  <Link
+                    href="/legal/disclaimer"
+                    target="_blank"
+                    className="text-gold-700 underline underline-offset-4"
+                  >
+                    training disclaimer
                   </Link>
                   .
                 </p>

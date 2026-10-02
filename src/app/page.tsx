@@ -390,6 +390,34 @@ export default function HomePage() {
               </li>
             ))}
         </ol>
+
+        {/* Founding Cohort Pricing Highlight ------------------------- */}
+        <div
+          data-reveal="up"
+          className="mt-10 rounded-xs border border-ink-700/12 bg-paper-50 p-6 sm:p-8"
+        >
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold-700">
+                Founding Cohort Limited to 15 Places
+              </span>
+              <h3 className="mt-1.5 font-display text-2xl text-ink-900">
+                First Five Founder Places from $550 USD
+              </h3>
+              <p className="mt-1 text-[15px] text-ink-400">
+                $550 for the first 5 places, then $695 for the remaining 10. Future regular cohort price: $995 USD.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <ButtonLink href="/course#enrol" variant="primary">
+                View Pricing &amp; Places
+              </ButtonLink>
+              <ButtonLink href="/diagnostic" variant="ghost">
+                Take Diagnostic First
+              </ButtonLink>
+            </div>
+          </div>
+        </div>
       </Section>
 
       {/* ============================================================ */}

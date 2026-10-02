@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container, Eyebrow, ButtonLink } from "@/components/primitives";
 import { getStripe, paymentsConfigured } from "@/lib/stripe";
 import { findEnrolmentBySession } from "@/lib/enrolments";
-import { cohortStartLabel, formatAED } from "@/lib/pricing";
+import { cohortStartLabel, formatUSD } from "@/lib/pricing";
 import { cohort, contact, site, whatsappUrl } from "@/content/course";
 
 export const metadata: Metadata = {
@@ -42,7 +42,7 @@ export default async function SuccessPage({
       if (session.payment_status === "paid") {
         status = "paid";
         if (session.amount_total != null) {
-          amountLabel = formatAED(session.amount_total / 100);
+          amountLabel = formatUSD(session.amount_total / 100);
         }
       } else if (session.status === "open") {
         status = "unpaid";

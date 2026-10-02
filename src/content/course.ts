@@ -53,17 +53,102 @@ export const promise = {
 /* Pricing                                                             */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* Pricing & Product Tiers                                            */
+/* ------------------------------------------------------------------ */
+
 export const pricing = {
-  currency: "AED",
-  founding: { amount: 2000, seats: 5, label: "Founding five" },
-  standard: { amount: 2500, label: "Founding cohort" },
-  /** Total places in the cohort. Brief says 10–15. */
-  cohortCapacity: 15,
-  /** VAT treatment must be confirmed by Carl’s accountant before launch. */
-  taxNote: "Price shown in UAE Dirhams. VAT treatment confirmed at checkout.", // TO CONFIRM
+  currency: "USD",
+  currencySymbol: "$",
+  cohortCapacity: 15, // Total founding cohort: 5 first five + 10 remaining founding places
+
+  // Founding cohort tiers
+  foundingFive: {
+    name: "First Five Founder Places",
+    amount: 550,
+    seats: 5,
+    label: "First Five Founder Places",
+    shortLabel: "Founding Five",
+    anchorPrice: 995,
+    features: [
+      "Limited to the first five participants",
+      "Full four-week live cohort programme",
+      "Four live sessions with Carl",
+      "All lessons, workbooks and templates",
+      "Future regular price: USD 995",
+    ],
+  },
+  foundingCohort: {
+    name: "Remaining Founding Cohort Places",
+    amount: 695,
+    seats: 10,
+    label: "Remaining Founding Cohort Places",
+    shortLabel: "Founding Cohort",
+    anchorPrice: 995,
+    features: [
+      "Limited to the next ten participants",
+      "Exactly the same programme and inclusions",
+      "Total founding cohort limited to 15 participants",
+      "Future regular price: USD 995",
+    ],
+  },
+
+  // Future products
+  futureProducts: {
+    regularLive: {
+      name: "Regular Live Cohort",
+      amount: 995,
+      badge: "Standard Live Price",
+      description: "This becomes the standard price after the founding cohort.",
+      features: [
+        "Full four-week live cohort programme",
+        "Four live sessions with Carl",
+        "All lessons, workbooks and templates",
+        "Thirteen weeks of forward visibility",
+        "Weekly cash management review rhythm",
+      ],
+    },
+    premiumCohort: {
+      name: "Premium Cohort",
+      amount: 1795,
+      badge: "Strictly 5 per cohort",
+      description:
+        "Includes the complete live cohort programme plus private 1-on-1 CFO advisory and personalized forecast audit.",
+      features: [
+        "Complete live cohort programme and all inclusions",
+        "A private 60-minute CFO diagnostic session",
+        "Personal review of the participant’s 13-week forecast",
+        "Written recommendations",
+        "A private 45-minute implementation session",
+        "Priority course-related email support",
+        "Maximum 5 premium participants per cohort",
+      ],
+    },
+    selfPaced: {
+      name: "Self-Paced Course",
+      amount: 495,
+      badge: "Introduced Later",
+      description:
+        "Introduced later for self-directed learning without live sessions.",
+      features: [
+        "Recorded lessons",
+        "13-week forecast workbook",
+        "Templates and exercises",
+        "No live sessions",
+        "No personal forecast review",
+        "No direct access to Carl",
+      ],
+    },
+  },
+
+  // Backward-compatible alias fields
+  founding: { amount: 550, seats: 5, label: "First Five Founder Places" },
+  standard: { amount: 695, label: "Remaining Founding Cohort Places" },
+
+  taxNote: "Prices shown in US Dollars (USD). VAT treatment confirmed before payment.",
   paymentTerms: "Payment in full secures your place.",
   refundPolicy:
-    "Full refund if you withdraw more than 7 days before the cohort start date.", // TO CONFIRM — legal review required
+    "Full 100% refund if you withdraw more than 7 days before the cohort start date.",
 } as const;
 
 export const cohort = {
@@ -71,20 +156,14 @@ export const cohort = {
   startDate: null as string | null,
   startDateLabel: "Dates announced to the waitlist first",
   durationWeeks: 4,
+  accessPeriodMonths: 12,
   liveSession: {
     cadence: "One live group session each week with Carl",
     timezone: "Gulf Standard Time (GST, UTC+4)",
     duration: "60–75 minutes",
   },
-  /**
-   * Stated as the total, with the breakdown, because the two parts were
-   * previously quoted in different places and read as alternatives rather
-   * than as a sum. 90 minutes of lessons + a 60-75 minute live session is
-   * 2.5 to 2.75 hours, so "about 2½ hours" is the honest headline.
-   */
   weeklyCommitment:
     "About 2½ hours — roughly 90 minutes of lessons plus one 60–75 minute live session",
-  /** Short form, for prose where the full breakdown would not fit. */
   weeklyCommitmentShort: "about 2½ hours a week",
 } as const;
 
@@ -378,7 +457,7 @@ export const faqs = [
   },
   {
     q: "How long do I have access?",
-    a: "Your access to lessons and templates continues after the cohort finishes, so you can rebuild the forecast each quarter. Replay availability follows the recording policy.",
+    a: "You have full access to the online lessons and replays for 12 months from the cohort start date. All downloaded templates, exercises and the 13-week forecast workbook are yours to keep and reuse indefinitely.",
   },
   {
     q: "What templates do I get to keep?",
@@ -386,10 +465,7 @@ export const faqs = [
   },
   {
     q: "Will my business information stay confidential?",
-    // TO CONFIRM — the recording policy is not settled, so this answer deliberately
-    // does not mention recordings. Once Carl agrees whether sessions are recorded,
-    // add it here AND to the course terms; the two must say the same thing.
-    a: "You choose what you share. Live sessions are group application sessions, and every participant accepts a confidentiality obligation in the course terms: what is discussed in the room stays in the room. Carl and Independent Advisors treat anything you submit as confidential, and the privacy policy sets out how it is held and for how long.",
+    a: "You choose what you share. Live sessions are group application sessions, and every participant accepts a strict confidentiality obligation in the course terms: what is discussed in the room stays in the room. Carl and Independent Advisors treat anything you submit as confidential, and the privacy policy sets out how it is held and protected.",
   },
   {
     q: "Is this CFO advice for my specific company?",
@@ -397,11 +473,11 @@ export const faqs = [
   },
   {
     q: "What currency is the price in, and is VAT included?",
-    a: `Prices are shown in UAE Dirhams (${pricing.currency}). ${pricing.taxNote} The full breakdown appears before you pay.`,
+    a: `Prices are shown in US Dollars (USD). The first five founder places are USD 550, followed by USD 695 for the remaining ten founding cohort places (future regular live cohorts: USD 995; premium cohort: USD 1,795; self-paced course: USD 495). ${pricing.taxNote} The full breakdown appears before you pay.`,
   },
   {
     q: "What is the refund policy?",
-    a: `${pricing.refundPolicy} The complete terms are shown at checkout and in the course terms of sale.`,
+    a: `${pricing.refundPolicy} Full terms are available in our refund policy and course terms of sale.`,
   },
   {
     q: "How do I get support?",

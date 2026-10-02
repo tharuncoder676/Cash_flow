@@ -15,13 +15,16 @@ import "server-only";
 /**
  * Rejects browser requests that were started by another website.
  *
- * Compares the Origin header with the host this request actually arrived on,
- * rather than a configured site URL, so it keeps working on preview
- * deployments and localhost. A request with no Origin is allowed through:
- * browsers always send one on a cross-site fetch POST, so a missing header
- * means a non-browser client — which the rate limit and validation still cover.
+ * Checks modern Sec-Fetch-Site header (rejects "cross-site") as well as
+ * comparing Origin with actual Host header.
  */
 export function isSameOrigin(request: Request): boolean {
+  // Sec-Fetch-Site is set by modern browsers and cannot be forged by script
+  const secFetchSite = request.headers.get("sec-fetch-site");
+  if (secFetchSite === "cross-site") {
+    return false;
+  }
+
   const origin = request.headers.get("origin");
   if (!origin) return true;
   const host =
@@ -38,21 +41,37 @@ export function isSameOrigin(request: Request): boolean {
 /* Rate limit (item 4)                                                 */
 /* ------------------------------------------------------------------ */
 
-/**
- * Sliding-window limit, keyed by caller.
- *
- * HONEST LIMITATION: this lives in the memory of one serverless instance. On
- * Vercel a burst can be spread across several instances, and a cold start
- * resets the count — so this slows abuse down rather than guaranteeing a
- * ceiling. A hard limit needs Vercel Firewall rules or a shared store such as
- * Upstash Redis. The function signature is the seam for that swap.
- */
 const hits = new Map<string, number[]>();
 
 export function clientIp(request: Request): string {
+  // Check trusted proxy headers in order
+  const vercelIp = request.headers.get("x-vercel-ip");
+  if (vercelIp) return vercelIp.trim();
+
+  const cfIp = request.headers.get("cf-connecting-ip");
+  if (cfIp) return cfIp.trim();
+
+  const realIp = request.headers.get("x-real-ip");
+  if (realIp) return realIp.trim();
+
   const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0].trim();
-  return request.headers.get("x-real-ip") ?? "unknown";
+  if (forwarded) {
+    const first = forwarded.split(",")[0].trim();
+    if (first) return first;
+  }
+
+  return "unknown";
+}
+
+/** Sanitize user string inputs against control characters and null bytes. */
+export function sanitizeString(value: unknown, maxLen = 250): string | null {
+  if (typeof value !== "string") return null;
+  // Strip null bytes and control chars, keep normal printable unicode
+  const cleaned = value
+    .replace(/[\u0000-\u0008\u000B-\u001F\u007F-\u009F]/g, "")
+    .trim()
+    .slice(0, maxLen);
+  return cleaned.length > 0 ? cleaned : null;
 }
 
 export function rateLimit(

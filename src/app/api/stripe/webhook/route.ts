@@ -63,7 +63,7 @@ export async function POST(request: Request) {
           company: null,
           tier: (session.metadata?.tier as Tier) ?? "standard",
           amountMinor: session.amount_total ?? 0,
-          currency: (session.currency ?? "aed").toUpperCase(),
+          currency: (session.currency ?? "usd").toUpperCase(),
           stripeSessionId: session.id,
           stripePaymentIntentId:
             typeof session.payment_intent === "string"

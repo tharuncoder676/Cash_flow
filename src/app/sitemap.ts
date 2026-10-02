@@ -6,12 +6,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const pages: { path: string; priority: number }[] = [
-    { path: "/", priority: 1 },
+    { path: "/", priority: 1.0 },
     { path: "/course", priority: 0.9 },
     { path: "/diagnostic", priority: 0.8 },
     { path: "/about", priority: 0.6 },
     { path: "/faq", priority: 0.6 },
     { path: "/waitlist", priority: 0.4 },
+    { path: "/legal/terms", priority: 0.3 },
+    { path: "/legal/refunds", priority: 0.3 },
+    { path: "/legal/privacy", priority: 0.3 },
+    { path: "/legal/cookies", priority: 0.3 },
+    { path: "/legal/disclaimer", priority: 0.3 },
   ];
 
   return pages.map((p) => ({
@@ -21,3 +26,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: p.priority,
   }));
 }
+
