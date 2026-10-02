@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import CashFlowMark from "./CashFlowMark";
-import { site, carl, cohort, contact, whatsappUrl } from "@/content/course";
+import { site, carl, whatsappUrl } from "@/content/course";
 
 export type ReceiptData = {
   orderId: string;
@@ -20,77 +20,84 @@ export type ReceiptData = {
 export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
   const [copied, setCopied] = useState(false);
   const [isPrinting, setIsPrinting] = useState(true);
-  const [printKey, setPrintKey] = useState(0);
+  const [isDispensed, setIsDispensed] = useState(true);
+  const [feedKey, setFeedKey] = useState(0);
 
+  // Automatically trigger feed animation on initial load
   useEffect(() => {
-    // Reset printing state on load
     setIsPrinting(true);
-    const timer = setTimeout(() => setIsPrinting(false), 2400);
+    setIsDispensed(true);
+    const timer = setTimeout(() => {
+      setIsPrinting(false);
+    }, 2400);
     return () => clearTimeout(timer);
-  }, [printKey]);
+  }, [feedKey]);
 
   const handleCopy = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(data.orderId);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      setTimeout(() => setCopied(false), 2200);
     }
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handlePrintReceiptClick = () => {
+    // Retrigger the mechanical dispenser feed animation
+    setIsDispensed(true);
+    setIsPrinting(true);
+    setFeedKey((k) => k + 1);
   };
 
-  const handleReFeed = () => {
-    setPrintKey((k) => k + 1);
+  const handleBrowserPrint = () => {
+    window.print();
   };
 
   const makeCalendarUrl = () => {
     const title = encodeURIComponent(`${site.name} — Live Cohort Session`);
     const details = encodeURIComponent(
-      `Official Registration for Cash Flow Mastery.\nTaught by ${carl.name}, ${carl.credentials}.\nOrder ID: ${data.orderId}\nLive clinic dates and links will be dispatched via email before week 1.`
+      `Official Registration for Cash Flow Mastery.\nTaught by ${carl.name}, ${carl.credentials}.\nOrder ID: ${data.orderId}\nLive clinic dates and access links will be dispatched via email prior to week 1.`
     );
     const location = encodeURIComponent("Online Live Clinic (GST / UTC+4)");
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}`;
   };
 
   return (
-    <div className="my-10 w-full max-w-2xl mx-auto font-sans">
+    <div className="my-10 w-full max-w-xl mx-auto font-sans">
       <style jsx global>{`
-        @keyframes thermalPrintFeed {
+        @keyframes thermalDispenserFeed {
           0% {
-            transform: translateY(-92%);
-            opacity: 0.3;
+            transform: translateY(-100%);
+            opacity: 0.1;
           }
           10% {
             transform: translateY(-90%);
             opacity: 1;
           }
           22% {
-            transform: translateY(-75%);
+            transform: translateY(-74%);
           }
-          26% {
-            transform: translateY(-75%);
+          28% {
+            transform: translateY(-74%);
           }
-          40% {
-            transform: translateY(-56%);
+          42% {
+            transform: translateY(-54%);
           }
-          45% {
-            transform: translateY(-56%);
+          48% {
+            transform: translateY(-54%);
           }
-          60% {
-            transform: translateY(-38%);
+          62% {
+            transform: translateY(-34%);
           }
-          65% {
-            transform: translateY(-38%);
+          68% {
+            transform: translateY(-34%);
           }
-          78% {
-            transform: translateY(-18%);
+          82% {
+            transform: translateY(-16%);
           }
-          83% {
-            transform: translateY(-18%);
+          88% {
+            transform: translateY(-16%);
           }
-          95% {
+          96% {
             transform: translateY(0%);
           }
           100% {
@@ -98,8 +105,8 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
             opacity: 1;
           }
         }
-        .animate-thermal-print {
-          animation: thermalPrintFeed 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        .animate-thermal-feed {
+          animation: thermalDispenserFeed 2.3s cubic-bezier(0.18, 0.89, 0.32, 1.05) forwards;
         }
         .receipt-serrated-top {
           clip-path: polygon(
@@ -115,268 +122,299 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
         }
       `}</style>
 
+      {/* Title */}
+      <div className="flex flex-col items-center text-center mb-6">
+        <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-ink-900">
+          Advance Receipt Print
+        </h3>
+      </div>
+
       {/* ========================================================================= */}
-      {/* 1. DARK-MODE CARD CONTAINER WITH "ORDER COMPLETE" STATUS                  */}
+      {/* 1. SKEUOMORPHIC 3D PILL DISPENSER BAR (EXACT DESIGN MATCH)                 */}
       {/* ========================================================================= */}
-      <div className="rounded-xl border border-ink-700/60 bg-gradient-to-b from-ink-900 via-ink-900 to-ink-950 p-6 sm:p-8 text-paper-100 shadow-[0_25px_70px_-15px_rgba(5,14,36,0.6)]">
-        
-        {/* Status Header with Checkmark */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-paper-100/10">
-          <div className="flex items-center gap-3.5">
-            {/* Animated Checkmark Badge */}
-            <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20 border-2 border-emerald-400 text-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.35)]">
-              <svg
-                className="h-6 w-6 stroke-current"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2.5}
+      <div className="relative mx-auto w-full max-w-[480px] z-30">
+        <div className="relative h-15 sm:h-16 w-full rounded-full bg-gradient-to-b from-[#1C2638] via-[#0E1626] to-[#040812] px-5 py-2 shadow-[0_22px_45px_-8px_rgba(4,8,18,0.7),0_8px_16px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.22)] border border-slate-700/60 flex items-center justify-between">
+          
+          {/* Subtle Top Specular Curved Highlight */}
+          <div className="absolute top-1.5 inset-x-12 h-[1.5px] bg-gradient-to-r from-transparent via-white/35 to-transparent rounded-full pointer-events-none" />
+
+          {/* Left: Glowing Green Vertical LED Indicator */}
+          <div className="relative flex items-center justify-center shrink-0">
+            <span
+              className={`h-4 w-1.5 rounded-full transition-all duration-300 ${
+                isPrinting
+                  ? "bg-emerald-400 shadow-[0_0_14px_#34d399,0_0_4px_#10b981] animate-pulse"
+                  : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
+              }`}
+            />
+          </div>
+
+          {/* Center: Recessed Mouth Slit with Dotted Dash Matrix */}
+          <div className="relative mx-3 h-3.5 flex-1 rounded-full bg-black/95 shadow-[inset_0_3px_6px_rgba(0,0,0,1)] border-t border-black border-b border-white/10 flex items-center justify-center px-4 overflow-hidden">
+            {/* Dotted Perforation Line */}
+            <div className="w-full flex items-center justify-between opacity-50 select-none">
+              {Array.from({ length: 28 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="h-[1.5px] w-1.5 bg-slate-300 rounded-xs"
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Right: Dim Status Pip */}
+          <div className="shrink-0 flex items-center justify-center">
+            <span className="h-4 w-1.5 rounded-full bg-slate-700/70 border-t border-white/10" />
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 2. THE THERMAL RECEIPT EMERGING DIRECTLY FROM THE DISPENSER SLIT          */}
+      {/* ========================================================================= */}
+      <div className="relative z-20 -mt-6 pt-6 overflow-hidden">
+        {isDispensed && (
+          <div
+            key={feedKey}
+            className="animate-thermal-feed receipt-serrated-top mx-auto w-full max-w-[420px] bg-[#FCFAF5] text-ink-900 shadow-[0_25px_50px_rgba(15,23,42,0.2)] border-x border-b border-ink-900/15"
+            style={{
+              filter: "drop-shadow(0 14px 24px rgba(0,0,0,0.14))",
+            }}
+          >
+            {/* Thermal Paper Interior Content */}
+            <div className="p-6 sm:p-7 pt-8">
+              
+              {/* Receipt Header / Original Merchant Logo */}
+              <div className="text-center pb-5 border-b-2 border-dashed border-ink-900/20">
+                <div className="flex justify-center mb-2">
+                  <CashFlowMark className="h-9 w-9" />
+                </div>
+                <h3 className="font-display text-xl font-bold tracking-tight text-ink-900">
+                  CASH FLOW MASTERY
+                </h3>
+                <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-ink-600 mt-0.5">
+                  Independent Advisors FZE
+                </p>
+                <p className="font-mono text-[9.5px] text-ink-500 mt-0.5">
+                  Sharjah Publishing City Free Zone, Sharjah, UAE
+                </p>
+                <p className="font-mono text-[9.5px] text-ink-500">
+                  support@independentadvisors.ai · 0% UAE Free Zone VAT
+                </p>
+
+                <div className="mt-3 inline-block rounded-xs bg-ink-900 px-2.5 py-0.5 text-paper-100 font-mono text-[10px] font-bold uppercase tracking-[0.16em]">
+                  ★ OFFICIAL ADMISSION RECEIPT ★
+                </div>
+              </div>
+
+              {/* Metadata Grid */}
+              <div className="py-4 border-b-2 border-dashed border-ink-900/20 font-mono text-[11.5px] space-y-1.5">
+                <div className="flex justify-between">
+                  <span className="text-ink-500 uppercase">ORDER ID:</span>
+                  <span className="font-bold text-ink-900">{data.orderId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-ink-500 uppercase">DATE &amp; TIME:</span>
+                  <span className="text-ink-900 font-medium">{data.dateFormatted}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-ink-500 uppercase">PARTICIPANT:</span>
+                  <span className="font-bold text-ink-900 truncate max-w-[200px] text-right">
+                    {data.name || "Executive Attendee"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-ink-500 uppercase">EMAIL:</span>
+                  <span className="text-ink-800 truncate max-w-[200px] text-right">
+                    {data.email || "Confidential"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-ink-500 uppercase">PLACE ALLOCATION:</span>
+                  <span className="font-bold text-gold-700">
+                    {data.seatNumber ? `SEAT #${data.seatNumber} OF 15` : "FOUNDING PLACE RESERVED"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-ink-500 uppercase">PAYMENT:</span>
+                  <span className="text-ink-900">Stripe Card Verified</span>
+                </div>
+              </div>
+
+              {/* Itemized Inclusions */}
+              <div className="py-4 border-b-2 border-dashed border-ink-900/20">
+                <div className="flex justify-between font-mono text-[10.5px] font-bold uppercase text-ink-600 pb-1.5 border-b border-ink-900/10">
+                  <span>ITEM / INCLUSIONS</span>
+                  <span>AMOUNT</span>
+                </div>
+
+                <div className="mt-2.5">
+                  <div className="flex justify-between items-start font-mono text-xs">
+                    <div>
+                      <p className="font-bold text-ink-900 text-[13px]">
+                        {data.tierName}
+                      </p>
+                      <p className="text-ink-600 text-[10.5px]">
+                        4-Week Executive Cash Visibility Programme
+                      </p>
+                    </div>
+                    <span className="font-bold text-ink-900 text-sm">
+                      {data.amountFormatted}
+                    </span>
+                  </div>
+
+                  <ul className="mt-2 space-y-1 font-mono text-[10px] text-ink-600 pl-1">
+                    <li>• 4x Live Clinics with Carl Lewis (60–75 min)</li>
+                    <li>• 13-Week Cash-Flow Forecast Spreadsheet Model</li>
+                    <li>• Executive Cash Visibility Diagnostic Toolkit</li>
+                    <li>• 12-Month On-Demand Video Replays &amp; Portal Access</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Financial Totals */}
+              <div className="py-4 border-b-2 border-dashed border-ink-900/20 font-mono text-xs space-y-1.5">
+                <div className="flex justify-between text-ink-600">
+                  <span>SUBTOTAL</span>
+                  <span>{data.amountFormatted}</span>
+                </div>
+                <div className="flex justify-between text-ink-600">
+                  <span>TAX / UAE VAT (0% FREE ZONE)</span>
+                  <span>$0.00 USD</span>
+                </div>
+                <div className="pt-2 border-t-2 border-ink-900 flex justify-between items-baseline font-mono">
+                  <span className="text-sm font-bold uppercase tracking-wider text-ink-900">
+                    TOTAL PAID:
+                  </span>
+                  <span className="font-display text-2xl font-bold text-ink-900">
+                    {data.amountFormatted} <span className="text-xs font-mono font-normal">USD</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Guarantees & Terms Notice */}
+              <div className="py-3 text-center font-mono text-[9.5px] text-ink-500 leading-relaxed">
+                <p>7-Day Money-Back Guarantee Protected prior to cohort start.</p>
+                <p>All sales subject to Independent Advisors FZE Course Terms of Sale.</p>
+              </div>
+
+              {/* Scannable SVG Barcode */}
+              <div className="pt-2 text-center">
+                <div className="flex justify-center items-center gap-[2px] h-10 opacity-90 mx-auto max-w-xs" aria-hidden="true">
+                  {[
+                    3, 1, 2, 4, 1, 3, 2, 1, 4, 2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4,
+                    2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4, 2, 1, 3, 1, 2, 4, 2, 1, 3,
+                    2, 4, 1, 3, 2, 1, 4, 1, 2, 3, 1, 4, 2, 1, 3, 2, 4, 1, 2, 3
+                  ].map((w, idx) => (
+                    <span
+                      key={idx}
+                      className="h-full bg-ink-900"
+                      style={{ width: `${w * 1.3}px` }}
+                    />
+                  ))}
+                </div>
+                <p className="mt-1 font-mono text-[9.5px] tracking-[0.25em] text-ink-700 font-bold uppercase">
+                  *{data.orderId}-{data.sessionReference.slice(-6).toUpperCase()}*
+                </p>
+                <p className="mt-0.5 font-mono text-[8.5px] uppercase tracking-wider text-ink-400">
+                  THANK YOU FOR YOUR ENROLMENT
+                </p>
+              </div>
+
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 3. RECEIPT STATUS & ACTION BUTTONS (MATCHING IMAGE PLACEMENT)             */}
+      {/* ========================================================================= */}
+      <div className="mt-7 text-center">
+        <h4 className="font-display text-lg font-semibold text-ink-900 tracking-tight">
+          {isPrinting ? "Printing Receipt..." : "Receipt Cut & Torn"}
+        </h4>
+        <p className="font-sans text-xs text-ink-500 mt-0.5">
+          Ready to print a fresh copy anytime.
+        </p>
+
+        {/* Buttons: [ 🖨️ Print receipt ] and [ 📋 Copy ] */}
+        <div className="mt-4 flex items-center justify-center gap-3 print:hidden">
+          <button
+            type="button"
+            onClick={handlePrintReceiptClick}
+            disabled={isPrinting}
+            className="inline-flex items-center gap-2 rounded-xl border border-ink-900/15 bg-paper-50/90 px-4 py-2 font-sans text-sm font-medium text-ink-900 shadow-sm hover:bg-white hover:border-ink-900/30 hover:shadow transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer"
+          >
+            {/* Clean Printer SVG Icon */}
+            <svg
+              className="h-4 w-4 text-ink-800"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              >
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-emerald-400 font-bold">
-                  Payment Verified
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              </div>
-              <h2 className="font-display text-2xl sm:text-3xl text-paper-100 font-bold tracking-tight">
-                Order complete
-              </h2>
-            </div>
-          </div>
+                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+              />
+            </svg>
+            <span>{isPrinting ? "Printing..." : "Print receipt"}</span>
+          </button>
 
-          {/* Quick Actions Bar */}
-          <div className="flex items-center gap-2 print:hidden self-start sm:self-center">
-            <button
-              type="button"
-              onClick={handleReFeed}
-              title="Re-run receipt printing animation"
-              className="inline-flex items-center gap-1.5 rounded-md border border-paper-100/20 bg-ink-800/80 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-paper-300 hover:bg-ink-700 hover:text-paper-100 transition-all"
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="inline-flex items-center gap-2 rounded-xl border border-ink-900/15 bg-paper-50/90 px-4 py-2 font-sans text-sm font-medium text-ink-900 shadow-sm hover:bg-white hover:border-ink-900/30 hover:shadow transition-all active:scale-[0.98] cursor-pointer"
+          >
+            {/* Clean Copy SVG Icon */}
+            <svg
+              className="h-4 w-4 text-ink-800"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
             >
-              <span>↺ Re-feed</span>
-            </button>
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="inline-flex items-center gap-1.5 rounded-md border border-paper-100/20 bg-ink-800/80 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-paper-300 hover:bg-ink-700 hover:text-paper-100 transition-all"
-            >
-              <span>{copied ? "✓ Copied" : "📋 Copy ID"}</span>
-            </button>
-            <button
-              type="button"
-              onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 rounded-md border border-gold-500/50 bg-gold-500/20 px-3.5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-gold-300 hover:bg-gold-500 hover:text-ink-950 transition-all shadow-sm"
-            >
-              <span>🖨️ Print / PDF</span>
-            </button>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+              />
+            </svg>
+            <span>{copied ? "Copied!" : "Copy"}</span>
+          </button>
         </div>
 
-        {/* ======================================================================= */}
-        {/* 2. THE SKEUOMORPHIC PRINTER SLOT (Physical Mouth of Printer)            */}
-        {/* ======================================================================= */}
-        <div className="mt-7">
-          <div className="text-center mb-2">
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper-300/40">
-              ▼ THERMAL RECEIPT DISPENSER ▼
-            </span>
-          </div>
-
-          {/* Printer Faceplate Housing */}
-          <div className="relative mx-auto rounded-t-lg bg-gradient-to-b from-ink-950 to-black p-2 border-t border-x border-ink-700/80 shadow-inner">
-            {/* Metallic Slot Slit with deep shadows */}
-            <div className="relative h-3 w-full rounded-sm bg-black shadow-[inset_0_3px_8px_rgba(0,0,0,1)] border-b border-paper-100/10 flex items-center justify-between px-3">
-              <span className="h-1 w-2 rounded-full bg-emerald-500/60 shadow-[0_0_6px_#10b981]" />
-              <span className="h-1 w-2 rounded-full bg-paper-100/20" />
-            </div>
-          </div>
-
-          {/* ===================================================================== */}
-          {/* 3. THE PRINTING RECEIPT (Crisp Thermal Paper with Serrated Top)       */}
-          {/* ===================================================================== */}
-          <div className="relative overflow-hidden pt-0.5 pb-6">
-            <div
-              key={printKey}
-              className="animate-thermal-print receipt-serrated-top mx-auto w-full bg-[#FCFAF5] text-ink-900 shadow-[0_20px_50px_rgba(0,0,0,0.6)] border-x border-b border-ink-700/20"
-              style={{
-                filter: "drop-shadow(0 15px 25px rgba(0,0,0,0.25))",
-              }}
-            >
-              {/* Thermal Paper Interior Padding */}
-              <div className="p-6 sm:p-9 pt-8">
-                
-                {/* Receipt Header / Merchant Info */}
-                <div className="text-center pb-6 border-b-2 border-dashed border-ink-900/20">
-                  <div className="flex justify-center mb-2.5">
-                    <CashFlowMark className="h-10 w-10" />
-                  </div>
-                  <h3 className="font-display text-2xl font-bold tracking-tight text-ink-900">
-                    CASH FLOW MASTERY
-                  </h3>
-                  <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-600 mt-0.5">
-                    Independent Advisors FZE
-                  </p>
-                  <p className="font-mono text-[10px] text-ink-500 mt-0.5">
-                    Sharjah Publishing City Free Zone, Sharjah, UAE
-                  </p>
-                  <p className="font-mono text-[10px] text-ink-500">
-                    support@independentadvisors.ai · VAT ID: 0% Free Zone Exempt
-                  </p>
-
-                  <div className="mt-4 inline-block rounded-xs bg-ink-900 px-3 py-1 text-paper-100 font-mono text-[10.5px] font-bold uppercase tracking-[0.16em]">
-                    ★ OFFICIAL ADMISSION RECEIPT ★
-                  </div>
-                </div>
-
-                {/* Metadata Grid */}
-                <div className="py-5 border-b-2 border-dashed border-ink-900/20 font-mono text-xs space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-ink-500 uppercase">ORDER ID:</span>
-                    <span className="font-bold text-ink-900">{data.orderId}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-ink-500 uppercase">DATE &amp; TIME:</span>
-                    <span className="text-ink-900 font-medium">{data.dateFormatted}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-ink-500 uppercase">PARTICIPANT:</span>
-                    <span className="font-bold text-ink-900 truncate max-w-[240px] text-right">
-                      {data.name || "Executive Attendee"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-ink-500 uppercase">EMAIL:</span>
-                    <span className="text-ink-800 truncate max-w-[240px] text-right">
-                      {data.email || "Confidential"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-ink-500 uppercase">PLACE ALLOCATION:</span>
-                    <span className="font-bold text-gold-700">
-                      {data.seatNumber ? `SEAT #${data.seatNumber} OF 15` : "FOUNDING PLACE RESERVED"}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-ink-500 uppercase">PAYMENT METHOD:</span>
-                    <span className="text-ink-900">Stripe Card Payment (Verified)</span>
-                  </div>
-                </div>
-
-                {/* Itemized Breakdown Table */}
-                <div className="py-5 border-b-2 border-dashed border-ink-900/20">
-                  <div className="flex justify-between font-mono text-[11px] font-bold uppercase text-ink-600 pb-2 border-b border-ink-900/10">
-                    <span>ITEM / INCLUSIONS</span>
-                    <span>AMOUNT</span>
-                  </div>
-
-                  <div className="mt-3">
-                    <div className="flex justify-between items-start font-mono text-xs">
-                      <div>
-                        <p className="font-bold text-ink-900 text-sm">
-                          {data.tierName}
-                        </p>
-                        <p className="text-ink-600 text-[11px]">
-                          4-Week Executive Cash Visibility Programme
-                        </p>
-                      </div>
-                      <span className="font-bold text-ink-900 text-sm">
-                        {data.amountFormatted}
-                      </span>
-                    </div>
-
-                    <ul className="mt-2.5 space-y-1 font-mono text-[10.5px] text-ink-600 pl-2">
-                      <li>• 4x Live Clinics with Carl Lewis (60–75 min)</li>
-                      <li>• 13-Week Cash-Flow Forecast Spreadsheet Model</li>
-                      <li>• Executive Cash Visibility Diagnostic Toolkit</li>
-                      <li>• 12-Month On-Demand Video Replays &amp; Portal Access</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Financial Totals Calculation */}
-                <div className="py-5 border-b-2 border-dashed border-ink-900/20 font-mono text-xs space-y-2">
-                  <div className="flex justify-between text-ink-600">
-                    <span>SUBTOTAL</span>
-                    <span>{data.amountFormatted}</span>
-                  </div>
-                  <div className="flex justify-between text-ink-600">
-                    <span>TAX / UAE VAT (0% FREE ZONE)</span>
-                    <span>$0.00 USD</span>
-                  </div>
-                  <div className="pt-2 border-t-2 border-ink-900 flex justify-between items-baseline font-mono">
-                    <span className="text-base font-bold uppercase tracking-wider text-ink-900">
-                      TOTAL PAID:
-                    </span>
-                    <span className="font-display text-2xl sm:text-3xl font-bold text-ink-900">
-                      {data.amountFormatted} <span className="text-xs font-mono font-normal">USD</span>
-                    </span>
-                  </div>
-                </div>
-
-                {/* Guarantees & Terms Notice */}
-                <div className="py-4 text-center font-mono text-[10px] text-ink-500 leading-relaxed">
-                  <p>7-Day Money-Back Guarantee Protected prior to cohort start.</p>
-                  <p>All sales subject to Independent Advisors FZE Course Terms of Sale.</p>
-                </div>
-
-                {/* Scannable SVG Barcode & Auth Code */}
-                <div className="pt-3 text-center">
-                  <div className="flex justify-center items-center gap-[2px] h-11 opacity-90 mx-auto max-w-sm" aria-hidden="true">
-                    {[
-                      3, 1, 2, 4, 1, 3, 2, 1, 4, 2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4,
-                      2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4, 2, 1, 3, 1, 2, 4, 2, 1, 3,
-                      2, 4, 1, 3, 2, 1, 4, 1, 2, 3, 1, 4, 2, 1, 3, 2, 4, 1, 2, 3
-                    ].map((w, idx) => (
-                      <span
-                        key={idx}
-                        className="h-full bg-ink-900"
-                        style={{ width: `${w * 1.4}px` }}
-                      />
-                    ))}
-                  </div>
-                  <p className="mt-1.5 font-mono text-[10px] tracking-[0.3em] text-ink-700 font-bold uppercase">
-                    *{data.orderId}-{data.sessionReference.slice(-6).toUpperCase()}*
-                  </p>
-                  <p className="mt-1 font-mono text-[9px] uppercase tracking-wider text-ink-400">
-                    THANK YOU FOR YOUR ENROLMENT
-                  </p>
-                </div>
-
-              </div>
-            </div>
-          </div>
+        {/* Extra Action Links (Calendar & WhatsApp) */}
+        <div className="mt-4 text-center font-mono text-xs print:hidden space-x-4">
+          <button
+            type="button"
+            onClick={handleBrowserPrint}
+            className="text-ink-600 hover:text-ink-900 underline underline-offset-4 font-semibold cursor-pointer"
+          >
+            Save as PDF / Print
+          </button>
+          <span className="text-ink-300">·</span>
+          <a
+            href={makeCalendarUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gold-700 hover:text-gold-600 underline underline-offset-4 font-semibold"
+          >
+            Add to Google Calendar
+          </a>
+          <span className="text-ink-300">·</span>
+          <a
+            href={whatsappUrl(`Hi Carl — I have just completed payment for ${site.name} (Ref: ${data.orderId}).`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-emerald-700 hover:text-emerald-600 underline underline-offset-4 font-semibold"
+          >
+            WhatsApp Carl
+          </a>
         </div>
-
-        {/* Footer Quick CTA Integration */}
-        <div className="mt-4 pt-4 border-t border-paper-100/10 flex flex-wrap items-center justify-between gap-3 font-mono text-xs print:hidden">
-          <span className="text-paper-300/70">
-            Need calendar invites or onboarding assistance?
-          </span>
-          <div className="flex items-center gap-3">
-            <a
-              href={makeCalendarUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gold-400 hover:text-gold-300 font-bold uppercase tracking-wider underline underline-offset-4"
-            >
-              📅 Add to Calendar →
-            </a>
-            <a
-              href={whatsappUrl(`Hi Carl — I have just completed payment for ${site.name} (Ref: ${data.orderId}).`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-emerald-400 hover:text-emerald-300 font-bold uppercase tracking-wider underline underline-offset-4"
-            >
-              💬 WhatsApp Carl →
-            </a>
-          </div>
-        </div>
-
       </div>
+
     </div>
   );
 }
