@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { Container, Eyebrow, ButtonLink } from "@/components/primitives";
+import InteractiveReceipt, { type ReceiptData } from "@/components/InteractiveReceipt";
 import { getStripe, paymentsConfigured } from "@/lib/stripe";
 import { findEnrolmentBySession } from "@/lib/enrolments";
 import { cohortStartLabel, formatUSD } from "@/lib/pricing";
-import { cohort, contact, site, whatsappUrl } from "@/content/course";
+import { cohort, contact, pricing, site, whatsappUrl } from "@/content/course";
 
 export const metadata: Metadata = {
-  // Neutral: this route also renders the "payment not completed" state, and a
-  // tab reading "You're in" on a failed payment would be actively misleading.
-  title: "Payment confirmation",
+  title: "Payment confirmation & Member Pass",
   robots: { index: false, follow: false },
 };
 
@@ -16,13 +15,6 @@ export const dynamic = "force-dynamic";
 
 type Status = "paid" | "processing" | "unpaid" | "unknown";
 
-/**
- * Payment confirmation.
- *
- * This page only *reports* what Stripe says — it never grants access. Access
- * is written by the webhook, so someone opening this URL with a made-up
- * session id sees nothing but an error.
- */
 export default async function SuccessPage({
   searchParams,
 }: {
@@ -32,17 +24,37 @@ export default async function SuccessPage({
 
   let status: Status = "unknown";
   let email: string | null = null;
+  let customerName: string | null = null;
   let amountLabel: string | null = null;
+  let seatNumber: string | number | undefined = undefined;
+  let tierLabel: string = pricing.foundingFive.label;
 
-  if (sessionId && paymentsConfigured()) {
+  // Demo or test preview support
+  const isDemo = sessionId === "demo" || sessionId === "test";
+
+  if (isDemo) {
+    status = "paid";
+    email = "executive@client-company.com";
+    customerName = "Managing Director";
+    amountLabel = "$550";
+    seatNumber = 1;
+  } else if (sessionId && paymentsConfigured()) {
     try {
       const session = await getStripe().checkout.sessions.retrieve(sessionId);
-      email = session.customer_details?.email ?? null;
+      email = session.customer_details?.email ?? session.customer_email ?? null;
+      customerName = session.customer_details?.name ?? null;
 
       if (session.payment_status === "paid") {
         status = "paid";
         if (session.amount_total != null) {
           amountLabel = formatUSD(session.amount_total / 100);
+          tierLabel =
+            session.amount_total / 100 === 550
+              ? pricing.foundingFive.label
+              : pricing.foundingCohort.label;
+        }
+        if (session.metadata?.seatNumber) {
+          seatNumber = session.metadata.seatNumber;
         }
       } else if (session.status === "open") {
         status = "unpaid";
@@ -54,10 +66,12 @@ export default async function SuccessPage({
     }
   }
 
-  // Has the webhook landed yet? Stripe usually beats the redirect, but not
-  // always — so a paid session with no record yet is "confirming", not an
-  // error the buyer should worry about.
   const enrolment = sessionId ? await findEnrolmentBySession(sessionId) : null;
+  if (enrolment) {
+    if (enrolment.name) customerName = enrolment.name;
+    if (enrolment.email) email = enrolment.email;
+    if (enrolment.amountMinor) amountLabel = formatUSD(enrolment.amountMinor / 100);
+  }
 
   if (status === "unknown" || status === "unpaid") {
     return (
@@ -84,6 +98,23 @@ export default async function SuccessPage({
     );
   }
 
+  const receiptData: ReceiptData = {
+    orderId: enrolment?.id || `CFM-${Date.now().toString(36).toUpperCase()}`,
+    sessionReference: sessionId || "CONFIRMED-PAID",
+    email,
+    name: customerName,
+    tierName: tierLabel,
+    amountFormatted: amountLabel || "$550",
+    dateFormatted: new Date().toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }),
+    seatNumber,
+    cohortStart: cohortStartLabel(),
+    currency: "USD",
+  };
+
   return (
     <Shell
       eyebrow={cohortStartLabel()}
@@ -104,11 +135,14 @@ export default async function SuccessPage({
       </p>
 
       {email && (
-        <p className="mt-4 text-[15px] leading-relaxed text-ink-400">
-          A receipt is on its way to{" "}
-          <span className="text-ink-900">{email}</span>.
+        <p className="mt-2 text-[15px] leading-relaxed text-ink-400">
+          An official confirmation receipt has also been dispatched to{" "}
+          <span className="text-ink-900 font-medium">{email}</span>.
         </p>
       )}
+
+      {/* Interactive Digital Receipt & Member Pass */}
+      <InteractiveReceipt data={receiptData} />
 
       {/* What happens next -------------------------------------------- */}
       <ol className="mt-12 divide-y divide-ink-700/12 border-y border-ink-700/12">
