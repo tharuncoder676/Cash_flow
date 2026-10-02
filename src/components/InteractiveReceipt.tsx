@@ -19,19 +19,32 @@ export type ReceiptData = {
 
 export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
   const [copied, setCopied] = useState(false);
-  const [isPrinting, setIsPrinting] = useState(true);
-  const [isDispensed, setIsDispensed] = useState(true);
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [isDispensed, setIsDispensed] = useState(false);
   const [feedKey, setFeedKey] = useState(0);
 
-  // Automatically trigger feed animation on initial load
+  // Automatically trigger dispenser feed on initial page load
   useEffect(() => {
-    setIsPrinting(true);
-    setIsDispensed(true);
-    const timer = setTimeout(() => {
+    // Small initial delay so user sees the dispenser before it starts printing
+    const startTimer = setTimeout(() => {
+      triggerPrint();
+    }, 400);
+    return () => clearTimeout(startTimer);
+  }, []);
+
+  const triggerPrint = () => {
+    setIsDispensed(false);
+    // Allow React state reset then start feed
+    setTimeout(() => {
+      setIsDispensed(true);
+      setIsPrinting(true);
+      setFeedKey((k) => k + 1);
+    }, 50);
+
+    const finishTimer = setTimeout(() => {
       setIsPrinting(false);
     }, 2400);
-    return () => clearTimeout(timer);
-  }, [feedKey]);
+  };
 
   const handleCopy = () => {
     if (navigator.clipboard) {
@@ -39,13 +52,6 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     }
-  };
-
-  const handlePrintReceiptClick = () => {
-    // Retrigger the mechanical dispenser feed animation
-    setIsDispensed(true);
-    setIsPrinting(true);
-    setFeedKey((k) => k + 1);
   };
 
   const handleBrowserPrint = () => {
@@ -64,50 +70,91 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
   return (
     <div className="my-10 w-full max-w-xl mx-auto font-sans">
       <style jsx global>{`
-        @keyframes thermalDispenserFeed {
+        /* Smooth Height Expansion pushing controls down */
+        @keyframes expandDispenserSlot {
+          0% {
+            grid-template-rows: 0fr;
+            opacity: 0.2;
+          }
+          10% {
+            grid-template-rows: 0.1fr;
+            opacity: 1;
+          }
+          25% {
+            grid-template-rows: 0.28fr;
+          }
+          30% {
+            grid-template-rows: 0.28fr;
+          }
+          45% {
+            grid-template-rows: 0.5fr;
+          }
+          50% {
+            grid-template-rows: 0.5fr;
+          }
+          65% {
+            grid-template-rows: 0.7fr;
+          }
+          70% {
+            grid-template-rows: 0.7fr;
+          }
+          85% {
+            grid-template-rows: 0.88fr;
+          }
+          90% {
+            grid-template-rows: 0.88fr;
+          }
+          100% {
+            grid-template-rows: 1fr;
+            opacity: 1;
+          }
+        }
+
+        /* Physical downward paper translation */
+        @keyframes thermalPaperSlide {
           0% {
             transform: translateY(-100%);
-            opacity: 0.1;
           }
           10% {
             transform: translateY(-90%);
-            opacity: 1;
           }
-          22% {
-            transform: translateY(-74%);
+          25% {
+            transform: translateY(-72%);
           }
-          28% {
-            transform: translateY(-74%);
+          30% {
+            transform: translateY(-72%);
           }
-          42% {
-            transform: translateY(-54%);
+          45% {
+            transform: translateY(-50%);
           }
-          48% {
-            transform: translateY(-54%);
+          50% {
+            transform: translateY(-50%);
           }
-          62% {
-            transform: translateY(-34%);
+          65% {
+            transform: translateY(-30%);
           }
-          68% {
-            transform: translateY(-34%);
+          70% {
+            transform: translateY(-30%);
           }
-          82% {
-            transform: translateY(-16%);
+          85% {
+            transform: translateY(-12%);
           }
-          88% {
-            transform: translateY(-16%);
-          }
-          96% {
-            transform: translateY(0%);
+          90% {
+            transform: translateY(-12%);
           }
           100% {
             transform: translateY(0%);
-            opacity: 1;
           }
         }
-        .animate-thermal-feed {
-          animation: thermalDispenserFeed 2.3s cubic-bezier(0.18, 0.89, 0.32, 1.05) forwards;
+
+        .animate-dispenser-expand {
+          animation: expandDispenserSlot 2.3s cubic-bezier(0.2, 0.85, 0.35, 1) forwards;
         }
+
+        .animate-paper-slide {
+          animation: thermalPaperSlide 2.3s cubic-bezier(0.2, 0.85, 0.35, 1) forwards;
+        }
+
         .receipt-serrated-top {
           clip-path: polygon(
             0% 8px, 1.5% 0px, 3% 8px, 4.5% 0px, 6% 8px, 7.5% 0px, 9% 8px, 10.5% 0px, 12% 8px, 13.5% 0px,
@@ -122,7 +169,7 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
         }
       `}</style>
 
-      {/* Title */}
+      {/* Header */}
       <div className="flex flex-col items-center text-center mb-6">
         <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight text-ink-900">
           Advance Receipt Print
@@ -130,12 +177,12 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. SKEUOMORPHIC 3D PILL DISPENSER BAR (EXACT DESIGN MATCH)                 */}
+      {/* 1. SKEUOMORPHIC 3D PILL DISPENSER BAR                                     */}
       {/* ========================================================================= */}
       <div className="relative mx-auto w-full max-w-[480px] z-30">
         <div className="relative h-15 sm:h-16 w-full rounded-full bg-gradient-to-b from-[#1C2638] via-[#0E1626] to-[#040812] px-5 py-2 shadow-[0_22px_45px_-8px_rgba(4,8,18,0.7),0_8px_16px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.22)] border border-slate-700/60 flex items-center justify-between">
           
-          {/* Subtle Top Specular Curved Highlight */}
+          {/* Top Specular Reflection Highlight */}
           <div className="absolute top-1.5 inset-x-12 h-[1.5px] bg-gradient-to-r from-transparent via-white/35 to-transparent rounded-full pointer-events-none" />
 
           {/* Left: Glowing Green Vertical LED Indicator */}
@@ -149,7 +196,7 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
             />
           </div>
 
-          {/* Center: Recessed Mouth Slit with Dotted Dash Matrix */}
+          {/* Center: Recessed Slit Mouth with Dotted Dash Matrix */}
           <div className="relative mx-3 h-3.5 flex-1 rounded-full bg-black/95 shadow-[inset_0_3px_6px_rgba(0,0,0,1)] border-t border-black border-b border-white/10 flex items-center justify-center px-4 overflow-hidden">
             {/* Dotted Perforation Line */}
             <div className="w-full flex items-center justify-between opacity-50 select-none">
@@ -170,13 +217,19 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. THE THERMAL RECEIPT EMERGING DIRECTLY FROM THE DISPENSER SLIT          */}
+      {/* 2. EXPANDING RECEIPT CONTAINER (Automatically Pushes Controls Down)       */}
       {/* ========================================================================= */}
-      <div className="relative z-20 -mt-6 pt-6 overflow-hidden">
-        {isDispensed && (
+      <div
+        key={feedKey}
+        className={`relative z-20 -mt-6 grid transition-all duration-500 ${
+          isDispensed ? "animate-dispenser-expand" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden pt-6 pb-2">
           <div
-            key={feedKey}
-            className="animate-thermal-feed receipt-serrated-top mx-auto w-full max-w-[420px] bg-[#FCFAF5] text-ink-900 shadow-[0_25px_50px_rgba(15,23,42,0.2)] border-x border-b border-ink-900/15"
+            className={`receipt-serrated-top mx-auto w-full max-w-[420px] bg-[#FCFAF5] text-ink-900 shadow-[0_25px_50px_rgba(15,23,42,0.18)] border-x border-b border-ink-900/15 ${
+              isDispensed ? "animate-paper-slide" : ""
+            }`}
             style={{
               filter: "drop-shadow(0 14px 24px rgba(0,0,0,0.14))",
             }}
@@ -323,13 +376,13 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
 
             </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. RECEIPT STATUS & ACTION BUTTONS (MATCHING IMAGE PLACEMENT)             */}
+      {/* 3. STATUS & BUTTONS (AUTOMATICALLY PUSHED DOWN AS PAPER DISPENSES)        */}
       {/* ========================================================================= */}
-      <div className="mt-7 text-center">
+      <div className="mt-6 text-center transition-all duration-300">
         <h4 className="font-display text-lg font-semibold text-ink-900 tracking-tight">
           {isPrinting ? "Printing Receipt..." : "Receipt Cut & Torn"}
         </h4>
@@ -341,7 +394,7 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
         <div className="mt-4 flex items-center justify-center gap-3 print:hidden">
           <button
             type="button"
-            onClick={handlePrintReceiptClick}
+            onClick={triggerPrint}
             disabled={isPrinting}
             className="inline-flex items-center gap-2 rounded-xl border border-ink-900/15 bg-paper-50/90 px-4 py-2 font-sans text-sm font-medium text-ink-900 shadow-sm hover:bg-white hover:border-ink-900/30 hover:shadow transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer"
           >
