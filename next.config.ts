@@ -63,6 +63,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Completely disable browser source maps in production to prevent source code exposure in DevTools
+  productionBrowserSourceMaps: false,
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "warn"] }
+        : false,
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
