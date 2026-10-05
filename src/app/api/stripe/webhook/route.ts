@@ -5,6 +5,7 @@ import {
   recordEnrolment,
   revokeEnrolmentByPaymentIntent,
 } from "@/lib/enrolments";
+import { sendEnrolmentConfirmationEmail } from "@/lib/email";
 import type { Tier } from "@/lib/pricing";
 
 export const runtime = "nodejs";
@@ -75,8 +76,20 @@ export async function POST(request: Request) {
           console.info(
             `[webhook] enrolled ${enrolment.email} (${enrolment.tier}, ${enrolment.currency} ${enrolment.amountMinor / 100})`,
           );
-          // TODO(phase-two): send the welcome + account-activation email and
-          // push the contact to the CRM. See docs/PHASE-TWO.md.
+
+          // Automated Onboarding & Confirmation Email to Enrolled Student
+          try {
+            await sendEnrolmentConfirmationEmail({
+              to: enrolment.email,
+              name: enrolment.name,
+              enrolmentId: enrolment.id,
+              tier: enrolment.tier,
+              amountMinor: enrolment.amountMinor,
+              currency: enrolment.currency,
+            });
+          } catch (emailErr) {
+            console.error("[webhook] Failed to dispatch welcome email", emailErr);
+          }
         }
         break;
       }
