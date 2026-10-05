@@ -14,12 +14,11 @@ export default function SecurityShield() {
         window.top.location.href = window.self.location.href;
       }
     } catch {
-      // Access to window.top blocked by cross-origin iframe -> break out
       window.location.replace("about:blank");
     }
 
     // -------------------------------------------------------------
-    // 2. Global DevTools & Source Inspection Key Combinations Lock
+    // 2. Global DevTools Hotkey Interception
     // Blocks F12, Ctrl/Cmd+Shift+(I,J,C,K), Ctrl/Cmd+U (View Source)
     // -------------------------------------------------------------
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,7 +34,7 @@ export default function SecurityShield() {
         return false;
       }
 
-      // Ctrl/Cmd + Shift + (I, J, C, K) -> DevTools, Console, Element Picker
+      // Ctrl/Cmd + Shift + (I, J, C, K)
       if (
         cmdOrCtrl &&
         e.shiftKey &&
@@ -46,14 +45,14 @@ export default function SecurityShield() {
         return false;
       }
 
-      // Ctrl/Cmd + U -> View Page Source
+      // Ctrl/Cmd + U -> View Source
       if (cmdOrCtrl && (key === "u" || key === "U")) {
         e.preventDefault();
         e.stopPropagation();
         return false;
       }
 
-      // Alt + Cmd + (I, J, C, U) (macOS Safari/Chrome DevTools & View Source)
+      // Alt + Cmd + (I, J, C, U) (macOS Safari/Chrome)
       if (
         e.altKey &&
         e.metaKey &&
@@ -68,8 +67,38 @@ export default function SecurityShield() {
     document.addEventListener("keydown", handleKeyDown, { capture: true });
 
     // -------------------------------------------------------------
-    // 3. Anti-Extension & Script Injection Sentinel (MutationObserver)
-    // Intercepts and immediately removes unauthorized dynamically injected scripts
+    // 3. Active DevTools Debugger Trap (Freezes Inspect immediately)
+    // When someone right-clicks -> "Inspect" or opens DevTools,
+    // the dynamic debugger loop halts and freezes the inspect thread.
+    // -------------------------------------------------------------
+    let trapInterval: ReturnType<typeof setInterval> | null = null;
+    if (process.env.NODE_ENV === "production") {
+      const runDebuggerTrap = () => {
+        try {
+          // Dynamic debugger invocation freezes inspect tabs the instant they are opened
+          (function () {
+            (function a() {
+              try {
+                (function b(i) {
+                  if (("" + i / i).length !== 1 || i === 0) {
+                    (function () {}).constructor("debugger")();
+                  } else {
+                    (function () {}).constructor("debugger")();
+                  }
+                  b(++i);
+                })(0);
+              } catch {}
+            })();
+          })();
+        } catch {}
+      };
+
+      trapInterval = setInterval(runDebuggerTrap, 200);
+    }
+
+    // -------------------------------------------------------------
+    // 4. Anti-Extension & Script Injection Sentinel (MutationObserver)
+    // Destroys any unauthorized <script> injected by extensions or scrapers
     // -------------------------------------------------------------
     const trustedOrigins = [
       window.location.origin,
@@ -86,12 +115,13 @@ export default function SecurityShield() {
             if (el.tagName === "SCRIPT") {
               const scriptEl = el as HTMLScriptElement;
               const src = scriptEl.src;
-              // If external script is not from a trusted origin, terminate it
               if (src) {
                 const isTrusted = trustedOrigins.some((origin) => src.startsWith(origin));
                 if (!isTrusted) {
                   scriptEl.remove();
-                  console.clear();
+                  if (typeof console !== "undefined" && console.clear) {
+                    console.clear();
+                  }
                 }
               }
             }
@@ -106,39 +136,7 @@ export default function SecurityShield() {
     });
 
     // -------------------------------------------------------------
-    // 4. Active DevTools Detection & Console Annihilation
-    // -------------------------------------------------------------
-    let devtoolsOpen = false;
-    const threshold = 160;
-
-    const detectDevTools = () => {
-      const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-      const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-
-      if (widthThreshold || heightThreshold) {
-        if (!devtoolsOpen) {
-          devtoolsOpen = true;
-          try {
-            console.clear();
-            const warningStyle =
-              "color: #b4472f; font-size: 20px; font-weight: bold; background: #050e24; padding: 6px 10px; font-family: monospace;";
-            console.log("%c🔒 ACCESS RESTRICTED: PROPRIETARY SYSTEM", warningStyle);
-            console.log(
-              "%cAll client resources, algorithms, and source assets are copyrighted by Independent Advisors. Reverse engineering, inspection, and extraction attempts are restricted.",
-              "color: #d4a24c; font-size: 12px; font-family: monospace;"
-            );
-          } catch {}
-        }
-      } else {
-        devtoolsOpen = false;
-      }
-    };
-
-    const devtoolsInterval = setInterval(detectDevTools, 600);
-    window.addEventListener("resize", detectDevTools);
-
-    // -------------------------------------------------------------
-    // 5. Freeze Console in Production to Prevent State Inspection
+    // 5. Console Annihilation & Tamper-Proofing in Production
     // -------------------------------------------------------------
     if (process.env.NODE_ENV === "production") {
       try {
@@ -148,14 +146,14 @@ export default function SecurityShield() {
         window.console.info = noop;
         window.console.dir = noop;
         window.console.table = noop;
+        window.console.trace = noop;
       } catch {}
     }
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown, { capture: true });
       document.removeEventListener("keydown", handleKeyDown, { capture: true });
-      window.removeEventListener("resize", detectDevTools);
-      clearInterval(devtoolsInterval);
+      if (trapInterval) clearInterval(trapInterval);
       observer.disconnect();
     };
   }, []);
