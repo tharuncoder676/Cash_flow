@@ -25,16 +25,37 @@ export function isSameOrigin(request: Request): boolean {
     return false;
   }
 
-  const origin = request.headers.get("origin");
-  if (!origin) return true;
-  const host =
-    request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const host = (
+    request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? ""
+  ).toLowerCase().trim();
+
   if (!host) return false;
-  try {
-    return new URL(origin).host === host;
-  } catch {
+
+  const origin = request.headers.get("origin");
+  if (origin) {
+    try {
+      return new URL(origin).host.toLowerCase() === host;
+    } catch {
+      return false;
+    }
+  }
+
+  // Fallback to Referer header if Origin is omitted
+  const referer = request.headers.get("referer");
+  if (referer) {
+    try {
+      return new URL(referer).host.toLowerCase() === host;
+    } catch {
+      return false;
+    }
+  }
+
+  // In production, state-modifying requests without Origin/Referer/Sec-Fetch-Site are blocked
+  if (process.env.NODE_ENV === "production" && request.method === "POST") {
     return false;
   }
+
+  return true;
 }
 
 /* ------------------------------------------------------------------ */
@@ -63,12 +84,13 @@ export function clientIp(request: Request): string {
   return "unknown";
 }
 
-/** Sanitize user string inputs against control characters and null bytes. */
+/** Sanitize user string inputs against control characters, script/tag injections, and null bytes. */
 export function sanitizeString(value: unknown, maxLen = 250): string | null {
   if (typeof value !== "string") return null;
-  // Strip null bytes and control chars, keep normal printable unicode
+  // Strip control chars, null bytes, and HTML tag brackets
   const cleaned = value
     .replace(/[\u0000-\u0008\u000B-\u001F\u007F-\u009F]/g, "")
+    .replace(/[<>]/g, "")
     .trim()
     .slice(0, maxLen);
   return cleaned.length > 0 ? cleaned : null;

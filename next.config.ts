@@ -42,9 +42,10 @@ const securityHeaders = [
           value: "max-age=63072000; includeSubDomains; preload",
         },
       ]),
-  // Older browsers ignore frame-ancestors; this covers them for clickjacking.
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
+  { key: "X-XSS-Protection", value: "0" },
   // The payment confirmation URL carries a Stripe session id; only the
   // origin is ever passed on to another site.
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
