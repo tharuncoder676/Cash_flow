@@ -6,7 +6,6 @@ import SiteFooter from "@/components/SiteFooter";
 import Motion from "@/components/Motion";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import Polish from "@/components/Polish";
-import SecurityShield from "@/components/SecurityShield";
 import { site, promise } from "@/content/course";
 import { isIndexable } from "@/lib/env";
 import "./globals.css";
@@ -91,7 +90,6 @@ export default function RootLayout({
         <Motion />
         <WhatsAppFloat />
         <Polish />
-        <SecurityShield />
       </body>
     </html>
   );
