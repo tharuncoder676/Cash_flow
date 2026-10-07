@@ -6,9 +6,9 @@ import { resolveSeats } from "@/lib/pricing";
 import { pricing } from "@/content/course";
 
 export const metadata: Metadata = {
-  title: "Join the waitlist",
+  title: "Join the Founding Cohort Waitlist",
   description:
-    "Be offered a place in the next Cash Flow Mastery cohort before it opens publicly.",
+    "Join the priority list for the founding Cash Flow Mastery cohort. You’ll receive the dates and payment link before enrolment opens publicly.",
   alternates: { canonical: "/waitlist" },
 };
 
@@ -27,12 +27,12 @@ export default async function WaitlistPage() {
               : `${seats.remaining} of ${pricing.cohortCapacity} places remain`}
           </Eyebrow>
           <h1 className="font-display text-[2.5rem] leading-[1.12] tracking-[-0.025em] text-balance text-ink-900 sm:text-5xl">
-            Join the waitlist
+            Join the Founding Cohort Waitlist
           </h1>
           <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-pretty text-ink-400">
             {seats.soldOut
               ? "All places in the founding cohort have been taken. Leave your details and you will be offered a place in the next one before it is announced publicly."
-              : "Not ready for this cohort? Leave your details and you will hear about the next one first, with dates and pricing."}
+              : "Join the priority list for the founding Cash Flow Mastery cohort. You’ll receive the dates and payment link before enrolment opens publicly."}
           </p>
         </div>
 

@@ -36,7 +36,7 @@ export default async function SuccessPage({
     status = "paid";
     email = "executive@client-company.com";
     customerName = "Managing Director";
-    amountLabel = "$550";
+    amountLabel = "USD 550";
     seatNumber = 1;
   } else if (sessionId && paymentsConfigured()) {
     try {
@@ -104,7 +104,7 @@ export default async function SuccessPage({
     email,
     name: customerName,
     tierName: tierLabel,
-    amountFormatted: amountLabel || "$550",
+    amountFormatted: amountLabel || "USD 550",
     dateFormatted: new Date().toLocaleDateString("en-GB", {
       day: "numeric",
       month: "long",

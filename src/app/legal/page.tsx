@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const DOC_BADGES: Record<string, string> = {
   terms: "Terms of Sale",
-  refunds: "7-Day Guarantee",
+  refunds: "Refund & Cancellation",
   privacy: "GDPR & UAE Compliant",
   cookies: "Cookie Notice",
   disclaimer: "Educational Disclaimer",
@@ -31,7 +31,7 @@ export default function LegalIndexPage() {
             Legal Policies &amp; Terms
           </h1>
           <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-400">
-            All official policies governing participation in Cash Flow Mastery, website usage, data protection, and refund guarantees.
+            All official policies governing participation in Cash Flow Mastery, website usage, data protection, and refund and cancellation policies.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-400">
             <span>Version 1.0</span>

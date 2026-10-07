@@ -280,21 +280,21 @@ export default function InteractiveReceipt({ data }: { data: ReceiptData }) {
                 </div>
                 <div className="flex justify-between text-ink-600">
                   <span>TAX / UAE VAT (0% FREE ZONE)</span>
-                  <span>$0.00 USD</span>
+                  <span>USD 0.00</span>
                 </div>
                 <div className="pt-2 border-t-2 border-ink-900 flex justify-between items-baseline font-mono">
                   <span className="text-sm font-bold uppercase tracking-wider text-ink-900">
                     TOTAL PAID:
                   </span>
                   <span className="font-display text-2xl font-bold text-ink-900">
-                    {data.amountFormatted} <span className="text-xs font-mono font-normal">USD</span>
+                    {data.amountFormatted}
                   </span>
                 </div>
               </div>
 
               {/* Guarantees & Terms Notice */}
               <div className="py-3 text-center font-mono text-[9.5px] text-ink-500 leading-relaxed">
-                <p>7-Day Money-Back Guarantee Protected prior to cohort start.</p>
+                <p>Protected under our Refund and Cancellation Policy prior to cohort start.</p>
                 <p>All sales subject to Independent Advisors FZE Course Terms of Sale.</p>
               </div>
 

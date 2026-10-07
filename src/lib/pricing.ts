@@ -63,13 +63,9 @@ export function toMinorUnits(amount: number): number {
   return Math.round(amount * 100);
 }
 
-/** Format currency in USD ($550, $1,795). */
+/** Format currency in USD (USD 550, USD 1,795). */
 export function formatUSD(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return `USD ${amount.toLocaleString("en-US")}`;
 }
 
 /** Alias for formatUSD */
@@ -113,9 +109,9 @@ export function enrolCta(seats: SeatState, paymentsOpen: boolean): EnrolCta {
   if (seats.soldOut) {
     return {
       href: "/waitlist",
-      label: "Join the waitlist",
-      labelWithPrice: "Join the waitlist",
-      shortLabel: "Join waitlist",
+      label: "Join the Founding Cohort Waitlist",
+      labelWithPrice: "Join the Founding Cohort Waitlist",
+      shortLabel: "Join the Founding Cohort Waitlist",
       payable: false,
     };
   }
@@ -123,18 +119,18 @@ export function enrolCta(seats: SeatState, paymentsOpen: boolean): EnrolCta {
   if (!paymentsOpen) {
     return {
       href: "/waitlist",
-      label: "Join the founding-cohort waitlist",
-      labelWithPrice: "Join the founding-cohort waitlist",
-      shortLabel: "Join the waitlist",
+      label: "Join the Founding Cohort Waitlist",
+      labelWithPrice: "Join the Founding Cohort Waitlist",
+      shortLabel: "Join the Founding Cohort Waitlist",
       payable: false,
     };
   }
 
   return {
     href: "/enrol",
-    label: "Secure your place",
-    labelWithPrice: `Secure your place — ${formatUSD(seats.amount)}`,
-    shortLabel: "Secure your place",
+    label: "Secure Your Place",
+    labelWithPrice: `Secure Your Place — ${formatUSD(seats.amount)}`,
+    shortLabel: "Secure Your Place",
     payable: true,
   };
 }

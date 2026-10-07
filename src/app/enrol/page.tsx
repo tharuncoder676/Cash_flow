@@ -71,20 +71,20 @@ export default async function EnrolPage() {
 
                 <div className="mt-6 flex items-baseline gap-3">
                   <span className="tabular font-display text-4xl text-ink-900">
-                    ${seats.amount}
+                    USD {seats.amount}
                   </span>
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-400">
-                    USD · one payment
+                    one payment
                   </span>
                 </div>
 
                 {seats.tier === "founding_five" ? (
                   <p className="seat-live mt-3 inline-block rounded-xs bg-gold-500/18 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gold-800 font-medium">
-                    {pricing.foundingFive.label} · {seats.foundingRemaining} of {pricing.foundingFive.seats} left at $550
+                    {pricing.foundingFive.label} · {seats.foundingRemaining} of {pricing.foundingFive.seats} left at USD 550
                   </p>
                 ) : (
                   <p className="seat-live mt-3 inline-block rounded-xs bg-gold-500/18 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gold-800 font-medium">
-                    {pricing.foundingCohort.label} · {seats.remaining} of {pricing.cohortCapacity} left at $695
+                    {pricing.foundingCohort.label} · {seats.remaining} of {pricing.cohortCapacity} left at USD 695
                   </p>
                 )}
 
@@ -141,7 +141,7 @@ export default async function EnrolPage() {
               {/* Refund terms ---------------------------------------- */}
               <div className="border-t border-ink-700/10 bg-paper-200/50 p-6 sm:p-7">
                 <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
-                  Policies &amp; Guarantee
+                  Refund and Cancellation Policy
                 </p>
                 <p className="mt-3 text-[14px] leading-relaxed text-ink-400">
                   {pricing.refundPolicy} Read the full{" "}
@@ -187,14 +187,14 @@ export default async function EnrolPage() {
                 title="This cohort is full"
                 body={`All ${pricing.cohortCapacity} places have been taken. Join the waitlist and you'll be offered a place in the next cohort before it opens publicly.`}
                 href="/waitlist"
-                cta="Join the waitlist"
+                cta="Join the Founding Cohort Waitlist"
               />
             ) : !configured ? (
               <Panel
                 title="Enrolment opens shortly"
                 body="Online payment is being finalised for this cohort. Join the waitlist and you'll be sent the payment link the moment places open — ahead of any public announcement."
                 href="/waitlist"
-                cta="Join the waitlist"
+                cta="Join the Founding Cohort Waitlist"
               />
             ) : (
               <>

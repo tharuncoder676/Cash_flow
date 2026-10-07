@@ -52,12 +52,11 @@ export default function WaitlistForm() {
     return (
       <div className="rounded-xs border border-ink-700/12 bg-paper-50 p-8 sm:p-10">
         <h2 className="font-display text-2xl text-ink-900">
-          You’re on the list.
+          You’re on the priority list.
         </h2>
         <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-ink-400">
-          When the next cohort opens you will hear about it before it is
-          announced publicly, with the dates and the price. No other email
-          unless you ticked the box.
+          You’ll receive the dates and payment link before enrolment opens
+          publicly. No other email unless you ticked the box.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <ButtonLink href="/diagnostic" variant="gold">
@@ -129,7 +128,7 @@ export default function WaitlistForm() {
       )}
 
       <Button type="submit" disabled={state === "sending"} className="mt-7">
-        {state === "sending" ? "Adding you…" : "Join the waitlist"}
+        {state === "sending" ? "Adding you…" : "Join the Founding Cohort Waitlist"}
       </Button>
     </form>
   );

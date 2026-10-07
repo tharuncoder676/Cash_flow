@@ -81,7 +81,7 @@ export default async function CoursePage() {
                   ["4 weeks", "Blended format"],
                   ["4 live", "Sessions with Carl"],
                   [`${pricing.cohortCapacity} max`, "Cohort size"],
-                  ["~90 min", "Per week"],
+                  ["~2½ hrs", "Per week"],
                 ].map(([v, l]) => (
                   <div key={l}>
                     <dt className="font-display text-2xl text-paper-100">
@@ -387,6 +387,13 @@ export default async function CoursePage() {
           />
         </div>
 
+        {/* Future regular cohort notice */}
+        <div className="mx-auto mt-6 max-w-5xl rounded-xs border border-ink-700/12 bg-paper-50/80 p-5 sm:p-6 text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-400">
+            Future regular cohort price: <span className="font-semibold text-ink-900">USD 995</span> (standard price after the founding cohort finishes)
+          </p>
+        </div>
+
         <div className="mx-auto mt-8 max-w-2xl text-center">
           <p className="text-[15px] leading-relaxed text-ink-400">
             {pricing.taxNote} {pricing.paymentTerms}{" "}
@@ -399,145 +406,11 @@ export default async function CoursePage() {
               href={cta.href}
               variant={cta.payable ? "primary" : "gold"}
             >
-              {cta.labelWithPrice}
+              {cta.label}
             </ButtonLink>
             <ButtonLink href="/diagnostic" variant="ghost">
               Not sure yet? Take the diagnostic
             </ButtonLink>
-          </div>
-        </div>
-
-        {/* ========================================================== */}
-        {/* Future Products Showcase                                   */}
-        {/* ========================================================== */}
-        <div className="mx-auto mt-20 max-w-6xl border-t border-ink-700/12 pt-16">
-          <div className="text-center">
-            <Eyebrow className="mb-4">Course Portfolio</Eyebrow>
-            <h3 className="font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
-              Future products &amp; cohort formats
-            </h3>
-            <p className="mx-auto mt-4 max-w-2xl text-[16px] leading-relaxed text-ink-400">
-              Cash Flow Mastery is expanding into distinct learning tiers. Here is the upcoming product roadmap and future cohort pricing.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {/* Regular Live Cohort */}
-            <div className="flex flex-col justify-between rounded-xs border border-ink-700/15 bg-paper-50 p-7 transition-all duration-300 hover:border-ink-700/30">
-              <div>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-xs bg-ink-700/10 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink-700">
-                    {pricing.futureProducts.regularLive.badge}
-                  </span>
-                </div>
-                <h4 className="mt-4 font-display text-2xl text-ink-900">
-                  {pricing.futureProducts.regularLive.name}
-                </h4>
-                <p className="mt-2 text-[14px] leading-relaxed text-ink-400">
-                  {pricing.futureProducts.regularLive.description}
-                </p>
-                <div className="mt-6 flex items-baseline gap-2">
-                  <span className="font-display text-4xl text-ink-900">
-                    ${pricing.futureProducts.regularLive.amount}
-                  </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">
-                    USD / participant
-                  </span>
-                </div>
-                <ul className="mt-6 space-y-3 border-t border-ink-700/10 pt-5 text-[14px] leading-snug text-ink-700">
-                  {pricing.futureProducts.regularLive.features.map((f) => (
-                    <li key={f} className="flex gap-2.5">
-                      <span aria-hidden="true" className="text-gold-600 font-bold">•</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-8 border-t border-ink-700/10 pt-4">
-                <span className="block text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
-                  Standard price after founding cohort
-                </span>
-              </div>
-            </div>
-
-            {/* Premium Cohort */}
-            <div className="relative flex flex-col justify-between rounded-xs border-2 border-gold-600/80 bg-paper-50 p-7 shadow-sm transition-all duration-300">
-              <div className="absolute -top-3.5 right-6 rounded-xs bg-gold-600 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-paper-100">
-                High-Touch Advisory
-              </div>
-              <div>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-xs bg-gold-500/20 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-gold-800">
-                    {pricing.futureProducts.premiumCohort.badge}
-                  </span>
-                </div>
-                <h4 className="mt-4 font-display text-2xl text-ink-900">
-                  {pricing.futureProducts.premiumCohort.name}
-                </h4>
-                <p className="mt-2 text-[14px] leading-relaxed text-ink-400">
-                  {pricing.futureProducts.premiumCohort.description}
-                </p>
-                <div className="mt-6 flex items-baseline gap-2">
-                  <span className="font-display text-4xl text-ink-900">
-                    ${pricing.futureProducts.premiumCohort.amount.toLocaleString()}
-                  </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">
-                    USD / participant
-                  </span>
-                </div>
-                <ul className="mt-6 space-y-3 border-t border-ink-700/10 pt-5 text-[14px] leading-snug text-ink-800">
-                  {pricing.futureProducts.premiumCohort.features.map((f) => (
-                    <li key={f} className="flex gap-2.5">
-                      <span aria-hidden="true" className="text-gold-600 font-bold">•</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-8 border-t border-ink-700/10 pt-4">
-                <span className="block text-center font-mono text-[10px] uppercase tracking-[0.14em] text-gold-700 font-medium">
-                  Strictly limited to 5 per cohort
-                </span>
-              </div>
-            </div>
-
-            {/* Self-Paced Course */}
-            <div className="flex flex-col justify-between rounded-xs border border-ink-700/15 bg-paper-50 p-7 transition-all duration-300 hover:border-ink-700/30">
-              <div>
-                <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-xs bg-ink-700/10 px-2.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-ink-600">
-                    {pricing.futureProducts.selfPaced.badge}
-                  </span>
-                </div>
-                <h4 className="mt-4 font-display text-2xl text-ink-900">
-                  {pricing.futureProducts.selfPaced.name}
-                </h4>
-                <p className="mt-2 text-[14px] leading-relaxed text-ink-400">
-                  {pricing.futureProducts.selfPaced.description}
-                </p>
-                <div className="mt-6 flex items-baseline gap-2">
-                  <span className="font-display text-4xl text-ink-900">
-                    ${pricing.futureProducts.selfPaced.amount}
-                  </span>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">
-                    USD / self-paced
-                  </span>
-                </div>
-                <ul className="mt-6 space-y-3 border-t border-ink-700/10 pt-5 text-[14px] leading-snug text-ink-500">
-                  {pricing.futureProducts.selfPaced.features.map((f) => (
-                    <li key={f} className="flex gap-2.5">
-                      <span aria-hidden="true" className="text-ink-400 font-bold">•</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-8 border-t border-ink-700/10 pt-4">
-                <span className="block text-center font-mono text-[10px] uppercase tracking-[0.14em] text-ink-400">
-                  Self-directed · No live sessions
-                </span>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -676,18 +549,15 @@ function PriceCard({
           {seats.tierLabel}
         </p>
         <span className="rounded-xs bg-gold-500/20 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-gold-400">
-          Regular: ${seats.anchorPrice}
+          Regular: USD {seats.anchorPrice}
         </span>
       </div>
       <div className="mt-4 flex items-baseline gap-3">
         <Odometer
           value={seats.amount.toLocaleString("en-US")}
-          prefix="$"
-          className="tabular font-display text-[3.2rem] leading-none text-paper-100"
+          prefix="USD "
+          className="tabular font-display text-[2.8rem] leading-none text-paper-100 sm:text-[3.2rem]"
         />
-        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-paper-300/60">
-          USD
-        </span>
       </div>
       <p className="mt-4 text-[14px] leading-relaxed text-paper-300/65">
         {pricing.taxNote} {pricing.paymentTerms}
@@ -769,14 +639,11 @@ function FoundingTierCard({
           </span>
         </div>
         <div className="mt-5 flex items-baseline gap-3">
-          <p className="tabular font-display text-[2.8rem] leading-none text-ink-900">
-            ${amount}
+          <p className="tabular font-display text-[2.5rem] leading-none text-ink-900 sm:text-[2.8rem]">
+            USD {amount}
           </p>
-          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-ink-400">
-            USD
-          </span>
           <span className="text-[13px] text-ink-400 line-through">
-            ${anchorPrice}
+            USD {anchorPrice}
           </span>
         </div>
         <p className="mt-3 text-[14px] font-medium text-ink-700">{note}</p>

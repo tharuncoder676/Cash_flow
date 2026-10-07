@@ -89,7 +89,7 @@ export default function SiteHeader() {
               itself collides with the `inline-flex` in its base classes. */}
           <span className="hidden sm:block">
             <ButtonLink href="/course#enrol" size="sm">
-              Join the cohort
+              Join the Founding Cohort Waitlist
             </ButtonLink>
           </span>
 
@@ -158,7 +158,7 @@ export default function SiteHeader() {
             ))}
           </ul>
           <ButtonLink href="/course#enrol" className="mt-7 w-full">
-            Join the cohort
+            Join the Founding Cohort Waitlist
           </ButtonLink>
         </nav>
       </div>

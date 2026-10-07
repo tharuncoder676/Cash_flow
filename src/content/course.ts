@@ -145,7 +145,8 @@ export const pricing = {
   founding: { amount: 550, seats: 5, label: "First Five Founder Places" },
   standard: { amount: 695, label: "Remaining Founding Cohort Places" },
 
-  taxNote: "Prices shown in US Dollars (USD). VAT treatment confirmed before payment.",
+  taxNote:
+    "Prices are shown in US Dollars (USD). Applicable VAT or local taxes are itemised and confirmed at checkout prior to payment.",
   paymentTerms: "Payment in full secures your place.",
   refundPolicy:
     "Full 100% refund if you withdraw more than 7 days before the cohort start date.",
@@ -163,8 +164,8 @@ export const cohort = {
     duration: "60–75 minutes",
   },
   weeklyCommitment:
-    "About 2½ hours — roughly 90 minutes of lessons plus one 60–75 minute live session",
-  weeklyCommitmentShort: "about 2½ hours a week",
+    "Approximately 2½ hours per week, including one 60–75-minute live session",
+  weeklyCommitmentShort: "approximately 2½ hours a week",
 } as const;
 
 /**
@@ -409,7 +410,7 @@ export const reframe = {
     },
     {
       q: "“I don't have time for a course.”",
-      a: "Ninety minutes a week for four weeks. If cash visibility is costing you one bad decision a quarter, the arithmetic is not close.",
+      a: "Approximately 2½ hours per week, including one 60–75-minute live session, for four weeks. If cash visibility is costing you one bad decision a quarter, the arithmetic is not close.",
     },
     {
       q: "“I'm not a numbers person.”",
@@ -473,7 +474,7 @@ export const faqs = [
   },
   {
     q: "What currency is the price in, and is VAT included?",
-    a: `Prices are shown in US Dollars (USD). The first five founder places are USD 550, followed by USD 695 for the remaining ten founding cohort places (future regular live cohorts: USD 995; premium cohort: USD 1,795; self-paced course: USD 495). ${pricing.taxNote} The full breakdown appears before you pay.`,
+    a: `Prices are shown in US Dollars (USD). The first five founder places are USD 550, followed by USD 695 for the remaining ten founding cohort places (future regular live cohorts: USD 995). ${pricing.taxNote} The full breakdown appears before you pay.`,
   },
   {
     q: "What is the refund policy?",
