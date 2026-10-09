@@ -4,7 +4,7 @@ import CheckoutPanel from "@/components/CheckoutPanel";
 import { Container, Eyebrow } from "@/components/primitives";
 import { countEnrolments } from "@/lib/enrolments";
 import { paymentsConfigured } from "@/lib/stripe";
-import { cohortStartLabel, formatAED, resolveSeats } from "@/lib/pricing";
+import { cohortStartLabel, resolveSeats } from "@/lib/pricing";
 import {
   cohort,
   contact,

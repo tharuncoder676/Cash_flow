@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   EmbeddedCheckout,
@@ -21,6 +21,21 @@ export default function CheckoutPanel({
   publishableKey: string;
 }) {
   const [error, setError] = useState<string | null>(null);
+  const [agreed, setAgreed] = useState(false);
+
+  // Seat Reservation Countdown Timer (15 minutes)
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const formattedTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
   const stripePromise = useMemo(
     () => loadStripe(publishableKey),
@@ -70,10 +85,26 @@ export default function CheckoutPanel({
     );
   }
 
-  const [agreed, setAgreed] = useState(false);
-
   return (
     <div className="space-y-6">
+      {/* ---------------------------------------------------------- */}
+      {/* Live Seat Reservation Countdown Timer                       */}
+      {/* ---------------------------------------------------------- */}
+      <div className="flex items-center justify-between rounded-xs border border-gold-600/30 bg-gold-500/10 px-5 py-3.5">
+        <div className="flex items-center gap-2.5">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-75" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-gold-600" />
+          </span>
+          <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-900">
+            Founding Seat Held For You
+          </span>
+        </div>
+        <span className="tabular font-mono text-xs font-bold uppercase tracking-[0.14em] text-gold-800">
+          {formattedTime}
+        </span>
+      </div>
+
       {/* Compliance & Policy Acceptance Checkbox --------------------- */}
       <div className="rounded-xs border border-ink-700/15 bg-paper-50 p-5 sm:p-6">
         <label className="flex items-start gap-3.5 cursor-pointer select-none">
